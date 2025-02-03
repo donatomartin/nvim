@@ -6,6 +6,7 @@ require "nvchad.mappings"
 local map = vim.keymap.set
 
 map("i", "jk", "<ESC>")
+map("t", "jk", [[<C-\><C-n>]])
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
@@ -30,5 +31,5 @@ function ToggleTerminal()
 end
 
 -- Map a key to toggle the terminal (e.g., <leader>t)
-vim.api.nvim_set_keymap('n', '<leader>j', ':lua ToggleTerminal()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', ';', ':lua vim.api.nvim_feedkeys(":! ", "m", true)<CR>', { noremap = true, silent = true })
+map('n', '<leader>j', ':lua ToggleTerminal()<CR>', { noremap = true, silent = true })
+map('n', ';', ':lua vim.api.nvim_feedkeys(":! ", "m", true)<CR>', { noremap = true, silent = true })

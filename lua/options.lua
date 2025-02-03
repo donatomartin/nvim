@@ -1,6 +1,18 @@
 require "nvchad.options"
 
--- add yours here!
+-- terminal options
+vim.opt.shell = 'pwsh'
+vim.opt.shellcmdflag = '-nologo -noprofile -ExecutionPolicy RemoteSigned -command'
+vim.opt.shellxquote = ''
 
--- local o = vim.o
--- o.cursorlineopt ='both' -- to enable cursorline!
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function ()
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+  end
+})
+
+-- other options
+vim.o.relativenumber = true
+vim.o.number = true

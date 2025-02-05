@@ -16,3 +16,4 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- other options
 vim.o.relativenumber = true
 vim.o.number = true
+vim.opt.termguicolors = true

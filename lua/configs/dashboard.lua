@@ -51,6 +51,8 @@ dashboard.config = function()
     dashboard_theme.button("<leader> ql", " Load Last Session", "<cmd>lua require('persistence').load({ last = true }) <CR>"),
     dashboard_theme.button("n", " New file", "<cmd>ene <BAR> startinsert <CR>"),
     dashboard_theme.button("<leader> qq", " Close", "<cmd>q <CR>"),
+    -- Config nvim (cd to nvim C:\Users\Donato\AppData\Local\nvim) and open init.lua)
+    dashboard_theme.button("<leader> cn", " Config", "<cmd>edit $MYVIMRC <CR> <cmd> cd C:\\Users\\Donato\\AppData\\Local\\nvim <CR>"),
   }
   dashboard_theme.section.buttons.opts.hl = "AlphaButtons"
 

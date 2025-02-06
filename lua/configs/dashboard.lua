@@ -44,12 +44,13 @@ dashboard.config = function()
 
   -- Buttons Section
   dashboard_theme.section.buttons.val = {
-    dashboard_theme.button("f", " Find file", "<cmd>Telescope find_files <CR>"),
-    dashboard_theme.button("g", " Find text", "<cmd>Telescope live_grep <CR>"),
-    dashboard_theme.button("p", " Find Project", "<cmd>Telescope project <CR>"),
+    dashboard_theme.button("<leader> ff", " Find file", "<cmd>Telescope find_files <CR>"),
+    dashboard_theme.button("<leader> fw", " Find text", "<cmd>Telescope live_grep <CR>"),
+    dashboard_theme.button("<leader> fp", " Find Project", "<cmd>Telescope project <CR>"),
+    dashboard_theme.button("<leader> fo", " Recent files", "<cmd>Telescope oldfiles <CR>"),
+    dashboard_theme.button("<leader> ql", " Load Last Session", "<cmd>lua require('persistence').load({ last = true }) <CR>"),
     dashboard_theme.button("n", " New file", "<cmd>ene <BAR> startinsert <CR>"),
-    dashboard_theme.button("r", " Recent files", "<cmd>Telescope oldfiles <CR>"),
-    dashboard_theme.button("q", " Quit", "<cmd>qa <CR>"),
+    dashboard_theme.button("<leader> qq", " Close", "<cmd>q <CR>"),
   }
   dashboard_theme.section.buttons.opts.hl = "AlphaButtons"
 

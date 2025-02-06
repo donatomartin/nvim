@@ -24,8 +24,11 @@ end, { desc = "Copilot Accept", noremap = true, silent = true })
 map("n", "<leader>fp", ":Telescope project<CR>", { noremap = true, silent = true, desc = "Telescope Project" })
 
 -- True Vim Experience
-vim.opt.mouse = ""
-map({"n", "i", "v", "t"}, "<left>", '<cmd>echo "Use h to move!!"<CR>')
-map({"n", "i", "v", "t"}, "<right>", '<cmd>echo "Use l to move!!"<CR>')
-map({"n", "i", "v", "t"}, "<up>", '<cmd>echo "Use k to move!!"<CR>')
-map({"n", "i", "v", "t"}, "<down>", '<cmd>echo "Use j to move!!"<CR>')
+map({"n", "i", "v"}, "<left>", '<cmd>echo "Use h to move!!"<CR>')
+map({"n", "i", "v"}, "<right>", '<cmd>echo "Use l to move!!"<CR>')
+map({"n", "i", "v"}, "<up>", '<cmd>echo "Use k to move!!"<CR>')
+map({"n", "i", "v"}, "<down>", '<cmd>echo "Use j to move!!"<CR>')
+
+-- Keep System Clipboard
+map({"n", "i", "v", "t"}, "<C-c>", '"+y', { noremap = true, silent = true, desc = "Clipboard Copy to clipboard" })
+map({"n", "i", "v", "t"}, "<C-v>", '"+p', { noremap = true, silent = true, desc = "Clipboard Paste from clipboard" })

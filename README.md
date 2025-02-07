@@ -18,4 +18,3 @@
 ```shell
 git clone https://github.com/dononitram/nvim.git %USERPROFILE%\AppData\Local\nvim
 ```
-

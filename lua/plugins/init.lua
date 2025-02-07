@@ -217,6 +217,19 @@ return {
     dependencies = {
       "nvim-telescope/telescope.nvim",
     },
+    config = function()
+
+      require("telescope").setup {
+        extensions = {
+          project = {
+            base_dirs = {
+              "C:\\Projects\\",
+            },
+          },
+        },
+      }
+
+    end,
   },
 
   {
@@ -229,30 +242,33 @@ return {
         function()
           require("persistence").load()
         end,
-        desc = "Restore Session",
+        desc = "Session Restore Session",
       },
       {
         "<leader>qS",
         function()
           require("persistence").select()
         end,
-        desc = "Select Session",
+        desc = "Session Select Session",
       },
       {
         "<leader>ql",
         function()
           require("persistence").load { last = true }
         end,
-        desc = "Restore Last Session",
+        desc = "Session Restore Last Session",
       },
       {
         "<leader>qd",
         function()
           require("persistence").stop()
         end,
-        desc = "Don't Save Current Session",
+        desc = "Session Don't Save Current Session",
       },
     },
   },
+
+
+  "nvim-java/nvim-java",
 
 }

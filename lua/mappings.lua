@@ -139,3 +139,7 @@ map({ "n", "i", "v" }, "<down>", '<cmd>echo "Use j to move!!"<CR>')
 -- Keep System Clipboard
 map({ "i", "v", "t" }, "<C-c>", '"+y', { noremap = true, silent = true, desc = "Clipboard Copy to clipboard" })
 map({ "n", "i", "v", "t" }, "<C-v>", '"+p', { noremap = true, silent = true, desc = "Clipboard Paste from clipboard" })
+
+-- Exit Vim
+
+map("n", "<leader>qq", ":qa<CR>", { noremap = true, silent = true, desc = "General Quit Vim" })

@@ -59,8 +59,8 @@ local delim = is_windows and ";" or ":"
 vim.env.PATH = table.concat({ vim.fn.stdpath "data", "mason", "bin" }, sep) .. delim .. vim.env.PATH
 
 -- terminal options
-vim.opt.shell = "pwsh"
-vim.opt.shellcmdflag = "-nologo -noprofile -ExecutionPolicy RemoteSigned -command"
+vim.opt.shell = is_windows and "pwsh" or "zsh"
+vim.opt.shellcmdflag = is_windows and "-nologo -noprofile -ExecutionPolicy RemoteSigned -command" or "-c"
 vim.opt.shellxquote = ""
 
 vim.api.nvim_create_autocmd("TermOpen", {

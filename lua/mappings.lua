@@ -142,4 +142,11 @@ map({ "n", "i", "v", "t" }, "<C-v>", '"+p', { noremap = true, silent = true, des
 
 -- Exit Vim
 
-map("n", "<leader>qq", ":qa<CR>", { noremap = true, silent = true, desc = "General Quit Vim" })
+map("n", "<leader>q", ":q<CR>", { noremap = true, silent = true, desc = "General Quit" })
+
+-- Tmux Navigation
+
+map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", { noremap = true, silent = true, desc = "Tmux Move Left" })
+map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { noremap = true, silent = true, desc = "Tmux Move Down" })
+map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { noremap = true, silent = true, desc = "Tmux Move Up" })
+map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { noremap = true, silent = true, desc = "Tmux Move Right" })

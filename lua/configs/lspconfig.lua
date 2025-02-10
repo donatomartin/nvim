@@ -1,13 +1,13 @@
 -- lua/configs/lspconfig.lua
 
-require('java').setup()
+require("java").setup()
 local lspconfig = require "lspconfig"
 
 -- EXAMPLE
 local servers = {
   "pyright",
   "gopls",
-  "jdtls"
+  "jdtls",
 }
 
 -- Configure standard servers

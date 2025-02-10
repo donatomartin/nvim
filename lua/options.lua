@@ -74,5 +74,3 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- other options
 vim.o.relativenumber = true
 vim.o.number = true
-vim.o.mouse = ""
-vim.o.clipboard = ""

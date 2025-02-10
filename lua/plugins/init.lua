@@ -7,9 +7,7 @@ return {
     lazy = false,
   },
 
-  {
-    "nvim-lua/plenary.nvim",
-  },
+  "nvim-lua/plenary.nvim",
 
   {
     "nvchad/base46",
@@ -192,15 +190,6 @@ return {
   },
 
   {
-    "editorconfig/editorconfig-vim",
-    lazy = true, -- Load the plugin lazily
-    event = "BufReadPre", -- Load the plugin when a file is about to be read
-    config = function()
-      vim.g.EditorConfig_exclude_patterns = { "fugitive://.*", "scp://.*" }
-    end,
-  },
-
-  {
     "github/copilot.vim",
     lazy = false,
     config = function()
@@ -223,7 +212,6 @@ return {
       "nvim-telescope/telescope.nvim",
     },
     config = function()
-
       require("telescope").setup {
         extensions = {
           project = {
@@ -233,7 +221,6 @@ return {
           },
         },
       }
-
     end,
   },
 
@@ -273,7 +260,5 @@ return {
     },
   },
 
-
   "nvim-java/nvim-java",
-
 }

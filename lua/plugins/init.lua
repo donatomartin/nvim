@@ -211,17 +211,6 @@ return {
     dependencies = {
       "nvim-telescope/telescope.nvim",
     },
-    config = function()
-      require("telescope").setup {
-        extensions = {
-          project = {
-            base_dirs = {
-              "C:\\Projects\\",
-            },
-          },
-        },
-      }
-    end,
   },
 
   {

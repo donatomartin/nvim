@@ -40,4 +40,4 @@ Dependencies known:
 
 Also a Nerd Font is recomended for the web icons.
 
-I personally use (JetBrains Mono)[https://www.jetbrains.com/lp/mono/#how-to-install]
+I personally use [JetBrains Mono](https://www.jetbrains.com/lp/mono/#how-to-install).

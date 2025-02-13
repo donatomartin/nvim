@@ -37,3 +37,7 @@ Dependencies known:
 - unzip - used to unzip nvim-java language server providers
 - npm - used to run pyright lsp
 - go - used for gopls lsp
+
+Also a Nerd Font is recomended for the web icons.
+
+I personally use (JetBrains Mono)[https://www.jetbrains.com/lp/mono/#how-to-install]

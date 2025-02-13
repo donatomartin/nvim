@@ -30,4 +30,10 @@ git clone https://github.com/dononitram/nvim.git ~/.config/nvim
 2. Enjoy!
 
 
-Disclaimer: Some dependencies like grep, or unzip might be needed. They will be prompted as errors to the user if not installed tho.
+Disclaimer: Some dependencies be needed. They will be prompted as errors to the user if not installed.
+
+Dependencies known:
+
+- unzip - used to unzip nvim-java language server providers
+- npm - used to run pyright lsp
+- go - used for gopls lsp

@@ -30,3 +30,11 @@ require "autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+-- Extra Syntax Highlightings
+vim.filetype.add({
+  extension = {
+    g4 = 'antlr4',
+  },
+})
+

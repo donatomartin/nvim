@@ -34,6 +34,7 @@ Disclaimer: Some dependencies be needed. They will be prompted as errors to the 
 
 Dependencies known:
 
+- ripgrep - used to live grep through files
 - unzip - used to unzip nvim-java language server providers
 - npm - used to run pyright lsp
 - go - used for gopls lsp

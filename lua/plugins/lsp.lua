@@ -9,12 +9,11 @@ return {
       return require "configs.mason"
     end,
   },
-
   {
     "neovim/nvim-lspconfig",
     event = "User FilePost",
     config = function()
-      require("configs.lspconfig").defaults()
+      require "configs.lspconfig"
     end,
   },
 }

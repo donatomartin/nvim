@@ -16,10 +16,16 @@ map("i", "<C-j>", "<Down>", { desc = "move down" })
 map("i", "<C-k>", "<Up>", { desc = "move up" })
 
 -- Switch Windows
-map("n", "<C-h>", "<C-w>h", { desc = "Window switch left" })
-map("n", "<C-l>", "<C-w>l", { desc = "Window switch right" })
-map("n", "<C-j>", "<C-w>j", { desc = "Window switch down" })
-map("n", "<C-k>", "<C-w>k", { desc = "Window switch up" })
+map("n", "<C-h>", "wincmd h", { desc = "Window switch left" })
+map("n", "<C-l>", "wincmd l", { desc = "Window switch right" })
+map("n", "<C-j>", "wincmd j", { desc = "Window switch down" })
+map("n", "<C-k>", "wincmd k", { desc = "Window switch up" })
+
+-- Switch Windows (from terminal)
+map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Window switch left" })
+map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Window switch right" })
+map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Window switch down" })
+map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Window switch up" })
 
 -- Resize Windows
 map("n", "<left>", ":vertical resize +5<CR>", { desc = "Window resize left" })

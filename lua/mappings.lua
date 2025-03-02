@@ -27,9 +27,6 @@ map("n", "<right>", ":vertical resize -5<CR>", { desc = "Window resize right" })
 map("n", "<down>", ":horizontal resize -5<CR>", { desc = "Window resize down" })
 map("n", "<up>", ":horizontal resize +5<CR>", { desc = "Window resize up" })
 
--- Window close
-map("n", "<leader>x", ":q<CR>", { desc = "Window close" })
-
 -- Search Highlighting
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
 
@@ -60,6 +57,9 @@ map("n", "<S-tab>", function()
   require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
 
+map("n", "<leader>x", function()
+  require("nvchad.tabufline").close_buffer()
+end, { desc = "buffer close" })
 -- nvimtree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "nvimtree toggle window" })
 map("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "nvimtree focus window" })
@@ -93,7 +93,6 @@ map(
 map("n", "<leader>th", function()
   require("nvchad.themes").open()
 end, { desc = "NVChad themes" })
-
 
 -- Exit Terminal Mode
 map("t", "<Esc>", "<C-\\><C-N>", { desc = "Terminal escape terminal mode" })

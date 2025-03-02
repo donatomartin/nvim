@@ -13,12 +13,18 @@ return {
       return {
         ensure_installed = { "lua", "luadoc", "printf", "vim", "vimdoc" },
 
-        highlight = {
-          enable = true,
-          use_languagetree = true,
-        },
-
+        highlight = { enable = true, use_languagetree = true },
         indent = { enable = true },
+
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<Enter>",
+            node_incremental = "<Enter>",
+            node_decremental = "<Backspace>",
+            scope_incremental = "<Tab>",
+          },
+        },
       }
     end,
     config = function(_, opts)

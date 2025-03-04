@@ -34,7 +34,7 @@ return {
 
       require("java").setup({
         jdk = {
-          auto_install = false
+          auto_install = false,
         }
       })
       local lspconfig = require "lspconfig"
@@ -131,6 +131,7 @@ return {
       local servers = {
         "pyright",
         "gopls",
+        "jdtls",
       }
 
       -- lsps with default config
@@ -143,20 +144,5 @@ return {
       end
     end,
 
-    require("lspconfig").jdtls.setup {
-      settings = {
-        java = {
-          configuration = {
-            runtimes = {
-              {
-                name = "JavaSE-21",
-                path = "/usr/lib/jvm/java-21-openjdk",
-                default = true,
-              },
-            },
-          },
-        },
-      },
-    },
   },
 }

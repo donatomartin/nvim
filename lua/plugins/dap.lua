@@ -10,8 +10,26 @@ return {
       local dapui = require "dapui"
 
       -- Set up UI
-      dapui.setup()
-
+      dapui.setup {
+        layouts = {
+          {
+            elements = { "scopes", "breakpoints", "stacks", "watches" },
+            size = 0.25,
+            position = "right",
+          },
+          {
+            elements = { "console" }, -- Only include the console in the second layout
+            size = 0.25, -- Adjust the size for the console pane
+            position = "bottom", -- Position the console at the bottom
+          },
+        },
+      }
+      vim.fn.sign_define("DapBreakpoint", {
+        text = "●",
+        texthl = "DapBreakpoint",
+        linehl = "",
+        numhl = "",
+      })
       -- Java Debug Adapter
       dap.adapters.java = function(callback)
         callback {
@@ -60,10 +78,10 @@ return {
         dapui.open()
       end
       dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
+        -- dapui.close()
       end
       dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
+        -- dapui.close()
       end
     end,
   },

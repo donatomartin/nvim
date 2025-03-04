@@ -32,15 +32,12 @@ return {
     config = function()
       -- lua/configs/lspconfig.lua
 
-      require("java").setup()
+      require("java").setup({
+        jdk = {
+          auto_install = false
+        }
+      })
       local lspconfig = require "lspconfig"
-
-      -- EXAMPLE
-      local servers = {
-        "pyright",
-        "gopls",
-        "jdtls",
-      }
 
       -- Configure standard servers
       local M = {}
@@ -130,6 +127,12 @@ return {
 
       M.defaults()
 
+      -- Default config servers
+      local servers = {
+        "pyright",
+        "gopls",
+      }
+
       -- lsps with default config
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup {
@@ -139,5 +142,21 @@ return {
         }
       end
     end,
+
+    require("lspconfig").jdtls.setup {
+      settings = {
+        java = {
+          configuration = {
+            runtimes = {
+              {
+                name = "JavaSE-21",
+                path = "/usr/lib/jvm/java-21-openjdk",
+                default = true,
+              },
+            },
+          },
+        },
+      },
+    },
   },
 }

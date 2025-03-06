@@ -38,6 +38,7 @@ map("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
 
 -- Save
 map({ "n", "i" }, "<C-s>", "<cmd>w<CR>", { desc = "general save file" })
+map({ "n", "i" }, "<leader>ss", ":SudaWrite<CR>", { desc = "general sudo save file"})
 
 -- Copy
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
@@ -132,7 +133,11 @@ map(
 )
 
 -- Exit Vim
-map("n", "<leader>q", ":q<CR>", { noremap = true, silent = true, desc = "General Quit" })
+map("n", "<leader>qq", function()
+  require("nvim-tree.api").tree.close()
+  require("dapui").close()
+  vim.cmd("q")
+end, { noremap = true, silent = true, desc = "General Quit" })
 
 -- Tmux Navigation
 map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", { noremap = true, silent = true, desc = "Tmux Move Left" })

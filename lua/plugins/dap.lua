@@ -18,7 +18,7 @@ return {
             position = "right",
           },
           {
-            elements = { "console" }, -- Only include the console in the second layout
+            elements = {"repl", "console" }, -- Only include the console in the second layout
             size = 0.25, -- Adjust the size for the console pane
             position = "bottom", -- Position the console at the bottom
           },
@@ -72,6 +72,14 @@ return {
       vim.keymap.set("n", "<leader>du", function()
         dapui.toggle()
       end, { desc = "Toggle Debug UI" })
+      vim.keymap.set("n", "<leader>dw", function()
+        local expression = vim.fn.input "Expression to watch: "
+        require("dapui").elements.watches.add(expression)
+      end, { desc = "Add expression to watch" })
+      vim.keymap.set("n", "<leader>dcb", function()
+        local condition = vim.fn.input "Breakpoint condition: "
+        require("dap").set_breakpoint(condition)
+      end, { desc = "Set conditional breakpoint" })
 
       -- Automatically open/close dapui
       dap.listeners.after.event_initialized["dapui_config"] = function()

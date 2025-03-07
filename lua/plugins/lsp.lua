@@ -32,11 +32,11 @@ return {
     config = function()
       -- lua/configs/lspconfig.lua
 
-      require("java").setup({
+      require("java").setup {
         jdk = {
           auto_install = false,
-        }
-      })
+        },
+      }
       local lspconfig = require "lspconfig"
 
       -- Configure standard servers
@@ -143,6 +143,5 @@ return {
         }
       end
     end,
-
   },
 }

@@ -139,13 +139,6 @@ map("n", "<leader>qq", function()
   vim.cmd "q"
 end, { noremap = true, silent = true, desc = "General Quit" })
 
-map(
-  "n",
-  "<leader>qw",
-  [[<cmd>lua require("persistence").save()<cr>:qa<cr>]],
-  { desc = "Session Save and Exit", noremap = true, silent = true }
-)
-
 -- Tmux Navigation
 map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", { noremap = true, silent = true, desc = "Tmux Move Left" })
 map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { noremap = true, silent = true, desc = "Tmux Move Down" })

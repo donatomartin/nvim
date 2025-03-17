@@ -18,7 +18,7 @@ return {
             position = "right",
           },
           {
-            elements = {"repl", "console" }, -- Only include the console in the second layout
+            elements = { "repl", "console" }, -- Only include the console in the second layout
             size = 0.25, -- Adjust the size for the console pane
             position = "bottom", -- Position the console at the bottom
           },
@@ -30,6 +30,57 @@ return {
         linehl = "",
         numhl = "",
       })
+
+      -- Python Debug Adapter
+      dap.adapters.python = function(callback, config)
+        if config.request == "attach" then
+          local port = config.connect and config.connect.port or 5678
+          local host = config.connect and config.connect.host or "127.0.0.1"
+          callback {
+            type = "server",
+            host = host,
+            port = port,
+            options = {
+              source_file_map = { ["<path_in_container>"] = "<path_on_host>" }, -- Only needed for remote debugging
+            },
+          }
+        else
+          callback {
+            type = "executable",
+            command = "python",
+            args = { "-m", "debugpy.adapter" },
+          }
+        end
+      end
+
+      -- Python Debug Configurations
+      dap.configurations.python = {
+        {
+          type = "python",
+          request = "launch",
+          name = "Launch File",
+          program = "${file}", -- Run the current file
+          pythonPath = function()
+            return "python" -- Modify this if using virtualenv or a specific interpreter
+          end,
+        },
+        {
+          type = "python",
+          request = "attach",
+          name = "Attach to Process",
+          connect = {
+            host = "127.0.0.1",
+            port = 5678, -- Ensure this matches debugpy --listen
+          },
+          pathMappings = {
+            {
+              localRoot = vim.fn.getcwd(),
+              remoteRoot = "/app", -- Adjust this for remote debugging
+            },
+          },
+        },
+      }
+
       -- Java Debug Adapter
       dap.adapters.java = function(callback)
         callback {

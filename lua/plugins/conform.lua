@@ -5,8 +5,9 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         java = { "google-java-format" },
-        -- css = { "prettier" },
-        -- html = { "prettier" },
+        css = { "prettier" },
+        html = { "prettier" },
+        python = { "autopep8" },
       },
 
       format_on_save = {

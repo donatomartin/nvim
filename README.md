@@ -15,13 +15,13 @@
 
 1. Clone this repository into your nvim configuration directory.
 
-Windows Powershell
+**Windows Powershell**
 
 ```shell
 git clone https://github.com/dononitram/nvim.git %USERPROFILE%\AppData\Local\nvim
 ```
 
-Linux Zsh
+**Linux Zsh**
 
 ```sh
 git clone https://github.com/dononitram/nvim.git ~/.config/nvim
@@ -34,7 +34,7 @@ Disclaimer: Some dependencies be needed. They will be prompted as errors to the 
 
 Dependencies known:
 
-- ripgrep - used to live grep through files
+- grep or ripgrep - used to live grep through files
 - unzip - used to unzip nvim-java language server providers
 - npm - used to run pyright lsp
 - go - used for gopls lsp

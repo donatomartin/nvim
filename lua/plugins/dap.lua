@@ -31,6 +31,7 @@ return {
         numhl = "",
       })
 
+      -- PYTHON
       -- Python Debug Adapter
       dap.adapters.python = function(callback, config)
         if config.request == "attach" then
@@ -64,24 +65,11 @@ return {
             return "python" -- Modify this if using virtualenv or a specific interpreter
           end,
         },
-        {
-          type = "python",
-          request = "attach",
-          name = "Attach to Process",
-          connect = {
-            host = "127.0.0.1",
-            port = 5678, -- Ensure this matches debugpy --listen
-          },
-          pathMappings = {
-            {
-              localRoot = vim.fn.getcwd(),
-              remoteRoot = "/app", -- Adjust this for remote debugging
-            },
-          },
-        },
       }
 
+      -- JAVA
       -- Java Debug Adapter
+      -- Configurations already handled by nvim-java plugin
       dap.adapters.java = function(callback)
         callback {
           type = "server",
@@ -89,17 +77,6 @@ return {
           port = 5005, -- Must match the port used when launching Java
         }
       end
-
-      -- Java Debug Configurations
-      dap.configurations.java = {
-        {
-          type = "java",
-          request = "attach",
-          name = "Attach to Java Process",
-          hostName = "127.0.0.1",
-          port = 5005,
-        },
-      }
 
       -- Keybindings
       vim.keymap.set("n", "<F5>", function()

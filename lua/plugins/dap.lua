@@ -78,6 +78,37 @@ return {
         }
       end
 
+      -- GO (Delve)
+      dap.adapters.delve = {
+        type = "server",
+        port = "38697",
+        executable = {
+          command = "dlv",
+          args = { "dap", "--listen=127.0.0.1:38697", "--log", "--log-output=debugger,stdout,stderr" },
+        },
+      }
+
+      dap.configurations.go = {
+        {
+          type = "delve",
+          request = "launch",
+          name = "Debug with StdOut",
+          program = "${file}",
+          args = {}, -- You can pass CLI arguments if needed
+          console = "integratedTerminal", -- Ensure it uses Neovim's terminal
+          output = "integratedTerminal", -- Redirect stdout/stderr to terminal
+          dlvToolPath = vim.fn.exepath "dlv", -- Ensure Delve is found
+        },
+        {
+          type = "delve",
+          request = "attach",
+          name = "Attach to Process",
+          processId = require("dap.utils").pick_process,
+          console = "integratedTerminal",
+          output = "integratedTerminal",
+        },
+      }
+
       -- Keybindings
       vim.keymap.set("n", "<F5>", function()
         dap.continue()

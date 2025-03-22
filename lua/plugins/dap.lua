@@ -67,78 +67,51 @@ return {
         },
       }
 
-      -- JAVA
-      -- Java Debug Adapter
-      -- Configurations already handled by nvim-java plugin
-      dap.adapters.java = function(callback)
-        callback {
-          type = "server",
-          host = "127.0.0.1",
-          port = 5005, -- Must match the port used when launching Java
-        }
-      end
-
-      -- GO (Delve)
-      dap.adapters.delve = {
-        type = "server",
-        port = "38697",
-        executable = {
-          command = "dlv",
-          args = { "dap", "--listen=127.0.0.1:38697", "--log", "--log-output=debugger,stdout,stderr" },
-        },
-      }
-
-      dap.configurations.go = {
-        {
-          type = "delve",
-          request = "launch",
-          name = "Debug with StdOut",
-          program = "${file}",
-          args = {}, -- You can pass CLI arguments if needed
-          console = "integratedTerminal", -- Ensure it uses Neovim's terminal
-          output = "integratedTerminal", -- Redirect stdout/stderr to terminal
-          dlvToolPath = vim.fn.exepath "dlv", -- Ensure Delve is found
-        },
-        {
-          type = "delve",
-          request = "attach",
-          name = "Attach to Process",
-          processId = require("dap.utils").pick_process,
-          console = "integratedTerminal",
-          output = "integratedTerminal",
-        },
-      }
+      local map = vim.keymap.set
 
       -- Keybindings
-      vim.keymap.set("n", "<F5>", function()
+
+      map("n", "<F5>", function()
         dap.continue()
       end, { desc = "Start debugging" })
-      vim.keymap.set("n", "<F10>", function()
+
+      map("n", "<leader>ds", function()
         dap.step_over()
       end, { desc = "Step Over" })
-      vim.keymap.set("n", "<F11>", function()
+
+      map("n", "<leader>di", function()
         dap.step_into()
       end, { desc = "Step Into" })
-      vim.keymap.set("n", "<F12>", function()
+
+      map("n", "<leader>do", function()
         dap.step_out()
       end, { desc = "Step Out" })
-      vim.keymap.set("n", "<leader>db", function()
-        dap.toggle_breakpoint()
-      end, { desc = "Toggle Breakpoint" })
-      vim.keymap.set("n", "<leader>dr", function()
-        dap.repl.open()
-      end, { desc = "Open REPL" })
-      vim.keymap.set("n", "<leader>du", function()
+
+      map("n", "<leader>du", function()
         dapui.toggle()
       end, { desc = "Toggle Debug UI" })
-      vim.keymap.set("n", "<leader>dw", function()
+
+      map("n", "<leader>dw", function()
         local expression = vim.fn.input "Expression to watch: "
-        require("dapui").elements.watches.add(expression)
+        dapui.elements.watches.add(expression)
       end, { desc = "Add expression to watch" })
-      vim.keymap.set("n", "<leader>dcb", function()
+
+      map("n", "<leader>dcb", function()
         local condition = vim.fn.input "Breakpoint condition: "
-        require("dap").set_breakpoint(condition)
+        dap.set_breakpoint(condition)
       end, { desc = "Set conditional breakpoint" })
+
+      map("n", "<leader>db", function()
+        dap.toggle_breakpoint()
+      end, { desc = "Toggle Breakpoint" })
+
+      map("n", "<leader>dt", function()
+        dap.terminate()
+      end, { desc = "Terminate debug session" })
+
+      map("n", "<leader>dr", function()
+        dap.run_to_cursor()
+      end, { desc = "Run to cursor" })
 
       -- Automatically open/close dapui
       dap.listeners.after.event_initialized["dapui_config"] = function()

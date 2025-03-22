@@ -18,12 +18,6 @@ map("i", "<C-l>", "<Right>", { desc = "move right" })
 map("i", "<C-j>", "<Down>", { desc = "move down" })
 map("i", "<C-k>", "<Up>", { desc = "move up" })
 
--- Switch Windows
-map("n", "<C-h>", "wincmd h", { desc = "Window switch left" })
-map("n", "<C-l>", "wincmd l", { desc = "Window switch right" })
-map("n", "<C-j>", "wincmd j", { desc = "Window switch down" })
-map("n", "<C-k>", "wincmd k", { desc = "Window switch up" })
-
 -- Switch Windows (from terminal)
 map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Window switch left" })
 map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Window switch right" })
@@ -139,7 +133,7 @@ map(
 map("n", "<leader>qq", function()
   require("nvim-tree.api").tree.close()
   require("dapui").close()
-  vim.cmd "q"
+  vim.cmd "qa"
 end, { noremap = true, silent = true, desc = "General Quit" })
 
 -- Tmux Navigation

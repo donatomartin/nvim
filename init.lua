@@ -32,9 +32,8 @@ vim.schedule(function()
 end)
 
 -- Extra Syntax Highlightings
-vim.filetype.add({
+vim.filetype.add {
   extension = {
-    g4 = 'antlr4',
+    g4 = "antlr4",
   },
-})
-
+}

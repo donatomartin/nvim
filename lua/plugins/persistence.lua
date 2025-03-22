@@ -32,6 +32,15 @@ return {
         end,
         desc = "Session Don't Save Current Session",
       },
+      {
+        "<leader>qq",
+        function()
+          require("nvim-tree.api").tree.close()
+          require("dapui").close()
+          vim.cmd "qa"
+        end,
+        desc = "General Quit",
+      },
     },
   },
 }

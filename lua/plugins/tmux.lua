@@ -11,4 +11,12 @@ return {
     "christoomey/vim-tmux-navigator",
     lazy = false,
   },
+  {
+    "christoomey/vim-tmux-runner",
+    lazy = false,
+  },
+  {
+    "RyanMillerC/better-vim-tmux-resizer",
+    lazy = false,
+  }
 }

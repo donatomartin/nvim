@@ -5,6 +5,10 @@ local opt = vim.opt
 local o = vim.o
 local g = vim.g
 
+-- Lua (init.lua)
+vim.cmd [[highlight Normal guibg=NONE ctermbg=NONE]]
+vim.cmd [[highlight NormalNC guibg=NONE ctermbg=NONE]]
+vim.cmd [[highlight EndOfBuffer guibg=NONE ctermbg=NONE]]
 -------------------------------------- options ------------------------------------------
 o.laststatus = 3
 o.showmode = false

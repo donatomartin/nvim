@@ -21,12 +21,6 @@ map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Window switch right" })
 map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Window switch down" })
 map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Window switch up" })
 
--- Resize Windows
-map("n", "<left>", ":vertical resize +5<CR>", { desc = "Window resize left" })
-map("n", "<right>", ":vertical resize -5<CR>", { desc = "Window resize right" })
-map("n", "<down>", ":horizontal resize -5<CR>", { desc = "Window resize down" })
-map("n", "<up>", ":horizontal resize +5<CR>", { desc = "Window resize up" })
-
 -- Search Highlighting
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
 
@@ -49,7 +43,7 @@ map({ "n", "t" }, "<A-v>", function()
   require("nvchad.term").toggle { pos = "vsp", id = "vtoggleTerm" }
 end, { desc = "Terminal toggle vertical" })
 
-map({ "n", "t" }, "<A-h>", function()
+map({ "n", "t" }, "<A-g>", function()
   require("nvchad.term").toggle { pos = "sp", id = "htoggleTerm" }
 end, { desc = "Terminal toggle horizontal" })
 

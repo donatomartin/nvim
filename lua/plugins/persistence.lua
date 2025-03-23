@@ -37,6 +37,7 @@ return {
         function()
           require("nvim-tree.api").tree.close()
           require("dapui").close()
+          require("CopilotChat").close()
           vim.cmd "qa"
         end,
         desc = "General Quit",

@@ -9,6 +9,7 @@ local g = vim.g
 vim.cmd [[highlight Normal guibg=NONE ctermbg=NONE]]
 vim.cmd [[highlight NormalNC guibg=NONE ctermbg=NONE]]
 vim.cmd [[highlight EndOfBuffer guibg=NONE ctermbg=NONE]]
+
 -------------------------------------- options ------------------------------------------
 o.laststatus = 3
 o.showmode = false

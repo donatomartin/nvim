@@ -4,7 +4,7 @@
 local map = vim.keymap.set
 
 -- Disable F1
-map("n", "<F1>", "<cmd>echo 'F1 is disabled'<CR>", { desc = "F1 is disabled" })
+map({"n", "v", "i", "t"}, "<F1>", "<cmd>echo 'F1 is disabled'<CR>", { desc = "F1 is disabled" })
 
 -- Insert Mode Move
 map("i", "<C-b>", "<ESC>^i", { desc = "move beginning of line" })

@@ -50,7 +50,7 @@ return {
         end
 
         -- global lsp mappings
-        map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP diagnostic loclist" })
+        map("n", "<leader>gl", vim.diagnostic.setloclist, { desc = "LSP diagnostic loclist" })
         map("n", "<leader>gD", vim.lsp.buf.declaration, opts "Go to declaration")
         map("n", "<leader>gd", vim.lsp.buf.definition, opts "Go to definition")
         map("n", "<leader>gi", vim.lsp.buf.implementation, opts "Go to implementation")

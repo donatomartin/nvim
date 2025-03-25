@@ -1,20 +1,5 @@
 local IS_DEV = false
 
---- Get all the changes in the git repository
----@param staged? boolean
----@return string
-local function get_git_diff(staged)
-  local cmd = staged and "git diff --staged" or "git diff"
-  local handle = io.popen(cmd)
-  if not handle then
-    return ""
-  end
-
-  local result = handle:read("*a")
-  handle:close()
-  return result
-end
-
 local prompts = {
   -- Code-related prompts
   Explain = "Please explain how the following code works.",
@@ -26,6 +11,7 @@ local prompts = {
   Documentation = "Please provide documentation for the following code.",
   SwaggerApiDocs = "Please provide documentation for the following API using Swagger.",
   SwaggerJsDocs = "Please write JSDoc for the following API using Swagger.",
+
   -- Text-related prompts
   Summarize = "Please summarize the following text.",
   Spelling = "Please correct any grammar and spelling errors in the following text.",
@@ -44,10 +30,11 @@ return {
       disable_extra_info = "no", -- Disable extra information (e.g.: system prompt, token count) in the response.
     },
     build = function()
-      vim.notify("Please update the remote plugins by running ':UpdateRemotePlugins', then restart Neovim.")
+      vim.notify "Please update the remote plugins by running ':UpdateRemotePlugins', then restart Neovim."
     end,
     event = "VeryLazy",
     keys = {
+
       -- Code-related commands
       { "<leader>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
       { "<leader>cct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
@@ -62,11 +49,13 @@ return {
         "<cmd>CopilotChatSwaggerJsDocs<cr>",
         desc = "CopilotChat - Add Swagger API with Js Documentation",
       },
+
       -- Text related commands
       { "<leader>ccs", "<cmd>CopilotChatSummarize<cr>", desc = "CopilotChat - Summarize text" },
       { "<leader>ccS", "<cmd>CopilotChatSpelling<cr>", desc = "CopilotChat - Correct spelling" },
       { "<leader>ccw", "<cmd>CopilotChatWording<cr>", desc = "CopilotChat - Improve wording" },
       { "<leader>ccc", "<cmd>CopilotChatConcise<cr>", desc = "CopilotChat - Make text concise" },
+
       -- Chat with Copilot in visual mode
       {
         "<leader>ccv",
@@ -74,54 +63,34 @@ return {
         mode = "x",
         desc = "CopilotChat - Open in vertical split",
       },
-      {
-        "<leader>ccx",
-        ":CopilotChatInPlace<cr>",
-        mode = "x",
-        desc = "CopilotChat - Run in-place code",
-      },
+
       -- Custom input for CopilotChat
       {
         "<leader>cci",
         function()
-          local input = vim.fn.input("Ask Copilot: ")
+          local input = vim.fn.input "Ask Copilot: "
           if input ~= "" then
             vim.cmd("CopilotChat " .. input)
           end
         end,
         desc = "CopilotChat - Ask input",
       },
+
       -- Generate commit message based on the git diff
       {
         "<leader>ccm",
-        function()
-          local diff = get_git_diff()
-          if diff ~= "" then
-            vim.fn.setreg('"', diff)
-            vim.cmd("CopilotChat Write commit message for the change with commitizen convention.")
-          end
-        end,
+        ":CopilotChatCommit<cr>",
         desc = "CopilotChat - Generate commit message for all changes",
       },
-      {
-        "<leader>ccM",
-        function()
-          local diff = get_git_diff(true)
-          if diff ~= "" then
-            vim.fn.setreg('"', diff)
-            vim.cmd("CopilotChat Write commit message for the change with commitizen convention.")
-          end
-        end,
-        desc = "CopilotChat - Generate commit message for staged changes",
-      },
+
       -- Quick chat with Copilot
       {
         "<leader>ccq",
         function()
-          local input = vim.fn.input("Quick Chat: ")
+          local input = vim.fn.input "Quick Chat: "
           if input ~= "" then
             -- Copy all the lines to the unnamed register
-            vim.cmd('normal! ggVG"*y')
+            vim.cmd 'normal! ggVG"*y'
             vim.cmd("CopilotChat " .. input)
           end
         end,

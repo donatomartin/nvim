@@ -67,52 +67,6 @@ return {
         },
       }
 
-      local map = vim.keymap.set
-
-      -- Keybindings
-
-      map("n", "<F5>", function()
-        dap.continue()
-      end, { desc = "Start debugging" })
-
-      map("n", "<leader>ds", function()
-        dap.step_over()
-      end, { desc = "Step Over" })
-
-      map("n", "<leader>di", function()
-        dap.step_into()
-      end, { desc = "Step Into" })
-
-      map("n", "<leader>do", function()
-        dap.step_out()
-      end, { desc = "Step Out" })
-
-      map("n", "<leader>du", function()
-        dapui.toggle()
-      end, { desc = "Toggle Debug UI" })
-
-      map("n", "<leader>dw", function()
-        local expression = vim.fn.input "Expression to watch: "
-        dapui.elements.watches.add(expression)
-      end, { desc = "Add expression to watch" })
-
-      map("n", "<leader>dcb", function()
-        local condition = vim.fn.input "Breakpoint condition: "
-        dap.set_breakpoint(condition)
-      end, { desc = "Set conditional breakpoint" })
-
-      map("n", "<leader>db", function()
-        dap.toggle_breakpoint()
-      end, { desc = "Toggle Breakpoint" })
-
-      map("n", "<leader>dt", function()
-        dap.terminate()
-      end, { desc = "Terminate debug session" })
-
-      map("n", "<leader>dr", function()
-        dap.run_to_cursor()
-      end, { desc = "Run to cursor" })
-
       -- Automatically open/close dapui
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
@@ -124,5 +78,81 @@ return {
         -- dapui.close()
       end
     end,
+
+    -- Keybindings under lazy keys
+    keys = {
+      {
+        "<F5>",
+        function()
+          require("dap").continue()
+        end,
+        desc = "Start debugging",
+      },
+      {
+        "<leader>dd",
+        function()
+          require("dap").step_over()
+        end,
+        desc = "Step Over",
+      },
+      {
+        "<leader>di",
+        function()
+          require("dap").step_into()
+        end,
+        desc = "Step Into",
+      },
+      {
+        "<leader>do",
+        function()
+          require("dap").step_out()
+        end,
+        desc = "Step Out",
+      },
+      {
+        "<leader>du",
+        function()
+          require("dapui").toggle()
+        end,
+        desc = "Toggle Debug UI",
+      },
+      {
+        "<leader>dw",
+        function()
+          local expression = vim.fn.input "Expression to watch: "
+          require("dapui").elements.watches.add(expression)
+        end,
+        desc = "Add expression to watch",
+      },
+      {
+        "<leader>dcb",
+        function()
+          local condition = vim.fn.input "Breakpoint condition: "
+          require("dap").set_breakpoint(condition)
+        end,
+        desc = "Set conditional breakpoint",
+      },
+      {
+        "<leader>db",
+        function()
+          require("dap").toggle_breakpoint()
+        end,
+        desc = "Toggle Breakpoint",
+      },
+      {
+        "<leader>dt",
+        function()
+          require("dap").terminate()
+        end,
+        desc = "Terminate debug session",
+      },
+      {
+        "<leader>dr",
+        function()
+          require("dap").run_to_cursor()
+        end,
+        desc = "Run to cursor",
+      },
+    },
   },
 }

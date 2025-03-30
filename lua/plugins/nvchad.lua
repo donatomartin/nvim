@@ -1,11 +1,6 @@
 -- lua/plugins/init.lua
 
 return {
-
-  {
-    "nvim-lua/plenary.nvim",
-  },
-
   {
     "nvchad/base46",
     build = function()
@@ -27,7 +22,4 @@ return {
     },
   },
 
-  { "nvzone/volt" },
-  { "nvzone/menu" },
-  { "nvzone/minty", cmd = { "Huefy", "Shades" } },
 }

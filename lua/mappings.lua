@@ -15,12 +15,6 @@ map("i", "<C-l>", "<Right>", { desc = "move right" })
 map("i", "<C-j>", "<Down>", { desc = "move down" })
 map("i", "<C-k>", "<Up>", { desc = "move up" })
 
--- Switch Windows (from terminal)
-map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Window switch left" })
-map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Window switch right" })
-map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Window switch down" })
-map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Window switch up" })
-
 -- Search Highlighting
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
 
@@ -34,6 +28,9 @@ map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
 -- Number
 map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "toggle line number" })
 map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
+
+-- Exit Terminal Mode
+map("t", "<Esc><Esc>", "<C-\\><C-N>", { desc = "Terminal escape terminal mode" })
 
 -- Toggle Terminal
 map({ "n", "t" }, "<A-v>", function()

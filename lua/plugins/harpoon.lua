@@ -16,14 +16,6 @@ return {
       harpoon.ui:toggle_quick_menu(harpoon:list())
     end, { desc = "Harpoon: Toggle quick menu" })
 
-    vim.keymap.set("n", "<leader>hn", function()
-      harpoon:list():next()
-    end, { desc = "Harpoon: Next file" })
-
-    vim.keymap.set("n", "<leader>hp", function()
-      harpoon:list():prev()
-    end, { desc = "Harpoon: Previous file" })
-
     vim.keymap.set("n", "<leader>1", function()
       harpoon:list():select(1)
     end, { desc = "Harpoon: Go to file 1" })

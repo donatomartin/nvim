@@ -16,7 +16,6 @@ map(
   "<cmd>edit $MYVIMRC <CR> <cmd>cd " .. vim.fn.stdpath "config" .. " <CR>",
   { desc = "telescope open config" }
 )
-map("n", "<leader>fp", ":Telescope project<CR>", { noremap = true, silent = true, desc = "Telescope Project" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
 map(
   "n",
@@ -56,11 +55,28 @@ return {
         extensions = {},
       }
     end,
-  },
-  {
-    "nvim-telescope/telescope-project.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
+
+    keys = {
+      { "<leader>fw", "<cmd>Telescope live_grep<CR>", desc = "Telescope live grep" },
+      { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Telescope find buffers" },
+      { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Telescope help page" },
+      { "<leader>ma", "<cmd>Telescope marks<CR>", desc = "Telescope find marks" },
+      { "<leader>fo", "<cmd>Telescope oldfiles<CR>", desc = "Telescope find oldfiles" },
+      { "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Telescope find in current buffer" },
+      { "<leader>cm", "<cmd>Telescope git_commits<CR>", desc = "Telescope git commits" },
+      { "<leader>gt", "<cmd>Telescope git_status<CR>", desc = "Telescope git status" },
+      { "<leader>pt", "<cmd>Telescope terms<CR>", desc = "Telescope pick hidden term" },
+      {
+        "<leader>cn",
+        "<cmd>edit $MYVIMRC <CR> <cmd>cd " .. vim.fn.stdpath "config" .. " <CR>",
+        desc = "Telescope open config",
+      },
+      { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "Telescope find files" },
+      {
+        "<leader>fa",
+        "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
+        desc = "Telescope find all files",
+      },
     },
   },
 }

@@ -12,5 +12,8 @@ return {
         },
       }
     end,
+    keys = {
+      { "<leader>gs", function() require("gitsigns").preview_hunk() end, desc="gitsigns preview hunk" }
+    },
   },
 }

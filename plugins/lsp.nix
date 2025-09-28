@@ -8,6 +8,11 @@ let
   );
 in
 {
+
+  extraPackages = with pkgs; [
+  	gcc
+  ];
+
   plugins = {
     lsp = {
       enable = true;

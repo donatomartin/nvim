@@ -1,46 +1,32 @@
 
+-- Define leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
-local o, wo, bo = vim.o, vim.wo, vim.bo
-
 -- UI
-wo.number = true
-wo.relativenumber = true
-o.undofile = true
-o.termguicolors = true
-wo.signcolumn = "yes"
-o.cursorline = true
+vim.wo.number = true
+vim.wo.relativenumber = true
+vim.o.undofile = true
+vim.o.termguicolors = true
+vim.o.cursorline = true
 
 -- Editing
-o.expandtab = true
-o.shiftwidth = 2
-o.tabstop = 2
-o.smartindent = true
-o.wrap = false
+vim.o.expandtab = true
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+vim.o.smartindent = true
+vim.o.wrap = false
 
 -- Search
-o.ignorecase = true
-o.smartcase = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
 -- Misc
-o.mouse = "a"
-o.splitright = true
-o.splitbelow = true
+vim.o.mouse = "a"
+vim.o.splitright = true
+vim.o.splitbelow = true
 
--- OSC52: Requires nvim > 0.10
-vim.g.clipboard = {
-  name = "osc52",
-  copy = {
-    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-  },
-  paste = {
-    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
-  },
-}
-
+-- Set system clipboard
 vim.opt.clipboard = { "unnamed", "unnamedplus" }
 
 -- Create missing directories before saving
@@ -54,12 +40,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
-
-local map = vim.keymap.set
-
-map({"n","v"}, "<C-c>", ":%y+<CR>", { desc = "Yank file to system clipboard" })
-map("n", "<Esc>", ":noh<CR>", { desc = "Clear search hl" })
-
+-- Create user command for reloading config
 vim.api.nvim_create_user_command("ReloadConfig", function()
   for name,_ in pairs(package.loaded) do
     if name:match('^user') or name:match('^plugins') then package.loaded[name] = nil end
@@ -68,3 +49,10 @@ vim.api.nvim_create_user_command("ReloadConfig", function()
   print("Config reloaded!")
 end, {})
 
+-- Qol keymaps
+vim.keymap.set({"n","v"}, "<C-c>", ":%y+<CR>", { desc = "Yank file to system clipboard" })
+vim.keymap.set("n", "<Esc>", ":noh<CR>", { desc = "Clear search hl" })
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-N>", { desc = "Escape terminal mode" })
+
+-- Set catppuccin mocha theme
+vim.cmd("colorscheme catppuccin_mocha")

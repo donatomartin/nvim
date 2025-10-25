@@ -40,6 +40,24 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-- Remember last cursor position
+-- From reddit user evergreengt
+-- Replying on post https://www.reddit.com/r/neovim/comments/1052d98/how_to_save_last_position_in_files/
+local lastplace = vim.api.nvim_create_augroup("LastPlace", {})
+vim.api.nvim_clear_autocmds({ group = lastplace })
+vim.api.nvim_create_autocmd("BufReadPost", {
+    group = lastplace,
+    pattern = { "*" },
+    desc = "remember last cursor place",
+    callback = function()
+        local mark = vim.api.nvim_buf_get_mark(0, '"')
+        local lcount = vim.api.nvim_buf_line_count(0)
+        if mark[1] > 0 and mark[1] <= lcount then
+            pcall(vim.api.nvim_win_set_cursor, 0, mark)
+        end
+    end,
+})
+
 -- Create user command for reloading config
 vim.api.nvim_create_user_command("ReloadConfig", function()
   for name,_ in pairs(package.loaded) do
@@ -53,6 +71,7 @@ end, {})
 vim.keymap.set({"n","v"}, "<C-c>", ":%y+<CR>", { desc = "Yank file to system clipboard" })
 vim.keymap.set("n", "<Esc>", ":noh<CR>", { desc = "Clear search hl" })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-N>", { desc = "Escape terminal mode" })
+vim.keymap.set("n", ";", ":!")
 
 -- Set catppuccin mocha theme
 vim.cmd("colorscheme catppuccin_mocha")

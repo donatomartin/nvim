@@ -1,7 +1,6 @@
--- init.lua
-
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
+-- Define leader key
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
@@ -13,20 +12,12 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-local lazy_config = require "configs.lazy"
-
 -- load plugins
 require("lazy").setup({
   { import = "plugins" },
 }, lazy_config)
 
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
-
 require "options"
 require "autocmds"
+require "mappings"
 
-vim.schedule(function()
-  require "mappings"
-end)

@@ -1,4 +1,4 @@
-> ⚠️ **Warning:** This configuration is now partially implemented in my [NixOs Config](https://github.com/donatomartin/nix-config)
+This config is a submodule, part of my stow dotfiles: https://github.com/donatomartin/dotfiles
 
 # Donato Martín's Current NVim Configuration
 

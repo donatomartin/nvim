@@ -1,13 +1,13 @@
 -- Create missing directories before saving
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = vim.api.nvim_create_augroup("MKDIR_ON_SAVE", { clear = true }),
-  callback = function(args)
-    local path = vim.fn.fnamemodify(args.match, ":p:h")
-    if path ~= nil and path ~= "" and not vim.loop.fs_stat(path) then
-      vim.fn.mkdir(path, "p")
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   group = vim.api.nvim_create_augroup("MKDIR_ON_SAVE", { clear = true }),
+--   callback = function(args)
+--     local path = vim.fn.fnamemodify(args.match, ":p:h")
+--     if path ~= nil and path ~= "" and not vim.loop.fs_stat(path) then
+--       vim.fn.mkdir(path, "p")
+--     end
+--   end,
+-- })
 
 -- Remember last cursor position
 -- From reddit user evergreengt

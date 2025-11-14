@@ -47,8 +47,8 @@ return {
           show_server_name = false,
           extend_gitsigns = false,
           keys = {
-            quit = {"q", "<Esc>"},
-            exec = {"o", "<CR>", "l"},
+            quit = { "q", "<Esc>" },
+            exec = { "o", "<CR>", "l" },
           },
         },
         symbol_in_winbar = { enable = false },
@@ -95,15 +95,26 @@ return {
         end)
       end
 
+      local lombok_path = vim.fn.expand("~") .. "/.local/share/nvim/mason/packages/lombok-nightly/lombok.jar"
       -- Java
       vim.lsp.config["jdtls"] = {
-        cmd = { "jdtls" },
+        cmd = {
+          "jdtls",
+          "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+          "-Dosgi.bundles.defaultStartLevel=4",
+          "-Declipse.product=org.eclipse.jdt.ls.core.product",
+          "-Dlog.protocol=true",
+          "-Dlog.level=ALL",
+          "-Xms1g",
+          "-Xmx2G",
+          "--jvm-arg=-javaagent:" .. lombok_path,
+        },
         root_dir = vim.fs.root(0, { ".git", "pom.xml", "mvnw", "gradlew" }),
         on_attach = on_attach,
         settings = {
           java = {
             signatureHelp = {
-                enabled = true
+              enabled = true
             },
             configuration = {
               updateBuildConfiguration = "disabled", -- ← evita que toque .project
@@ -177,6 +188,8 @@ return {
           vim.lsp.start(vim.lsp.config["cssls"], { bufnr = args.buf })
         end,
       })
+
     end,
+
   }
 }

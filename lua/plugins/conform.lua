@@ -10,12 +10,10 @@ return {
           css = { "prettier" },
           html = { "prettier" },
           python = { "autopep8" },
+          nix = { "nixfmt" },
         },
 
-        format_on_save = {
-          timeout_ms = 500,
-          lsp_fallback = true,
-        },
+        format_on_save = false,
       }
     end,
 
@@ -34,4 +32,20 @@ return {
       },
     },
   },
+
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
+    config = function()
+      require("mason-tool-installer").setup {
+        ensure_installed = {
+          "stylua",
+          "prettier",
+          "autopep8",
+          "nixfmt",
+          "google-java-format",
+        },
+      }
+    end,
+  }
 }

@@ -54,7 +54,7 @@ return {
       { "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Telescope find in current buffer" },
       { "<leader>fw", "<cmd>Telescope live_grep<CR>",                 desc = "Telescope find in current buffer" },
       { "<leader>cm", "<cmd>Telescope git_commits<CR>",               desc = "Telescope git commits" },
-      { "<leader>gt", "<cmd>Telescope git_status<CR>",                desc = "Telescope git status" },
+      { "<leader>fg", "<cmd>Telescope git_status<CR>",                desc = "Telescope git status" },
       {
         "<leader>fa",
         "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",

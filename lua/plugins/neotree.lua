@@ -26,7 +26,6 @@ return {
         },
         window = {
           width = 30,
-          auto_expand_width = true,
           mappings = {
             ["l"] = "open",
             ["h"] = "close_node",

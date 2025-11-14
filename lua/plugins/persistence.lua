@@ -5,14 +5,7 @@ return {
     opts = {},
     keys = {
       {
-        "<leader>qs",
-        function()
-          require("persistence").load()
-        end,
-        desc = "Session Restore Session",
-      },
-      {
-        "<leader>qS",
+        "<leader>qj",
         function()
           require("persistence").select()
         end,
@@ -26,6 +19,13 @@ return {
         desc = "Session Restore Last Session",
       },
       {
+        "<leader>qk",
+        function()
+          require("persistence").load()
+        end,
+        desc = "Session Restore Session",
+      },
+      {
         "<leader>qd",
         function()
           require("persistence").stop()
@@ -35,9 +35,6 @@ return {
       {
         "<leader>qq",
         function()
-          require("nvim-tree.api").tree.close()
-          require("dapui").close()
-          require("CopilotChat").close()
           vim.cmd "qa"
         end,
         desc = "General Quit",

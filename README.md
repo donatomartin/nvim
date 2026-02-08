@@ -1,5 +1,3 @@
-This config is a submodule, part of my stow dotfiles: https://github.com/donatomartin/dotfiles
-
 # Donato Martín's Current NVim Configuration
 
      ██████   █████              ███                 
@@ -20,13 +18,13 @@ This config is a submodule, part of my stow dotfiles: https://github.com/donatom
 **Windows Powershell**
 
 ```shell
-git clone https://github.com/dononitram/nvim.git %USERPROFILE%\AppData\Local\nvim
+git clone https://github.com/donatomartin/nvim.git %USERPROFILE%\AppData\Local\nvim
 ```
 
-**Linux Zsh**
+**Linux Shell**
 
 ```sh
-git clone https://github.com/dononitram/nvim.git ~/.config/nvim
+git clone https://github.com/donatomartin/nvim.git ~/.config/nvim
 ```
 
 2. Enjoy!

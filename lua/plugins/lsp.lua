@@ -32,6 +32,7 @@ return {
           "ts_ls",
           "gopls",
           "cssls",
+          "rnix",
         },
         automatic_installation = true,
       })
@@ -186,6 +187,31 @@ return {
         pattern = "css",
         callback = function(args)
           vim.lsp.start(vim.lsp.config["cssls"], { bufnr = args.buf })
+        end,
+      })
+
+      -- Nix (prefer nixd for nixpkgs-aware completion, fallback to rnix)
+      local has_nixd = vim.fn.executable("nixd") == 1
+      if has_nixd then
+        vim.lsp.config["nixd"] = {
+          on_attach = on_attach,
+          settings = {
+            nixpkgs = {
+              expr = "import <nixpkgs> {}",
+            },
+          },
+        }
+      end
+
+      vim.lsp.config["rnix"] = { on_attach = on_attach }
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "nix",
+        callback = function(args)
+          if has_nixd then
+            vim.lsp.start(vim.lsp.config["nixd"], { bufnr = args.buf })
+          else
+            vim.lsp.start(vim.lsp.config["rnix"], { bufnr = args.buf })
+          end
         end,
       })
 

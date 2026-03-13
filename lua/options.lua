@@ -25,5 +25,3 @@ vim.o.splitbelow = true
 
 -- Set system clipboard
 vim.opt.clipboard = { "unnamed", "unnamedplus" }
-
-vim.cmd("colorscheme catppuccin_mocha")

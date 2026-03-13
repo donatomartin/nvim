@@ -11,7 +11,7 @@ return {
       end)
 
       return {
-        ensure_installed = { "lua", "luadoc", "printf", "vim", "vimdoc" },
+        ensure_installed = { "lua", "luadoc", "printf", "vim", "vimdoc", "nix", "java", "typescript", "latex" },
 
         highlight = { enable = true, use_languagetree = true },
 

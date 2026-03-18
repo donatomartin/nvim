@@ -22,6 +22,7 @@ vim.o.smartcase = true
 vim.o.mouse = "a"
 vim.o.splitright = true
 vim.o.splitbelow = true
+vim.o.pumheight = 10
 
 -- Set system clipboard
 vim.opt.clipboard = { "unnamed", "unnamedplus" }

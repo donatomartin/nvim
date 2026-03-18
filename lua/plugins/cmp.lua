@@ -40,6 +40,7 @@ return {
       "hrsh7th/cmp-path",
       "windwp/nvim-autopairs",
       "L3MON4D3/LuaSnip",
+      "rafamadriz/friendly-snippets"
     },
 
     opts = function()
@@ -66,8 +67,8 @@ return {
           ["<C-p>"] = cmp.mapping.select_prev_item(),
 
           -- Scroll docs in the menu
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-j>"] = cmp.mapping.scroll_docs(4),
+          ["<C-k>"] = cmp.mapping.scroll_docs(-4),
 
           -- Confirm and insert selected
           ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
@@ -102,7 +103,7 @@ return {
               Text = "",
               Method = "",
               Function = "󰡱",
-              Constructor = "",
+              Constructor = "󰒓",
               Field = "",
               Variable = "󰫧",
               Class = "ﴯ",
@@ -110,9 +111,9 @@ return {
               Module = "",
               Property = "ﰠ",
               Unit = "",
-              Value = "v",
+              Value = "󰎠",
               Enum = "",
-              Keyword = "",
+              Keyword = "󰌋",
               Snippet = "",
               Color = "",
               File = "",
@@ -131,11 +132,11 @@ return {
           end,
         },
         sources = {
-          { name = "nvim_lsp" },
-          { name = "nvim_lua" },
-          { name = "path" },
-          { name = "luasnip" },
-          { name = "buffer" },
+          { name = "nvim_lua", priority = 5 },
+          { name = "nvim_lsp", priority = 4 },
+          { name = "path", priority = 3 },
+          { name = "luasnip", prioriry = 2 },
+          { name = "buffer", priority = 1 },
         },
       }
     end

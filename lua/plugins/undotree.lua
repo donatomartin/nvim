@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 return {
   {
     'mbbill/undotree',
@@ -5,3 +6,4 @@ return {
     keys = {{"<leader>ut", vim.cmd.UndotreeToggle, desc = "Toggle Undo Tree"}}
   }
 }
+else return {} end

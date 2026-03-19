@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -42,3 +43,4 @@ return {
     end,
   },
 }
+else return {} end

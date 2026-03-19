@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 return {
   {
     "windwp/nvim-autopairs",
@@ -143,3 +144,4 @@ return {
   }
 
 }
+else return {} end

@@ -1,6 +1,4 @@
--- telescope
-local map = vim.keymap.set
-
+if not vim.g.vscode then
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -64,3 +62,4 @@ return {
     },
   },
 }
+else return {} end

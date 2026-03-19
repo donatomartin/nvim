@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 return {
   {
     "lewis6991/gitsigns.nvim",
@@ -45,3 +46,4 @@ return {
     cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit" },
   },
 }
+else return {} end

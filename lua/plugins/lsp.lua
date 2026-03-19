@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 return {
 	{
 		"numToStr/Comment.nvim",
@@ -173,3 +174,4 @@ return {
 		end,
 	},
 }
+else return {} end

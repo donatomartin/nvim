@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 return {
   {
     "ThePrimeagen/harpoon",
@@ -50,3 +51,4 @@ return {
     end,
   },
 }
+else return {} end

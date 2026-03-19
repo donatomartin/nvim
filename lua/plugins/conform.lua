@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 return {
   {
     "stevearc/conform.nvim",
@@ -32,3 +33,4 @@ return {
     },
   },
 }
+else return {} end

@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 return {
   "stevearc/oil.nvim",
   opts = {},
@@ -8,3 +9,4 @@ return {
     })
   end,
 }
+else return {} end

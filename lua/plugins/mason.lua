@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 return {
   {
     "williamboman/mason.nvim",
@@ -39,3 +40,4 @@ return {
     end,
   },
 }
+else return {} end

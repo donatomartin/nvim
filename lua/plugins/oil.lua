@@ -1,12 +1,10 @@
-if not vim.g.vscode then
 return {
-  "stevearc/oil.nvim",
-  opts = {},
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  config = function()
-    require("oil").setup({
-      default_file_explorer = true,  -- replace netrw
-    })
-  end,
+	"stevearc/oil.nvim",
+	opts = {},
+	dependencies = { "nvim-tree/nvim-web-devicons" },
+	config = function()
+		require("oil").setup({
+			default_file_explorer = true, -- replace netrw
+		})
+	end,
 }
-else return {} end

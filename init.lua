@@ -13,12 +13,17 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- load plugins
-require("lazy").setup({
-  { import = "plugins" },
-})
+if not vim.g.vscode then
+  require("lazy").setup({
+    { import = "plugins" },
+    { import = "plugins/shared" },
+  })
+else
+  require("lazy").setup({
+    { import = "plugins/shared" },
+  })
+end
 
 require "options"
 require "autocmds"
 require "mappings"
-
-require "vsc-mappings"

@@ -1,8 +1,4 @@
--- Tmux Navigation
-
 local map = vim.keymap.set
-
-if not vim.g.vscode then
 
 map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", { noremap = true, silent = true, desc = "Tmux Move Left" })
 map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { noremap = true, silent = true, desc = "Tmux Move Down" })
@@ -19,5 +15,3 @@ return {
     lazy = false,
   }
 }
-
-else return {} end

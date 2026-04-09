@@ -1,49 +1,50 @@
-if not vim.g.vscode then
 return {
-  {
-    "lewis6991/gitsigns.nvim",
-    lazy = false, -- ensure it loads immediately
-    config = function()
-      require("gitsigns").setup({
-        signs = {
-          add          = { text = "│", hl = "GitSignsAdd" },
-          change       = { text = "│", hl = "GitSignsChange" },
-          delete       = { text = "󰍵", hl = "GitSignsDelete" },
-          topdelete    = { text = "󰍵", hl = "GitSignsDelete" },
-          changedelete = { text = "󰍵", hl = "GitSignsChange" },
-          untracked    = { text = "│", hl = "GitSignsAdd" },
-        },
-        signcolumn = true,
-        numhl = false,
-        linehl = false,
-        word_diff = false,
+	{
+		"lewis6991/gitsigns.nvim",
+		lazy = false, -- ensure it loads immediately
+		config = function()
+			require("gitsigns").setup({
+				signs = {
+					add = { text = "│", hl = "GitSignsAdd" },
+					change = { text = "│", hl = "GitSignsChange" },
+					delete = { text = "󰍵", hl = "GitSignsDelete" },
+					topdelete = { text = "󰍵", hl = "GitSignsDelete" },
+					changedelete = { text = "󰍵", hl = "GitSignsChange" },
+					untracked = { text = "│", hl = "GitSignsAdd" },
+				},
+				signcolumn = true,
+				numhl = false,
+				linehl = false,
+				word_diff = false,
 
-        -- current_line_blame = true,
-        -- current_line_blame_opts = {
-        --   virt_text = true,
-        --   virt_text_pos = "eol",
-        --   delay = 300,
-        -- },
-        -- current_line_blame_formatter = "  <author>, <author_time:%R> • <summary>",
-      })
-    end,
-    keys = {
-      { "<leader>gdh", "<cmd>Gitsigns diffthis HEAD<CR>" },
-      { "<leader>gdd", "<cmd>Gitsigns preview_hunk_inline<CR>" },
-      { "<leader>gdD", "<cmd>Gitsigns diffthis<CR>" },
-      { "<leader>gds", "<cmd>Gitsigns diffthis --staged<CR>" },
-      { "<leader>gs", "<cmd>Gitsigns stage_hunk<CR>" },
-      { "<leader>gb", "<cmd>Gitsigns blame_line<CR>" },
-      { "<leader>gn", "<cmd>Gitsigns next_hunk<CR>" },
-      { "<leader>gp", "<cmd>Gitsigns prev_hunk<CR>" },
-      { "<leader>grh", "<cmd>Gitsigns reset_hunk<CR>" },
-      { "<leader>grb", "<cmd>Gitsigns reset_buffer<CR>" },
-    },
-  },
+				-- current_line_blame = true,
+				-- current_line_blame_opts = {
+				--   virt_text = true,
+				--   virt_text_pos = "eol",
+				--   delay = 300,
+				-- },
+				-- current_line_blame_formatter = "  <author>, <author_time:%R> • <summary>",
+			})
+		end,
+		keys = {
+			{ "<leader>gdd", "<cmd>Gitsigns diffthis<CR>" },
+			{ "<leader>gdD", "<cmd>Gitsigns diffthis HEAD<CR>" },
+			{ "<leader>gds", "<cmd>Gitsigns diffthis --staged<CR>" },
+			{ "<leader>ghd", "<cmd>Gitsigns preview_hunk_inline<CR>" },
+			{ "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>" },
+			{ "<leader>ghs", "<cmd>Gitsigns reset_hunk<CR>" },
+			{ "<leader>ghn", "<cmd>Gitsigns next_hunk<CR>" },
+			{ "<leader>ghp", "<cmd>Gitsigns prev_hunk<CR>" },
+			{ "<leader>glb", "<cmd>Gitsigns blame_line<CR>" },
+			{ "<leader>gbr", "<cmd>Gitsigns reset_buffer<CR>" },
+		},
+	},
 
-  {
-    "tpope/vim-fugitive",
-    cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit" },
-  },
+	{
+		"tpope/vim-fugitive",
+		cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit" },
+		keys = {
+			{ "<leader>gbb", "<cmd>G blame<CR>" },
+		},
+	},
 }
-else return {} end

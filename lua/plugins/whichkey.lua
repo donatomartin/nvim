@@ -1,4 +1,3 @@
-if not vim.g.vscode then
 return {
 	{
 		"folke/which-key.nvim",
@@ -14,4 +13,3 @@ return {
 		},
 	},
 }
-else return {} end

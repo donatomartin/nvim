@@ -1,14 +1,72 @@
-if not vim.g.vscode then
+local workspace_diagnostics = function()
+	local clients = vim.lsp.get_clients({ bufnr = 0 })
+
+	for _, client in ipairs(clients) do
+		if client:supports_method("workspace/diagnostic") then
+			vim.lsp.buf.workspace_diagnostics({ client_id = client.id })
+		else
+			require("workspace-diagnostics").populate_workspace_diagnostics(client, 0)
+		end
+	end
+end
+
+local on_attach = function(_, bufnr)
+	local map = function(lhs, rhs)
+		vim.keymap.set("n", lhs, rhs, { buffer = bufnr, silent = true })
+	end
+
+	local smap = function(mode, lhs, rhs)
+		vim.keymap.set(mode, lhs, rhs, { silent = true })
+	end
+
+	smap({ "n", "t" }, "<A-i>", "<cmd>Lspsaga term_toggle<CR>")
+	smap("n", "<leader>co", "<cmd>Lspsaga outline<CR>")
+	smap("n", "<leader>cw", "<cmd>Lspsaga winbar_toggle<CR>")
+
+	map("gt", "<cmd>Lspsaga goto_type_definition<CR>")
+	map("gd", "<cmd>Lspsaga finder def<CR>")
+	map("gi", "<cmd>Lspsaga finder imp<CR>")
+	map("gr", "<cmd>Lspsaga finder<CR>")
+	map("gci", "<cmd>Telescope lsp_incoming_calls<CR>")
+	map("gco", "<cmd>Telescope lsp_outgoing_calls<CR>")
+
+	map("K", "<cmd>Lspsaga hover_doc<CR>")
+	map("<leader>rn", "<cmd>Lspsaga rename<CR>")
+	map("<leader>ca", "<cmd>Lspsaga code_action<CR>")
+	map("<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>")
+	map("<leader>cN", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+	map("<leader>cn", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+	map("<leader>cw", "<cmd>Lspsaga show_workspace_diagnostics<CR>")
+	map("<leader>cx", workspace_diagnostics)
+end
+
 return {
-	{
-		"numToStr/Comment.nvim",
-		opts = {},
-	},
 	{
 		"nvimdev/lspsaga.nvim",
 		event = "LspAttach",
+		dependencies = {
+			"artemave/workspace-diagnostics.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
 		config = function()
 			require("lspsaga").setup({
+				finder = {
+					layout = "float",
+					max_height = 0.5,
+					left_width = 0.35,
+					right_width = 0.55,
+					keys = {
+						shuttle = "[w",
+						toggle_or_open = { "o", "<CR>", "l" },
+						vsplit = "s",
+						split = "i",
+						tabe = "t",
+						tabnew = "r",
+						quit = { "q", "<Esc>" },
+						close = "<C-c>k",
+					},
+				},
 				code_action = {
 					show_server_name = false,
 					extend_gitsigns = false,
@@ -24,41 +82,22 @@ return {
 					border = "rounded",
 				},
 			})
+
+			local function saga_highlights()
+				vim.api.nvim_set_hl(0, "SagaNormal", { link = "NormalFloat" })
+				vim.api.nvim_set_hl(0, "SagaBorder", { link = "FloatBorder" })
+			end
+
+			saga_highlights()
+
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				callback = saga_highlights,
+			})
 		end,
 	},
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			local on_attach = function(_, bufnr)
-				local map = function(lhs, rhs)
-					vim.keymap.set("n", lhs, rhs, { buffer = bufnr, silent = true })
-				end
-				local smap = function(mode, lhs, rhs)
-					vim.keymap.set(mode, lhs, rhs, { silent = true })
-				end
-
-				smap({ "n", "t" }, "<A-i>", "<cmd>Lspsaga term_toggle<CR>")
-				map("K", "<cmd>Lspsaga hover_doc<CR>")
-				map("gd", "<cmd>Lspsaga goto_definition<CR>")
-				map("gr", "<cmd>Lspsaga finder<CR>")
-				map("gt", "<cmd>Lspsaga peek_type_definition<CR>")
-				map("gi", "<cmd>Lspsaga finder imp<CR>")
-				map("<leader>rn", "<cmd>Lspsaga rename<CR>")
-				map("<leader>ca", "<cmd>Lspsaga code_action<CR>")
-				map("<leader>cd", "<cmd>Lspsaga show_line_diagnostics<CR>")
-				map("<leader>cp", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
-				map("<leader>cn", "<cmd>Lspsaga diagnostic_jump_next<CR>")
-				map("<leader>wd", "<cmd>Lspsaga show_workspace_diagnostics<CR>")
-				smap("n", "<leader>co", "<cmd>Lspsaga outline<CR>")
-
-				vim.keymap.set("n", "<leader>im", function()
-					vim.lsp.buf.code_action({
-						only = { "source.addMissingImports" },
-						apply = true,
-					})
-				end)
-			end
-
 			local lombok_path = vim.fn.expand("~") .. "/.local/share/nvim/mason/packages/lombok-nightly/lombok.jar"
 
 			-- Java
@@ -97,6 +136,23 @@ return {
 				end,
 			})
 
+			vim.lsp.config["vtsls"] = {
+				on_attach = on_attach,
+				root_dir = vim.fs.root(0, {
+					"tsconfig.json",
+					"jsconfig.json",
+					"package.json",
+					".git",
+				}),
+			}
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+				callback = function(args)
+					vim.lsp.start(vim.lsp.config["vtsls"], { bufnr = args.buf })
+				end,
+			})
+
 			-- Lua
 			vim.lsp.config["lua_ls"] = {
 				on_attach = on_attach,
@@ -124,15 +180,6 @@ return {
 				pattern = "html",
 				callback = function(args)
 					vim.lsp.start(vim.lsp.config["html"], { bufnr = args.buf })
-				end,
-			})
-
-			-- JavaScript/TypeScript (ts_ls replaces tsserver)
-			vim.lsp.config["ts_ls"] = { on_attach = on_attach }
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
-				callback = function(args)
-					vim.lsp.start(vim.lsp.config["ts_ls"], { bufnr = args.buf })
 				end,
 			})
 
@@ -164,14 +211,21 @@ return {
 					},
 				},
 			}
-
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "nix",
 				callback = function(args)
 					vim.lsp.start(vim.lsp.config["nixd"], { bufnr = args.buf })
 				end,
 			})
+
+			-- Latex
+			vim.lsp.config["ltex_plus"] = { on_attach = on_attach }
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "tex",
+				callback = function(args)
+					vim.lsp.start(vim.lsp.config["ltex_plus"], { bufnr = args.buf })
+				end,
+			})
 		end,
 	},
 }
-else return {} end

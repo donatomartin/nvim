@@ -1,3 +1,3 @@
 return {
-  "let-def/texpresso.vim"
+	"let-def/texpresso.vim",
 }

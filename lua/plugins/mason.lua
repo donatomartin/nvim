@@ -35,7 +35,6 @@ return {
 
 					-- dependencies
 					"lombok-nightly",
-					"spring-boot-tools",
 				},
 			})
 		end,

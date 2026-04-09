@@ -27,16 +27,16 @@ return {
 			})
 		end,
 		keys = {
-			{ "<leader>gdd", "<cmd>Gitsigns diffthis<CR>" },
-			{ "<leader>gdD", "<cmd>Gitsigns diffthis HEAD<CR>" },
-			{ "<leader>gds", "<cmd>Gitsigns diffthis --staged<CR>" },
-			{ "<leader>ghd", "<cmd>Gitsigns preview_hunk_inline<CR>" },
-			{ "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>" },
-			{ "<leader>ghs", "<cmd>Gitsigns reset_hunk<CR>" },
-			{ "<leader>ghn", "<cmd>Gitsigns next_hunk<CR>" },
-			{ "<leader>ghp", "<cmd>Gitsigns prev_hunk<CR>" },
-			{ "<leader>glb", "<cmd>Gitsigns blame_line<CR>" },
-			{ "<leader>gbr", "<cmd>Gitsigns reset_buffer<CR>" },
+			{ "<leader>gdd", "<cmd>Gitsigns diffthis<cr>" },
+			{ "<leader>gdD", "<cmd>Gitsigns diffthis HEAD<cr>" },
+			{ "<leader>gds", "<cmd>Gitsigns diffthis --staged<cr>" },
+			{ "<leader>ghd", "<cmd>Gitsigns preview_hunk_inline<cr>" },
+			{ "<leader>ghs", "<cmd>Gitsigns stage_hunk<cr>" },
+			{ "<leader>ghs", "<cmd>Gitsigns reset_hunk<cr>" },
+			{ "<leader>ghn", "<cmd>Gitsigns next_hunk<cr>" },
+			{ "<leader>ghp", "<cmd>Gitsigns prev_hunk<cr>" },
+			{ "<leader>glb", "<cmd>Gitsigns blame_line<cr>" },
+			{ "<leader>gbr", "<cmd>Gitsigns reset_buffer<cr>" },
 		},
 	},
 
@@ -44,7 +44,7 @@ return {
 		"tpope/vim-fugitive",
 		cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit" },
 		keys = {
-			{ "<leader>gbb", "<cmd>G blame<CR>" },
+			{ "<leader>gbb", "<cmd>G blame<cr>" },
 		},
 	},
 }

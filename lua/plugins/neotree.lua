@@ -11,7 +11,7 @@ return {
 		keys = {
 			{
 				"<leader>n",
-				"<cmd>Neotree toggle reveal_force_cwd<CR>",
+				"<cmd>Neotree toggle reveal_force_cwd<cr>",
 				mode = "n",
 				silent = true,
 				desc = "Toggle Neo-tree",

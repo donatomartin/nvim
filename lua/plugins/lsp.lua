@@ -19,24 +19,24 @@ local on_attach = function(_, bufnr)
 		vim.keymap.set(mode, lhs, rhs, { silent = true })
 	end
 
-	smap({ "n", "t" }, "<A-i>", "<cmd>Lspsaga term_toggle<CR>")
-	smap("n", "<leader>co", "<cmd>Lspsaga outline<CR>")
-	smap("n", "<leader>cw", "<cmd>Lspsaga winbar_toggle<CR>")
+	smap({ "n", "t" }, "<A-i>", "<cmd>Lspsaga term_toggle<cr>")
+	smap("n", "<leader>co", "<cmd>Lspsaga outline<cr>")
+	smap("n", "<leader>cw", "<cmd>Lspsaga winbar_toggle<cr>")
 
-	map("gt", "<cmd>Lspsaga goto_type_definition<CR>")
-	map("gd", "<cmd>Lspsaga finder def<CR>")
-	map("gi", "<cmd>Lspsaga finder imp<CR>")
-	map("gr", "<cmd>Lspsaga finder<CR>")
-	map("gci", "<cmd>Telescope lsp_incoming_calls<CR>")
-	map("gco", "<cmd>Telescope lsp_outgoing_calls<CR>")
+	map("gt", "<cmd>Lspsaga goto_type_definition<cr>")
+	map("gd", "<cmd>Lspsaga finder def<cr>")
+	map("gi", "<cmd>Lspsaga finder imp<cr>")
+	map("gr", "<cmd>Lspsaga finder<cr>")
+	map("gci", "<cmd>Telescope lsp_incoming_calls<cr>")
+	map("gco", "<cmd>Telescope lsp_outgoing_calls<cr>")
 
-	map("K", "<cmd>Lspsaga hover_doc<CR>")
-	map("<leader>rn", "<cmd>Lspsaga rename<CR>")
-	map("<leader>ca", "<cmd>Lspsaga code_action<CR>")
-	map("<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>")
-	map("<leader>cN", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
-	map("<leader>cn", "<cmd>Lspsaga diagnostic_jump_next<CR>")
-	map("<leader>cw", "<cmd>Lspsaga show_workspace_diagnostics<CR>")
+	map("K", "<cmd>Lspsaga hover_doc<cr>")
+	map("<leader>rn", "<cmd>Lspsaga rename<cr>")
+	map("<leader>ca", "<cmd>Lspsaga code_action<cr>")
+	map("<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<cr>")
+	map("<leader>cN", "<cmd>Lspsaga diagnostic_jump_prev<cr>")
+	map("<leader>cn", "<cmd>Lspsaga diagnostic_jump_next<cr>")
+	map("<leader>cw", "<cmd>Lspsaga show_workspace_diagnostics<cr>")
 	map("<leader>cx", workspace_diagnostics)
 end
 
@@ -58,7 +58,7 @@ return {
 					right_width = 0.55,
 					keys = {
 						shuttle = "[w",
-						toggle_or_open = { "o", "<CR>", "l" },
+						toggle_or_open = { "o", "<cr>", "l" },
 						vsplit = "s",
 						split = "i",
 						tabe = "t",
@@ -72,7 +72,7 @@ return {
 					extend_gitsigns = false,
 					keys = {
 						quit = { "q", "<Esc>" },
-						exec = { "o", "<CR>", "l" },
+						exec = { "o", "<cr>", "l" },
 					},
 				},
 				symbol_in_winbar = { enable = false },

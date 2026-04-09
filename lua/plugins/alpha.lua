@@ -40,21 +40,21 @@ return {
 
 			-- Buttons Section
 			dashboard_theme.section.buttons.val = {
-				dashboard_theme.button("<leader> ff", " Find file", "<cmd>Telescope find_files <CR>"),
-				dashboard_theme.button("<leader> fw", " Find text", "<cmd>Telescope live_grep <CR>"),
-				dashboard_theme.button("<leader> fo", " Recent files", "<cmd>Telescope oldfiles <CR>"),
+				dashboard_theme.button("<leader> ff", " Find file", "<cmd>Telescope find_files <cr>"),
+				dashboard_theme.button("<leader> fw", " Find text", "<cmd>Telescope live_grep <cr>"),
+				dashboard_theme.button("<leader> fo", " Recent files", "<cmd>Telescope oldfiles <cr>"),
 				dashboard_theme.button(
 					"<leader> ql",
 					" Load Last Session",
-					"<cmd>lua require('persistence').load({ last = true }) <CR>"
+					"<cmd>lua require('persistence').load({ last = true }) <cr>"
 				),
-				dashboard_theme.button("n", " New file", "<cmd>ene <BAR> startinsert <CR>"),
-				dashboard_theme.button("<leader> qq", " Close", "<cmd>q <CR>"),
+				dashboard_theme.button("n", " New file", "<cmd>ene <BAR> startinsert <cr>"),
+				dashboard_theme.button("<leader> qq", " Close", "<cmd>q <cr>"),
 				-- Config nvim (cd to nvim C:\Users\Donato\AppData\Local\nvim) and open init.lua)
 				dashboard_theme.button(
 					"<leader> cn",
 					" Config",
-					"<cmd>edit $MYVIMRC <CR> <cmd>cd " .. vim.fn.stdpath("config") .. " <CR>"
+					"<cmd>edit $MYVIMRC <cr> <cmd>cd " .. vim.fn.stdpath("config") .. " <cr>"
 				),
 			}
 			dashboard_theme.section.buttons.opts.hl = "AlphaButtons"

@@ -5,6 +5,7 @@ vim.wo.relativenumber = true
 vim.o.undofile = true
 vim.o.termguicolors = true
 vim.o.cursorline = true
+vim.o.winbar = "%=%t %m%="
 
 -- Editing
 vim.o.expandtab = true
@@ -26,17 +27,18 @@ vim.o.pumheight = 10
 
 -- Set system clipboard
 vim.opt.clipboard = { "unnamed", "unnamedplus" }
-vim.g.clipboard = {
-  name = 'osc52',
-  copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-  },
-  paste = {
-    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
-  },
-}
+-- for remote machines over tmux
+-- vim.g.clipboard = {
+--   name = 'osc52',
+--   copy = {
+--     ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+--     ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+--   },
+--   paste = {
+--     ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+--     ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+--   },
+-- }
 if vim.fn.has("wsl") == 1 then
   local win32yank = "/mnt/c/Windows/System32/win32yank.exe"
   if vim.fn.executable(win32yank) == 1 then
@@ -55,5 +57,4 @@ if vim.fn.has("wsl") == 1 then
   end
 end
 
-
-vim.cmd("colorscheme catppuccin_mocha")
+vim.cmd.colorscheme "catppuccin-nvim"

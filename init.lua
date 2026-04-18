@@ -3,7 +3,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
 -- bootstrap lazy and all plugins
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not vim.uv.fs_stat(lazypath) then
   local repo = "https://github.com/folke/lazy.nvim.git"
@@ -13,17 +13,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- load plugins
-if not vim.g.vscode then
-  require("lazy").setup({
-    { import = "plugins" },
-    { import = "plugins/shared" },
-  })
-else
-  require("lazy").setup({
-    { import = "plugins/shared" },
-  })
-end
+require("lazy").setup({
+  { import = "myplugins" },
+})
 
-require "options"
-require "autocmds"
-require "mappings"
+require("options")
+require("autocmds")
+require("mappings")

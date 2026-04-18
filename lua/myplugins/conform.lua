@@ -1,26 +1,18 @@
 return {
 	{
 		"stevearc/conform.nvim",
-
 		opts = function()
 			return {
 				formatters_by_ft = {
-					lua = { "stylua" },
-					java = { "google-java-format" },
-					css = { "prettier" },
-					html = { "prettier" },
-					python = { "autopep8" },
-					nix = { "nixfmt" },
+          require("myformatters").getFormatterMap()
 				},
 				format_on_save = false,
 			}
 		end,
-
 		config = function(_, opts)
 			local conform = require("conform")
 			conform.setup(opts)
 		end,
-
 		keys = {
 			{
 				"<leader>fm",

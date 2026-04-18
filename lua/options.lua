@@ -26,6 +26,17 @@ vim.o.pumheight = 10
 
 -- Set system clipboard
 vim.opt.clipboard = { "unnamed", "unnamedplus" }
+vim.g.clipboard = {
+  name = 'osc52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
+}
 if vim.fn.has("wsl") == 1 then
   local win32yank = "/mnt/c/Windows/System32/win32yank.exe"
   if vim.fn.executable(win32yank) == 1 then

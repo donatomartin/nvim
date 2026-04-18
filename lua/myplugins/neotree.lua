@@ -6,6 +6,7 @@ return {
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
 			"nvim-tree/nvim-web-devicons",
+      "antosha417/nvim-lsp-file-operations",
 		},
 		lazy = false,
 		keys = {

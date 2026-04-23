@@ -10,7 +10,6 @@ function M.config(on_attach)
 
   require("lang.lsps.java")
   require("lang.lsps.lua")
-  require("lang.lsps.typescript")
   require("lang.lsps.latex")
 
   vim.lsp.enable(M.getLsps())

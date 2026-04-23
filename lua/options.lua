@@ -25,21 +25,26 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.pumheight = 10
 
--- Set system clipboard
 vim.opt.clipboard = { "unnamed", "unnamedplus" }
--- for remote machines over tmux
--- vim.g.clipboard = {
---   name = 'osc52',
---   copy = {
---     ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
---     ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
---   },
---   paste = {
---     ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
---     ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
---   },
--- }
-if vim.fn.has("wsl") == 1 then
+
+-- Set system clipboard
+local is_ssh = vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil
+if is_ssh then
+  vim.g.clipboard = {
+    name = 'osc52',
+    copy = {
+      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    },
+    paste = {
+      ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+      ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+    },
+  }
+end
+
+local is_wsl = vim.fn.has("wsl") == 1
+if is_wsl then
   local win32yank = "/mnt/c/Windows/System32/win32yank.exe"
   if vim.fn.executable(win32yank) == 1 then
     vim.g.clipboard = {

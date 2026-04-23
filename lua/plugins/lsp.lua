@@ -1,15 +1,3 @@
-local workspace_diagnostics = function()
-	local clients = vim.lsp.get_clients({ bufnr = 0 })
-
-	for _, client in ipairs(clients) do
-		if client:supports_method("workspace/diagnostic") then
-			vim.lsp.buf.workspace_diagnostics({ client_id = client.id })
-		else
-			require("workspace-diagnostics").populate_workspace_diagnostics(client, 0)
-		end
-	end
-end
-
 local map = function(mode, lhs, rhs, bufnr)
 	if bufnr then
 		vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
@@ -18,7 +6,9 @@ local map = function(mode, lhs, rhs, bufnr)
 	end
 end
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
+  require("workspace.workspace-diagnostics").populate(client, bufnr)
+
 	map("n", "<leader>co", "<cmd>Lspsaga outline<cr>")
 	map("n", "<leader>cw", "<cmd>Lspsaga winbar_toggle<cr>")
 
@@ -36,7 +26,6 @@ local on_attach = function(_, bufnr)
 	map("n", "<leader>cN", "<cmd>Lspsaga diagnostic_jump_prev<cr>", bufnr)
 	map("n", "<leader>cn", "<cmd>Lspsaga diagnostic_jump_next<cr>", bufnr)
 	map("n", "<leader>cw", "<cmd>Lspsaga show_workspace_diagnostics<cr>", bufnr)
-	map("n", "<leader>cx", workspace_diagnostics, bufnr)
 end
 
 return {

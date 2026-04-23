@@ -8,12 +8,12 @@ function M.config(on_attach)
     on_attach = on_attach,
   })
 
-  require("mylsps/java")
-  require("mylsps/lua")
-  require("mylsps/typescript")
+  require("mylsps.java")
+  require("mylsps.lua")
+  require("mylsps.typescript")
+  require("mylsps.latex")
 
   vim.lsp.enable(M.getLsps())
-
 end
 
 function M.getLspMap()
@@ -26,14 +26,14 @@ function M.getLspMap()
     ["gopls"] = "gopls",
     ["jdtls"] = "jdtls",
     ["ltex_plus"] = "ltex-ls-plus",
-    ["nixd"] = nil, -- better installed form nixpkgs
+    ["nixd"] = "skip", -- better installed form nixpkgs
   }
 end
 
 function M.getLsps()
   local t = {}
   for key, _ in pairs(M.getLspMap()) do
-    t[#t+1] = key
+    t[#t + 1] = key
   end
   return t
 end
@@ -41,10 +41,11 @@ end
 function M.getMasonLsps()
   local t = {}
   for _, value in pairs(M.getLspMap()) do
-      t[#t+1] = value
+    if value ~= "skip" then
+      t[#t + 1] = value
+    end
   end
   return t
 end
 
 return M
-

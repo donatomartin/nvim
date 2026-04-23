@@ -8,10 +8,10 @@ function M.config(on_attach)
     on_attach = on_attach,
   })
 
-  require("mylsps.java")
-  require("mylsps.lua")
-  require("mylsps.typescript")
-  require("mylsps.latex")
+  require("lang.lsps.java")
+  require("lang.lsps.lua")
+  require("lang.lsps.typescript")
+  require("lang.lsps.latex")
 
   vim.lsp.enable(M.getLsps())
 end

@@ -50,7 +50,7 @@ return {
 		config = function()
 			map({ "n", "t" }, "<A-i>", "<cmd>Lspsaga term_toggle<cr>")
 
-      require("mylsps").config(on_attach)
+      require("lang.lsps").config(on_attach)
 
 			require("lspsaga").setup({
 				finder = {

@@ -20,8 +20,8 @@ return {
         "lombok-nightly",
       }
 
-      vim.list_extend(ensure_installed, require("myformatters").getMasonFormatters())
-      vim.list_extend(ensure_installed, require("mylsps").getMasonLsps())
+      vim.list_extend(ensure_installed, require("lang.formatters").getMasonFormatters())
+      vim.list_extend(ensure_installed, require("lang.lsps").getMasonLsps())
 
 			require("mason-tool-installer").setup({
 				ensure_installed = ensure_installed

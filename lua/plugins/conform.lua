@@ -4,7 +4,7 @@ return {
 		opts = function()
 			return {
 				formatters_by_ft = {
-          require("myformatters").getFormatterMap()
+          require("lang.formatters").getFormatterMap()
 				},
 				format_on_save = false,
 			}

@@ -20,3 +20,4 @@ require("lazy").setup({
 require("options")
 require("autocmds")
 require("mappings")
+require("commands")

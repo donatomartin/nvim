@@ -17,34 +17,77 @@ end
 
 function M.getLspMap()
   return {
-    ["lua_ls"] = "lua-language-server",
-    ["pyright"] = "pyright",
-    ["vtsls"] = "vtsls",
-    ["html"] = "html-lsp",
-    ["cssls"] = "css-lsp",
-    ["gopls"] = "gopls",
-    ["jdtls"] = "jdtls",
-    ["ltex_plus"] = "ltex-ls-plus",
-    ["nixd"] = "skip", -- better installed form nixpkgs
+    ["lua_ls"] = {
+      package = "lua-language-server",
+      config = "lua_ls";
+    },
+    ["pyright"] = {
+      package = "pyright",
+      config = "pyright",
+      dependencies = { "node", "python" },
+    },
+    ["vtsls"] = {
+      package = "vtsls",
+      config = "vtsls",
+      dependencies = { "node" },
+    },
+    ["html"] = {
+      package = "html-lsp",
+      config = "html",
+      dependencies = { "node" },
+    },
+    ["cssls"] = {
+      package = "css-lsp",
+      config = "cssls",
+      dependencies = { "node" },
+    },
+    ["gopls"] = {
+      package = "gopls",
+      config = "gopls",
+      dependencies = { "node" },
+    },
+    ["jdtls"] = {
+      package = "jdtls",
+      config = "jdtls",
+      dependencies = { "java" },
+    },
+    ["ltex_plus"] = {
+      package = "ltex-ls-plus",
+      config = "ltex_plus",
+    },
+    ["nixd"] = {
+      stepSkipped = "mason",
+    },
+    ["sonarlint"] = {
+      stepSkipped = "config",
+      package = "sonarlint-language-server",
+    }
   }
 end
 
-function M.getLsps()
+local function processMapByType(type)
   local t = {}
-  for key, _ in pairs(M.getLspMap()) do
-    t[#t + 1] = key
+  for _, value in pairs(M.getLspMap()) do
+
+    local element = value.config
+    if (type == "mason") then
+      element = value.package
+    end
+
+    if not value.stepSkipped == type or not value.stepSkipped == "both" then
+      t[#t + 1] = element
+    end
+
+    return t
   end
-  return t
+end
+
+function M.getLsps()
+  return processMapByType("config")
 end
 
 function M.getMasonLsps()
-  local t = {}
-  for _, value in pairs(M.getLspMap()) do
-    if value ~= "skip" then
-      t[#t + 1] = value
-    end
-  end
-  return t
+  return processMapByType("mason")
 end
 
 return M

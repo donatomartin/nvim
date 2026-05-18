@@ -1,3 +1,23 @@
+vim.api.nvim_create_user_command("WorkspaceStart", function()
+    local workspace_diagnostics = require("workspace.workspace-diagnostics")
+    local bufnr = vim.api.nvim_get_current_buf()
+    local clients = vim.lsp.get_clients({ bufnr = bufnr })
+
+    if #clients == 0 then
+        vim.notify("No active LSP clients found to populate.", vim.log.levels.WARN)
+        return
+    end
+
+    for _, client in ipairs(clients) do
+        -- Notify which client is being indexed
+        vim.notify("Populating workspace diagnostics for: " .. client.name, vim.log.levels.INFO)
+        -- Call the populate function from your workspace-diagnostics module
+        workspace_diagnostics.populate(client, bufnr)
+    end
+
+    vim.notify("Workspace diagnostic population complete.", vim.log.levels.INFO)
+end, { desc = "Populate diagnostics for all active LSPs in the workspace" })
+
 local map = function(mode, lhs, rhs, bufnr)
 	if bufnr then
 		vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })

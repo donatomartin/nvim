@@ -431,9 +431,19 @@ local sonarlint_rules = {
 	["tssecurity:S6096"] = { level = "on" },
 }
 
+vim.api.nvim_create_user_command("SonarStart", function()
+    -- 1. Load the plugin code
+    require("lazy").load({ plugins = { "sonarlint.nvim" } })
+    -- 2. Manually trigger the FileType logic for the current buffer
+    -- This "tricks" the plugin's autocmd into firing right now
+    vim.cmd("set filetype=" .. vim.bo.filetype)
+    vim.notify("SonarLint loaded and attached!")
+end, {})
+
 return {
 	{
 		"https://gitlab.com/schrieveslaach/sonarlint.nvim",
+    lazy = true,
 		config = function()
 			require("sonarlint").setup({
 				server = {

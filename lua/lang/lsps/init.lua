@@ -56,30 +56,24 @@ function M.getLspMap()
       config = "ltex_plus",
     },
     ["nixd"] = {
-      stepSkipped = "mason",
+      config = "nixd",
     },
     ["sonarlint"] = {
-      stepSkipped = "config",
       package = "sonarlint-language-server",
     }
   }
 end
 
-local function processMapByType(type)
+local function processMapByType(property)
   local t = {}
   for _, value in pairs(M.getLspMap()) do
 
-    local element = value.config
-    if (type == "mason") then
-      element = value.package
-    end
+    local element = value[property]
 
-    if not value.stepSkipped == type or not value.stepSkipped == "both" then
-      t[#t + 1] = element
-    end
+    t[#t + 1] = element
 
-    return t
   end
+  return t
 end
 
 function M.getLsps()
@@ -87,7 +81,7 @@ function M.getLsps()
 end
 
 function M.getMasonLsps()
-  return processMapByType("mason")
+  return processMapByType("package")
 end
 
 return M

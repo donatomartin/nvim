@@ -38,6 +38,8 @@ Dependencies known:
 - unzip - used to unzip nvim-java language server providers
 - npm - used to run pyright lsp
 - go - used for gopls lsp
+- make - used to build telescope fzf-native
+- cargo - used to build blink.cmp
 
 Also a Nerd Font is recomended for the web icons.
 

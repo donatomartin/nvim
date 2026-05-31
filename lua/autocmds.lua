@@ -33,3 +33,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = "*",
 	callback = create_directory_if_needed
 })
+

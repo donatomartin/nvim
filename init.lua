@@ -2,22 +2,36 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
--- bootstrap lazy and all plugins
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- Custom Configurations
+require "options"
+require "autocmds"
+require "mappings"
+require "commands"
 
-if not vim.uv.fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
-end
+-- Lsp Configurations
+require "lang".start()
 
-vim.opt.rtp:prepend(lazypath)
-
--- load plugins
-require("lazy").setup({
-  { import = "plugins" },
+-- Zero Config Plugins
+vim.pack.add({
+  "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/nvim-lua/plenary.nvim",
+  "https://github.com/tpope/vim-surround",
+  "https://github.com/nanotee/zoxide.vim",
+  "https://github.com/tpope/vim-fugitive",
+  "https://github.com/let-def/texpresso.vim",
 })
 
-require("options")
-require("autocmds")
-require("mappings")
-require("commands")
+-- Plugin Configurations
+require "plugins/tmux"
+require "plugins/neotree"
+require "plugins/mason"
+require "plugins/telescope"
+require "plugins/catppuccin"
+require "plugins/autopairs"
+require "plugins/blink"
+require "plugins/gitsigns"
+require "plugins/harpoon"
+require "plugins/flash"
+require "plugins/sonarlint"
+require "plugins/jdtls"
+

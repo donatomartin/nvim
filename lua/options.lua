@@ -1,3 +1,6 @@
+-- Define leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 -- UI
 vim.wo.number = true
@@ -5,7 +8,14 @@ vim.wo.relativenumber = true
 vim.o.undofile = true
 vim.o.termguicolors = true
 vim.o.cursorline = true
-vim.o.winbar = "%=%t %m%="
+vim.o.winborder = 'rounded'
+
+-- LSP
+vim.diagnostic.config({
+  virtual_text = true,
+  update_in_insert = false,
+  severity_sort = true,
+})
 
 -- Editing
 vim.o.expandtab = true
@@ -45,7 +55,7 @@ end
 
 local is_wsl = vim.fn.has("wsl") == 1
 if is_wsl then
-  local win32yank = "/mnt/c/Windows/System32/win32yank.exe"
+  local win32yank = "win32yank.exe"
   if vim.fn.executable(win32yank) == 1 then
     vim.g.clipboard = {
       name = "win32yank (WSL)",
@@ -61,5 +71,3 @@ if is_wsl then
     }
   end
 end
-
-vim.cmd.colorscheme "catppuccin-nvim"

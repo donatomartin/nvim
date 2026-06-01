@@ -8,7 +8,13 @@ local ensure_installed = {
 }
 vim.list_extend(ensure_installed, require("lang").getMasonLsps())
 
-require "mason".setup()
+local masonOpts = {
+  registries = {
+    "github:nvim-java/mason-registry",
+    "github:mason-org/mason-registry",
+  }
+}
+require "mason".setup(masonOpts)
 require "mason-tool-installer".setup({
   ensure_installed = ensure_installed
 })

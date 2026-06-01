@@ -8,9 +8,6 @@ require "autocmds"
 require "mappings"
 require "commands"
 
--- Lsp Configurations
-require "lang".start()
-
 -- Zero Config Plugins
 vim.pack.add({
   "https://github.com/neovim/nvim-lspconfig",
@@ -18,6 +15,7 @@ vim.pack.add({
   "https://github.com/tpope/vim-surround",
   "https://github.com/nanotee/zoxide.vim",
   "https://github.com/tpope/vim-fugitive",
+  'https://github.com/nvim-tree/nvim-web-devicons',
   "https://github.com/let-def/texpresso.vim",
 })
 
@@ -34,4 +32,10 @@ require "plugins/harpoon"
 require "plugins/flash"
 require "plugins/sonarlint"
 require "plugins/jdtls"
+require "plugins/whichkey"
+require "plugins/lualine"
+require "plugins/ibl"
+
+-- Lsp Configurations
+require "lang".start()
 

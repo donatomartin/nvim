@@ -29,12 +29,30 @@ local utils = require "utils"
 
 utils.enableMappings(
   {
-    { "<leader>gdd", "<cmd>Gitsigns diffthis<cr>" },
-    { "<leader>gdD", "<cmd>Gitsigns diffthis HEAD<cr>" },
-    { "<leader>gds", "<cmd>Gitsigns diffthis --staged<cr>" },
+    { "<leader>gdd", function()
+      vim.cmd("Gitsigns diffthis")
+      vim.cmd("wincmd h");
+    end },
+    { "<leader>gdh", function()
+      vim.cmd("Gitsigns diffthis HEAD")
+      vim.cmd("wincmd h");
+    end },
+    { "<leader>gds", function()
+      vim.cmd("Gitsigns diffthis --staged")
+      vim.cmd("wincmd h");
+    end },
+    { "<leader>gdc", function()
+      local commit = vim.fn.input("Commit/ref: ")
+      if commit == nil or commit == "" then
+        return
+      end
+      vim.cmd("Gitsigns diffthis " .. commit .. " HEAD")
+      vim.defer_fn(function() vim.cmd("wincmd h") end, 50)
+    end },
     { "<leader>ghd", "<cmd>Gitsigns preview_hunk_inline<cr>" },
     { "<leader>ghp", "<cmd>Gitsigns preview_hunk_inline<cr>" },
     { "<leader>ghs", "<cmd>Gitsigns stage_hunk<cr>" },
+    { "<leader>ghv", "<cmd>Gitsigns select_hunk<cr>" },
     { "<leader>ghr", "<cmd>Gitsigns reset_hunk<cr>" },
     { "<leader>ghn", "<cmd>Gitsigns next_hunk<cr>" },
     { "<leader>ghN", "<cmd>Gitsigns prev_hunk<cr>" },

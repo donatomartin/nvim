@@ -65,5 +65,30 @@ vim.api.nvim_create_autocmd("FileType", {
         bundles = {},
       },
     })
+
+    require "lang".on_attach()
+    vim.keymap.set("n", "<leader>co", function()
+      require("jdtls").organize_imports()
+    end, { desc = "Organize Imports", buffer = true })
+
+    vim.keymap.set("n", "<leader>crv", function()
+      require("jdtls").extract_variable()
+    end, { desc = "Extract variable", buffer = true })
+
+    vim.keymap.set("v", "<leader>crv", function()
+      require("jdtls").extract_variable(true)
+    end, { desc = "Extract variable", buffer = true })
+
+    vim.keymap.set("n", "<leader>crc", function()
+      require("jdtls").extract_constant()
+    end, { desc = "Extract constant", buffer = true })
+
+    vim.keymap.set("v", "<leader>crc", function()
+      require("jdtls").extract_constant(true)
+    end, { desc = "Extract constant", buffer = true })
+
+    vim.keymap.set("v", "<leader>crm", function()
+      require("jdtls").extract_method(true)
+    end, { desc = "Extract method", buffer = true })
   end
 })

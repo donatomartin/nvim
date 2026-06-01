@@ -1,6 +1,5 @@
 vim.pack.add({
   "https://github.com/MunifTanjim/nui.nvim",
-  "https://github.com/nvim-tree/nvim-web-devicons",
   "https://github.com/antosha417/nvim-lsp-file-operations",
   "https://github.com/nvim-neo-tree/neo-tree.nvim",
 })

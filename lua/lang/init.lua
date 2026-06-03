@@ -114,6 +114,13 @@ function M.on_attach(_, bufnr)
   map("n", "<leader>cw", vim.lsp.buf.workspace_diagnostics, bufnr)
   map("n", "<leader>cl", vim.diagnostic.setloclist, bufnr)
   map("n", "<leader>lf", vim.lsp.buf.format, bufnr)
+  map("n", "<leader>cn", function ()
+    vim.diagnostic.jump({count = 1})
+  end , bufnr)
+  map("n", "<leader>cp", function ()
+    vim.diagnostic.jump({count = -1})
+  end , bufnr)
+
 end
 
 function M.start()

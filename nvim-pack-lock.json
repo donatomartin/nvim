@@ -45,6 +45,10 @@
       "rev": "b83de592f2a8bdd749a00668a8253878cd801f15",
       "src": "https://github.com/nvim-neo-tree/neo-tree.nvim"
     },
+    "neotab.nvim": {
+      "rev": "e99d3e28c5a2066d2d368dfe4ef3827c8d75d337",
+      "src": "https://github.com/kawre/neotab.nvim"
+    },
     "nui.nvim": {
       "rev": "de740991c12411b663994b2860f1a4fd0937c130",
       "src": "https://github.com/MunifTanjim/nui.nvim"

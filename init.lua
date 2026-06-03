@@ -36,6 +36,7 @@ require "plugins/whichkey"
 require "plugins/lualine"
 require "plugins/ibl"
 require "plugins/lint"
+require "plugins/neotab"
 
 -- Lsp Configurations
 require "lang".start()

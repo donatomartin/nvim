@@ -35,6 +35,7 @@ require "plugins/jdtls"
 require "plugins/whichkey"
 require "plugins/lualine"
 require "plugins/ibl"
+require "plugins/lint"
 
 -- Lsp Configurations
 require "lang".start()

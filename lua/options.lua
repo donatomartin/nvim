@@ -12,6 +12,7 @@ vim.o.winborder = 'rounded'
 
 -- LSP
 vim.diagnostic.config({
+  signs = false,
   virtual_text = true,
   update_in_insert = false,
   severity_sort = true,

@@ -8,6 +8,7 @@ function M.config(on_attach)
 
   require("lang.lspconfigs.lua")
   require("lang.lspconfigs.latex")
+  require("lang.lspconfigs.bash")
 
   vim.lsp.enable(M.getLsps())
 end
@@ -47,6 +48,13 @@ function M.getLspMap()
       package = "jdtls",
       dependencies = { "java" },
     },
+    ["sonarlint"] = {
+      package = "sonarlint-language-server",
+    },
+    ["bash"] = {
+      package = { "bash-language-server" },
+      config = { "bashls" },
+    },
     ["ltex_plus"] = {
       package = "ltex-ls-plus",
       config = "ltex_plus",
@@ -54,9 +62,6 @@ function M.getLspMap()
     ["nixd"] = {
       config = "nixd",
     },
-    ["sonarlint"] = {
-      package = "sonarlint-language-server",
-    }
   }
 end
 
@@ -65,7 +70,14 @@ local function processMapByType(property)
   for _, value in pairs(M.getLspMap()) do
     local element = value[property]
 
-    t[#t + 1] = element
+    -- in case the element is an array
+    if type(element) == "table" then
+      for _, innerValue in pairs(element) do
+        t[#t + 1] = innerValue
+      end
+    else
+      t[#t + 1] = element
+    end
   end
   return t
 end

@@ -5,11 +5,11 @@
       "src": "https://github.com/RyanMillerC/better-vim-tmux-resizer"
     },
     "blink.cmp": {
-      "rev": "5ee69ea52492fa038b3a1cd8de55edffe205c77d",
+      "rev": "43cb60895ee109161ae5cffa26444018cc07e570",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "blink.lib": {
-      "rev": "2cb62890cee636fe46722d03b7b2331e54fb3755",
+      "rev": "c09dd66e9ad97e1a7777f3fa5f0504ca2e877231",
       "src": "https://github.com/saghen/blink.lib"
     },
     "flash.nvim": {
@@ -61,12 +61,16 @@
       "rev": "6e9d953f0b82bccdb834cfde0e893f3119c22592",
       "src": "https://github.com/mfussenegger/nvim-jdtls"
     },
+    "nvim-lint": {
+      "rev": "d48f3a76189d03b2239f6df1b2f7e3fa8353743b",
+      "src": "https://github.com/mfussenegger/nvim-lint"
+    },
     "nvim-lsp-file-operations": {
       "rev": "b9c795d3973e8eec22706af14959bc60c579e771",
       "src": "https://github.com/antosha417/nvim-lsp-file-operations"
     },
     "nvim-lspconfig": {
-      "rev": "9573948c38bfabeec353ae7dd7d3ffec4c506a6b",
+      "rev": "07dff35e7c95288861200b788ef32d6103f107f0",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-web-devicons": {

@@ -4,4 +4,16 @@ vim.pack.add({
 
 local cmp = require('blink.cmp')
 cmp.build():pwait()
-cmp.setup()
+cmp.setup({
+  snippets = {
+    preset = "luasnip"
+  },
+  sources = {
+    default = {
+      "lsp",
+      "snippets",
+      "path",
+      "buffer"
+    }
+  }
+})

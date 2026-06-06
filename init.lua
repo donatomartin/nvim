@@ -37,6 +37,7 @@ require "plugins/lualine"
 require "plugins/ibl"
 require "plugins/lint"
 require "plugins/neotab"
+require "plugins/luasnip"
 
 -- Lsp Configurations
 require "lang".start()

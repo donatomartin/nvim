@@ -7,6 +7,12 @@ local snacks = require "snacks"
 
 ---@type snacks.Config
 snacks.setup({
+  terminal = {
+    win = {
+      position = "float",
+      border = "left"
+    }
+  },
   scroll = {
     enabled = true,
   },
@@ -27,6 +33,11 @@ snacks.setup({
   },
   picker = {
     enabled = true, -- Enhances `select()`
+    sources = {
+      help = {
+        confirm =  {"vsplit"},
+      },
+    },
     actions = {
       ---@param picker snacks.Picker
       opencode_send = function(picker)
@@ -43,8 +54,8 @@ snacks.setup({
       input = {
         keys = {
           ["<a-a>"] = { "opencode_send", mode = { "n", "i" } },
-          ["<c-k>"] = { "preview_scroll_up", mode = {"n", "i"} },
-          ["<c-j>"] = { "preview_scroll_down", mode = {"n", "i"} },
+          ["<c-k>"] = { "preview_scroll_up", mode = { "n", "i" } },
+          ["<c-j>"] = { "preview_scroll_down", mode = { "n", "i" } },
         },
       },
     },
@@ -82,6 +93,8 @@ utils.enableMappings({
   { '<leader>s/',      function() Snacks.picker.search_history() end,                          desc = "Search History" },
   { "<leader>sa",      function() Snacks.picker.autocmds() end,                                desc = "Autocmds" },
   { "<leader>sb",      function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
+  { "<leader>sw",      function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word",   mode = { "n", "x" } },
+  { "<leader>sB",      function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
   { "<leader>sc",      function() Snacks.picker.command_history() end,                         desc = "Command History" },
   { "<leader>sC",      function() Snacks.picker.commands() end,                                desc = "Commands" },
   { "<leader>sd",      function() Snacks.picker.diagnostics() end,                             desc = "Diagnostics" },
@@ -107,6 +120,5 @@ utils.enableMappings({
   { "gao",             function() Snacks.picker.lsp_outgoing_calls() end,                      desc = "C[a]lls Outgoing" },
   { "<leader>ss",      function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
   { "<leader>sS",      function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
-  --
-  { "<M-i>",           function() Snacks.terminal.toggle() end,                                desc = "Toggle Floating Terminal" },
+  { "<M-i>",           function() Snacks.terminal.toggle() end,                           desc = "Toggle Floating Terminal",   mode = { "n", "t", "i" } },
 })

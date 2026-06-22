@@ -20,8 +20,8 @@ vim.pack.add({
 })
 
 -- Plugin Configurations
+require "plugins/oil"
 require "plugins/tmux"
-require "plugins/neotree"
 require "plugins/mason"
 require "plugins/telescope"
 require "plugins/catppuccin"

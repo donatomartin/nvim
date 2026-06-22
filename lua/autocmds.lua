@@ -16,21 +16,42 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
--- Create missing directories
-local function create_directory_if_needed()
-	local file_path = vim.fn.expand("%:p")
-	local dir_path = vim.fn.fnamemodify(file_path, ":h")
+-- Create missing directories for real file buffers only
+local function create_directory_if_needed(event)
+  local buf = event.buf
 
-	if not vim.loop.fs_stat(dir_path) then
-		os.execute("mkdir -p " .. dir_path)
-	end
+  -- Skip Oil, terminals, help, quickfix, plugin buffers, etc.
+  if vim.bo[buf].buftype ~= "" then
+    return
+  end
+
+  if vim.bo[buf].filetype == "oil" then
+    return
+  end
+
+  local file_path = event.match
+
+  -- Skip URI-like buffers: oil://, fugitive://, term://, etc.
+  if file_path:match("^%a[%w+.-]*:") then
+    return
+  end
+
+  local dir_path = vim.fn.fnamemodify(file_path, ":p:h")
+
+  if dir_path == "" or dir_path == "." then
+    return
+  end
+
+  if not vim.uv.fs_stat(dir_path) then
+    vim.fn.mkdir(dir_path, "p")
+  end
 end
 
-local autoCreateDirs = vim.api.nvim_create_augroup("AutoCreateDirs", {})
+local autoCreateDirs = vim.api.nvim_create_augroup("AutoCreateDirs", { clear = true })
+
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = autoCreateDirs,
   desc = "create intermediate directories",
-	pattern = "*",
-	callback = create_directory_if_needed
+  pattern = "*",
+  callback = create_directory_if_needed,
 })
-

@@ -2,40 +2,16 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
--- Custom Configurations
+-- Custom Options
 require "options"
+-- Custom AutoCmds
 require "autocmds"
+-- Custom Mappings
 require "mappings"
+-- Custom Commands
 require "commands"
-
--- Zero Config Plugins
-vim.pack.add({
-  "https://github.com/neovim/nvim-lspconfig",
-  "https://github.com/nvim-lua/plenary.nvim",
-  "https://github.com/tpope/vim-surround",
-  "https://github.com/nanotee/zoxide.vim",
-  "https://github.com/nvim-tree/nvim-web-devicons",
-})
-
--- Plugin Configurations
-require "plugins/oil"
-require "plugins/tmux"
-require "plugins/mason"
-require "plugins/catppuccin"
-require "plugins/autopairs"
-require "plugins/gitsigns"
-require "plugins/harpoon"
-require "plugins/sonarlint"
-require "plugins/jdtls"
-require "plugins/whichkey"
-require "plugins/lualine"
-require "plugins/lint"
-require "plugins/neotab"
-require "plugins/opencode"
-require "plugins/texpresso"
-require "plugins/snacks"
-require "plugins/cmp"
-
--- Lsp Configurations
+-- Plugin Declarations
+require "plugins"
+-- Custom Language Utils
 require "lang".start()
 

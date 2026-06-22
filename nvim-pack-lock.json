@@ -65,6 +65,10 @@
       "rev": "16ba83bfc8a25f52bb545134f5bee082b195c460",
       "src": "https://github.com/williamboman/mason.nvim"
     },
+    "neominimap.nvim": {
+      "rev": "0676085d898019f06044923934e38663f5efa290",
+      "src": "https://github.com/Isrothy/neominimap.nvim"
+    },
     "neotab.nvim": {
       "rev": "e99d3e28c5a2066d2d368dfe4ef3827c8d75d337",
       "src": "https://github.com/kawre/neotab.nvim"

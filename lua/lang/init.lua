@@ -34,6 +34,10 @@ function M.getLspMap()
       config = "html",
       dependencies = { "node" },
     },
+    ["emmet-language-server"] = {
+      package = "emmet-language-server",
+      config = "emmet_language_server",
+    },
     ["cssls"] = {
       package = "css-lsp",
       config = "cssls",

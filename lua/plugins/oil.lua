@@ -14,9 +14,12 @@ require("oil").setup({
       return name == '..' or name == '.git'
     end,
   },
+  keymaps = {
+    ["<esc>"] = { "actions.close", mode = "n" },
+  },
   win_options = {
     wrap = true,
-  }
+  },
 })
 
 vim.keymap.set("n", "<leader>oo", require("oil").toggle_float)

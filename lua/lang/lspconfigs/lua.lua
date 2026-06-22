@@ -6,7 +6,7 @@ vim.lsp.config["lua_ls"] = {
         version = "LuaJIT", -- Neovim uses LuaJIT
       },
       diagnostics = {
-        globals = { "vim" }, -- avoid "undefined global vim"
+        globals = { "vim", "hl" }, -- avoid "undefined global"
       },
       workspace = {
         library = vim.api.nvim_get_runtime_file("", true),

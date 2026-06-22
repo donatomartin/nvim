@@ -38,6 +38,8 @@ require "plugins/ibl"
 require "plugins/lint"
 require "plugins/neotab"
 require "plugins/luasnip"
+require "plugins/opencode"
+require "plugins/snacks"
 
 -- Lsp Configurations
 require "lang".start()

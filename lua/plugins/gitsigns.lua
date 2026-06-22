@@ -49,6 +49,7 @@ utils.enableMappings(
       vim.cmd("Gitsigns diffthis " .. commit .. " HEAD")
       vim.defer_fn(function() vim.cmd("wincmd h") end, 50)
     end },
+    { "<leader>ghs", function() require "gitsigns".stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, mode = "v"},
     { "<leader>ghd", "<cmd>Gitsigns preview_hunk_inline<cr>" },
     { "<leader>ghp", "<cmd>Gitsigns preview_hunk_inline<cr>" },
     { "<leader>ghs", "<cmd>Gitsigns stage_hunk<cr>" },
@@ -58,5 +59,6 @@ utils.enableMappings(
     { "<leader>ghN", "<cmd>Gitsigns prev_hunk<cr>" },
     { "<leader>glb", "<cmd>Gitsigns blame_line<cr>" },
     { "<leader>gbr", "<cmd>Gitsigns reset_buffer<cr>" },
+    { "<leader>gbs", "<cmd>Gitsigns stage_buffer<cr>" },
   }
 )

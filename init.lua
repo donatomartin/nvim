@@ -14,7 +14,6 @@ vim.pack.add({
   "https://github.com/nvim-lua/plenary.nvim",
   "https://github.com/tpope/vim-surround",
   "https://github.com/nanotee/zoxide.vim",
-  "https://github.com/tpope/vim-fugitive",
   "https://github.com/nvim-tree/nvim-web-devicons",
 })
 
@@ -22,17 +21,14 @@ vim.pack.add({
 require "plugins/oil"
 require "plugins/tmux"
 require "plugins/mason"
-require "plugins/telescope"
 require "plugins/catppuccin"
 require "plugins/autopairs"
 require "plugins/gitsigns"
 require "plugins/harpoon"
-require "plugins/flash"
 require "plugins/sonarlint"
 require "plugins/jdtls"
 require "plugins/whichkey"
 require "plugins/lualine"
-require "plugins/ibl"
 require "plugins/lint"
 require "plugins/neotab"
 require "plugins/opencode"

@@ -1,5 +1,7 @@
 local map = vim.keymap.set
 
+map("n", "j", "gj")
+map("n", "k", "gk")
 map({"n","v"}, "<leader>yy", ":%y+<cr>", { desc = "Yank file to system clipboard" })
 map({"n","v"}, "<C-c>", ":%y+<cr>", { desc = "Yank file to system clipboard" })
 map("n", ";", ":lua ")

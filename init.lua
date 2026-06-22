@@ -15,7 +15,7 @@ vim.pack.add({
   "https://github.com/tpope/vim-surround",
   "https://github.com/nanotee/zoxide.vim",
   "https://github.com/tpope/vim-fugitive",
-  'https://github.com/nvim-tree/nvim-web-devicons',
+  "https://github.com/nvim-tree/nvim-web-devicons",
   "https://github.com/let-def/texpresso.vim",
 })
 
@@ -39,6 +39,7 @@ require "plugins/lint"
 require "plugins/neotab"
 require "plugins/luasnip"
 require "plugins/opencode"
+require "plugins/texpresso"
 require "plugins/snacks"
 
 -- Lsp Configurations

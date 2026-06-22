@@ -16,7 +16,6 @@ vim.pack.add({
   "https://github.com/nanotee/zoxide.vim",
   "https://github.com/tpope/vim-fugitive",
   "https://github.com/nvim-tree/nvim-web-devicons",
-  "https://github.com/let-def/texpresso.vim",
 })
 
 -- Plugin Configurations

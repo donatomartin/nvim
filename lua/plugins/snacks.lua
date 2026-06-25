@@ -7,6 +7,9 @@ local snacks = require "snacks"
 
 ---@type snacks.Config
 snacks.setup({
+  input = {
+    enabled = true,
+  },
   terminal = {
     win = {
       position = "float",
@@ -14,27 +17,32 @@ snacks.setup({
     }
   },
   scroll = {
-    enabled = true,
-  },
-  indent = {
-    enabled = true,
     animate = {
-      enabled = true,
-      style = "out", -- Options: "out", "up_down", "down", "up"
+      duration = 8, -- ms per step
+      easing = "outQuad",
+      fps = 60,    -- frames per second. Global setting for all animations
     },
   },
-  animate = {
-    duration = 20, -- ms per step
-    easing = "linear",
-    fps = 120,     -- frames per second. Global setting for all animations
-  },
-  input = {
-    enabled = true, -- Enhances `ask()`
+  indent = {
+    scope = {
+      hl = "SnacksPickerIconField",
+    },
+    animate = {
+      enabled = true,
+      style = "out",
+      duration = 40,
+    },
   },
   picker = {
-    enabled = true, -- Enhances `select()`
+    prompt = "  ",
     layout = {
       preset = "default",
+    },
+    matcher = {
+      frecency = true,
+      history_bonus = true,
+    },
+    previewers = {
     },
     sources = {
       help = {
@@ -57,8 +65,8 @@ snacks.setup({
       input = {
         keys = {
           ["<a-a>"] = { "opencode_send", mode = { "n", "i" } },
-          ["<c-k>"] = { "preview_scroll_up", mode = { "n", "i" } },
-          ["<c-j>"] = { "preview_scroll_down", mode = { "n", "i" } },
+          ["<c-u>"] = { "preview_scroll_up", mode = { "n", "i" } },
+          ["<c-d>"] = { "preview_scroll_down", mode = { "n", "i" } },
         },
       },
     },
@@ -114,13 +122,13 @@ utils.enableMappings({
   { "<leader>su",      function() Snacks.picker.undo() end,                                    desc = "Undo History" },
   { "<leader>uC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
   -- picker LSP
-  { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
-  { "gD",              function() Snacks.picker.lsp_declarations() end,                        desc = "Goto Declaration" },
-  { "gr",              function() Snacks.picker.lsp_references() end,                          nowait = true,                       desc = "References" },
-  { "gi",              function() Snacks.picker.lsp_implementations() end,                     desc = "Goto Implementation" },
-  { "gy",              function() Snacks.picker.lsp_type_definitions() end,                    desc = "Goto T[y]pe Definition" },
-  { "gai",             function() Snacks.picker.lsp_incoming_calls() end,                      desc = "C[a]lls Incoming" },
-  { "gao",             function() Snacks.picker.lsp_outgoing_calls() end,                      desc = "C[a]lls Outgoing" },
+  -- { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
+  -- { "gD",              function() Snacks.picker.lsp_declarations() end,                        desc = "Goto Declaration" },
+  -- { "gr",              function() Snacks.picker.lsp_references() end,                          nowait = true,                       desc = "References" },
+  -- { "gi",              function() Snacks.picker.lsp_implementations() end,                     desc = "Goto Implementation" },
+  -- { "gy",              function() Snacks.picker.lsp_type_definitions() end,                    desc = "Goto T[y]pe Definition" },
+  -- { "gai",             function() Snacks.picker.lsp_incoming_calls() end,                      desc = "C[a]lls Incoming" },
+  -- { "gao",             function() Snacks.picker.lsp_outgoing_calls() end,                      desc = "C[a]lls Outgoing" },
   { "<leader>ss",      function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
   { "<leader>sS",      function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
   { "<M-i>",           function() Snacks.terminal.toggle() end,                                desc = "Toggle Floating Terminal",   mode = { "n", "t", "i" } },

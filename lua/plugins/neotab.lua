@@ -2,7 +2,9 @@ vim.pack.add({
   "https://github.com/kawre/neotab.nvim"
 })
 
-local opts = {
+local neotab = require("neotab")
+
+neotab.setup({
   tabkey = "<Tab>",
   reverse_key = "<S-Tab>",
   act_as_tab = true,
@@ -28,6 +30,4 @@ local opts = {
       triggers = {},
     },
   },
-}
-
-require "neotab".setup(opts)
+})

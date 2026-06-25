@@ -8,7 +8,6 @@ vim.wo.relativenumber = true
 vim.o.undofile = true
 vim.o.termguicolors = true
 vim.o.cursorline = true
-vim.o.winborder = 'rounded'
 
 -- LSP
 vim.diagnostic.config({
@@ -34,7 +33,6 @@ vim.o.smartcase = true
 vim.o.mouse = "a"
 vim.o.splitright = true
 vim.o.splitbelow = true
-vim.o.pumheight = 10
 
 vim.opt.clipboard = { "unnamed", "unnamedplus" }
 

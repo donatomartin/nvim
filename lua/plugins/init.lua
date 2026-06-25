@@ -11,7 +11,7 @@ vim.pack.add({
   -- Icons
   "https://github.com/nvim-tree/nvim-web-devicons",
   -- Fugitive
- "https://github.com/tpope/vim-fugitive",
+  "https://github.com/tpope/vim-fugitive",
 })
 
 -- Plugin Configurations
@@ -26,11 +26,9 @@ require "plugins/sonarlint"
 require "plugins/jdtls"
 require "plugins/whichkey"
 require "plugins/lualine"
-require "plugins/lint"
 require "plugins/neotab"
 require "plugins/opencode"
 require "plugins/texpresso"
 require "plugins/snacks"
 require "plugins/cmp"
 require "plugins/minimap"
-

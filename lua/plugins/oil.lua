@@ -3,7 +3,10 @@ vim.pack.add({
   "https://github.com/stevearc/oil.nvim",
 })
 
-require("oil").setup({
+local utils = require("utils")
+local oil = require("oil")
+
+oil.setup({
   default_file_explorer = true,
   delete_to_trash = true,
   skip_confirm_for_simple_edits = true,
@@ -18,8 +21,15 @@ require("oil").setup({
     ["<esc>"] = { "actions.close", mode = "n" },
   },
   win_options = {
-    wrap = true,
+    wrap = false,
+    signcolumn = "yes",
+    cursorcolumn = true,
   },
+  float = {
+    border = "rounded",
+  }
 })
 
-vim.keymap.set("n", "<leader>oo", require("oil").toggle_float)
+utils.enableMappings({
+  { "<leader>oo", oil.toggle_float, desc = "Oil Toggle Float" }
+})

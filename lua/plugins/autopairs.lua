@@ -4,13 +4,14 @@ vim.pack.add({
 
 local opts = {
   fast_wrap = {},
-  disable_filetype = { "TelescopePrompt", "vim" },
+  disable_filetype = { "vim", "snacks_picker_input" },
 }
 
-require("nvim-autopairs").setup(opts)
+local autopairs = require("nvim-autopairs")
 
-local npairs = require("nvim-autopairs")
+autopairs.setup(opts)
+
 local rule = require("nvim-autopairs.rule")
 local cond = require("nvim-autopairs.conds")
 
-npairs.add_rules({ rule("<", ">", { "java" }):with_move(cond.after_regex("<")) })
+autopairs.add_rules({ rule("<", ">", { "java" }):with_move(cond.after_regex("<")) })

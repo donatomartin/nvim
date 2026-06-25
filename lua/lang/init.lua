@@ -50,7 +50,7 @@ function M.getLspMap()
       dependencies = { "node" },
     },
     ["jdtls"] = {
-      package = "jdtls",
+      package = { "jdtls", "lombok-nightly" },
       dependencies = { "java" },
     },
     ["sonarlint"] = {
@@ -92,7 +92,7 @@ function M.getLsps()
   return processMapByType("config")
 end
 
-function M.getMasonLsps()
+function M.getMasonPackages()
   return processMapByType("package")
 end
 
@@ -105,13 +105,13 @@ local map = function(mode, lhs, rhs, bufnr)
 end
 
 function M.on_attach(_, bufnr)
-  -- map("n", "gt", vim.lsp.buf.type_definition, bufnr)
-  -- map("n", "gd", vim.lsp.buf.definition, bufnr)
-  -- map("n", "gD", vim.lsp.buf.declaration, bufnr)
-  -- map("n", "gi", vim.lsp.buf.implementation, bufnr)
-  -- map("n", "gr", vim.lsp.buf.references, bufnr)
-  -- map("n", "gci", vim.lsp.buf.incoming_calls, bufnr)
-  -- map("n", "gco", vim.lsp.buf.outgoing_calls, bufnr)
+  map("n", "gt", vim.lsp.buf.type_definition, bufnr)
+  map("n", "gd", vim.lsp.buf.definition, bufnr)
+  map("n", "gD", vim.lsp.buf.declaration, bufnr)
+  map("n", "gi", vim.lsp.buf.implementation, bufnr)
+  map("n", "gr", vim.lsp.buf.references, bufnr)
+  map("n", "gci", vim.lsp.buf.incoming_calls, bufnr)
+  map("n", "gco", vim.lsp.buf.outgoing_calls, bufnr)
 
   map("n", "K", vim.lsp.buf.hover, bufnr)
   map("n", "<leader>rn", vim.lsp.buf.rename, bufnr)
@@ -120,13 +120,12 @@ function M.on_attach(_, bufnr)
   map("n", "<leader>cw", vim.lsp.buf.workspace_diagnostics, bufnr)
   map("n", "<leader>cl", vim.diagnostic.setloclist, bufnr)
   map("n", "<leader>lf", vim.lsp.buf.format, bufnr)
-  map("n", "<leader>cn", function ()
-    vim.diagnostic.jump({count = 1})
-  end , bufnr)
-  map("n", "<leader>cp", function ()
-    vim.diagnostic.jump({count = -1})
-  end , bufnr)
-
+  map("n", "<leader>cn", function()
+    vim.diagnostic.jump({ count = 1 })
+  end, bufnr)
+  map("n", "<leader>cp", function()
+    vim.diagnostic.jump({ count = -1 })
+  end, bufnr)
 end
 
 function M.start()

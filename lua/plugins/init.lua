@@ -10,6 +10,8 @@ vim.pack.add({
   "https://github.com/nanotee/zoxide.vim",
   -- Icons
   "https://github.com/nvim-tree/nvim-web-devicons",
+  -- Fugitive
+ "https://github.com/tpope/vim-fugitive",
 })
 
 -- Plugin Configurations

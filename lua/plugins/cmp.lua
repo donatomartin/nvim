@@ -37,6 +37,7 @@ local kind_icons = {
   TypeParameter = '󰬛',
 }
 
+local utils = require("utils")
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
@@ -72,8 +73,8 @@ cmp.setup({
   window = {
     completion = {
       max_height = 10,
-      scrollbar = false;
-      col_offset = 1;
+      scrollbar = false,
+      col_offset = 1,
     },
     documentation = {
       scrollbar = false,
@@ -91,11 +92,11 @@ cmp.setup({
     format = function(entry, item)
       item.kind = kind_icons[item.kind] or ""
       item.menu = ({
-      nvim_lsp = "[LSP]",
-      luasnip = "[Snip]",
-      buffer = "[Buf]",
-      path = "[Path]",
-    })[entry.source.name]
+        nvim_lsp = "[LSP]",
+        luasnip = "[Snip]",
+        buffer = "[Buf]",
+        path = "[Path]",
+      })[entry.source.name]
       return item
     end,
   },
@@ -146,14 +147,7 @@ cmp.setup({
   }),
 })
 
-vim.keymap.set({ "i", "s" }, "<C-j>", function()
-  if luasnip.choice_active() then
-    luasnip.change_choice(1)
-  end
-end, { desc = "LuaSnip next choice" })
-
-vim.keymap.set({ "i", "s" }, "<C-k>", function()
-  if luasnip.choice_active() then
-    luasnip.change_choice(-1)
-  end
-end, { desc = "LuaSnip previous choice" })
+utils.enableMappings({
+  { "<C-j>", function() if luasnip.choice_active() then luasnip.change_choice(1) end end,  mode = { "i", "s" }, desc = "LuaSnip Next Choice" },
+  { "<C-k>", function() if luasnip.choice_active() then luasnip.change_choice(-1) end end, mode = { "i", "s" }, desc = "LuaSnip Previous Choice" },
+})

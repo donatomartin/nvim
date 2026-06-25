@@ -1,9 +1,24 @@
-vim.lsp.config["lua_ls"] = {
-  root_markers = { ".luarc.json", ".luarc.jsonc" },
+local root_files = {
+  '.luarc.json',
+  '.luarc.jsonc',
+  '.luacheckrc',
+  '.stylua.toml',
+  'stylua.toml',
+  'selene.toml',
+  'selene.yml',
+  '.git',
+}
+
+vim.lsp.config["my_lua_ls"] = {
+  root_markers = root_files,
+  filetypes = { "lua" },
+  cmd = { "lua-language-server" },
+  single_file_support = true,
+  log_level = vim.lsp.protocol.MessageType.Warning,
   settings = {
     Lua = {
       runtime = {
-        version = "LuaJIT", -- Neovim uses LuaJIT
+        ersion = "LuaJIT", -- Neovim uses LuaJIT
       },
       diagnostics = {
         globals = { "vim", "hl" }, -- avoid "undefined global"

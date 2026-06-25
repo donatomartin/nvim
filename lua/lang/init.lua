@@ -9,6 +9,7 @@ function M.config(on_attach)
   require("lang.lspconfigs.lua")
   require("lang.lspconfigs.latex")
   require("lang.lspconfigs.bash")
+  require("lang.lspconfigs.nix")
 
   vim.lsp.enable(M.getLsps())
 end
@@ -17,7 +18,7 @@ function M.getLspMap()
   return {
     ["lua_ls"] = {
       package = "lua-language-server",
-      config = "lua_ls",
+      config = "my_lua_ls",
     },
     ["pyright"] = {
       package = "pyright",
@@ -64,7 +65,8 @@ function M.getLspMap()
       config = "ltex_plus",
     },
     ["nixd"] = {
-      config = "nixd",
+      -- no package as it should be installed from the nixpkgs
+      config = "my_nixd",
     },
   }
 end

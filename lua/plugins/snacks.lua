@@ -10,7 +10,7 @@ snacks.setup({
   terminal = {
     win = {
       position = "float",
-      border = "left"
+      border = "rounded",
     }
   },
   scroll = {
@@ -33,9 +33,12 @@ snacks.setup({
   },
   picker = {
     enabled = true, -- Enhances `select()`
+    layout = {
+      preset = "default",
+    },
     sources = {
       help = {
-        confirm =  {"vsplit"},
+        confirm = { "vsplit" },
       },
     },
     actions = {
@@ -67,7 +70,7 @@ utils.enableMappings({
   { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Smart Find Files" },
   { "<leader>fw",      function() Snacks.picker.grep() end,                                    desc = "Grep" },
   { "<leader>e",       function() Snacks.explorer() end,                                       desc = "File Explorer" },
-  -- find
+  -- picker find
   { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
   { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
   { "<leader>ff",      function() Snacks.picker.files() end,                                   desc = "Find Files" },
@@ -76,19 +79,19 @@ utils.enableMappings({
   { "<leader>fp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
   { "<leader>fo",      function() Snacks.picker.recent() end,                                  desc = "Recent" },
   { "<leader>fh",      function() Snacks.picker.help() end,                                    desc = "Help Pages" },
-  -- git
+  -- picker git
   { "<leader>gb",      function() Snacks.picker.git_branches() end,                            desc = "Git Branches" },
   { "<leader>gl",      function() Snacks.picker.git_log() end,                                 desc = "Git Log" },
   { "<leader>gL",      function() Snacks.picker.git_log_line() end,                            desc = "Git Log Line" },
   { "<leader>gs",      function() Snacks.picker.git_status() end,                              desc = "Git Status" },
   { "<leader>gS",      function() Snacks.picker.git_stash() end,                               desc = "Git Stash" },
   { "<leader>gf",      function() Snacks.picker.git_log_file() end,                            desc = "Git Log File" },
-  -- gh
+  -- picker gh
   { "<leader>gi",      function() Snacks.picker.gh_issue() end,                                desc = "GitHub Issues (open)" },
   { "<leader>gI",      function() Snacks.picker.gh_issue({ state = "all" }) end,               desc = "GitHub Issues (all)" },
   { "<leader>gp",      function() Snacks.picker.gh_pr() end,                                   desc = "GitHub Pull Requests (open)" },
   { "<leader>gP",      function() Snacks.picker.gh_pr({ state = "all" }) end,                  desc = "GitHub Pull Requests (all)" },
-  -- search
+  -- picker search
   { '<leader>s"',      function() Snacks.picker.registers() end,                               desc = "Registers" },
   { '<leader>s/',      function() Snacks.picker.search_history() end,                          desc = "Search History" },
   { "<leader>sa",      function() Snacks.picker.autocmds() end,                                desc = "Autocmds" },
@@ -110,7 +113,7 @@ utils.enableMappings({
   { "<leader>sR",      function() Snacks.picker.resume() end,                                  desc = "Resume" },
   { "<leader>su",      function() Snacks.picker.undo() end,                                    desc = "Undo History" },
   { "<leader>uC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
-  -- LSP
+  -- picker LSP
   { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
   { "gD",              function() Snacks.picker.lsp_declarations() end,                        desc = "Goto Declaration" },
   { "gr",              function() Snacks.picker.lsp_references() end,                          nowait = true,                       desc = "References" },
@@ -120,5 +123,10 @@ utils.enableMappings({
   { "gao",             function() Snacks.picker.lsp_outgoing_calls() end,                      desc = "C[a]lls Outgoing" },
   { "<leader>ss",      function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
   { "<leader>sS",      function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
-  { "<M-i>",           function() Snacks.terminal.toggle() end,                           desc = "Toggle Floating Terminal",   mode = { "n", "t", "i" } },
+  { "<M-i>",           function() Snacks.terminal.toggle() end,                                desc = "Toggle Floating Terminal",   mode = { "n", "t", "i" } },
+  -- git utilities
+  { "<leader>gof",     function() Snacks.gitbrowse() end,                                      desc = "Git Open File on Remote" },
+  -- scratches
+  { "<leader>.",       function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
+  { "<leader>,",       function() Snacks.scratch.select() end,                                 desc = "Select Scratch Buffer" },
 })

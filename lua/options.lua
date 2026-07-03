@@ -24,6 +24,7 @@ vim.o.tabstop = 2
 vim.o.smartindent = true
 vim.o.autoindent = true
 vim.o.wrap = false
+vim.o.linebreak = true
 
 -- Search
 vim.o.ignorecase = true

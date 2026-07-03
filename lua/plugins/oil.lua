@@ -18,7 +18,7 @@ oil.setup({
     end,
   },
   keymaps = {
-    ["<esc>"] = { "actions.close", mode = "n" },
+    ["q"] = { "actions.close", mode = "n" },
   },
   win_options = {
     wrap = false,

@@ -20,10 +20,11 @@ snacks.setup({
     animate = {
       duration = 8, -- ms per step
       easing = "outQuad",
-      fps = 60,    -- frames per second. Global setting for all animations
+      fps = 60,     -- frames per second. Global setting for all animations
     },
   },
   indent = {
+    enabled = false,
     scope = {
       hl = "SnacksPickerIconField",
     },
@@ -34,6 +35,7 @@ snacks.setup({
     },
   },
   picker = {
+
     prompt = "  ",
     layout = {
       preset = "default",
@@ -43,6 +45,9 @@ snacks.setup({
       history_bonus = true,
     },
     previewers = {
+      diff = {
+        style = "syntax",
+      },
     },
     sources = {
       help = {
@@ -137,4 +142,31 @@ utils.enableMappings({
   -- scratches
   { "<leader>.",       function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
   { "<leader>,",       function() Snacks.scratch.select() end,                                 desc = "Select Scratch Buffer" },
+  -- snacks toggles
+  {
+    "<leader>sta",
+    function()
+      vim.g.snacks_animate = not Snacks.animate.enabled()
+      if (Snacks.animate.enabled()) then
+        print("Animations enabled")
+      else
+        print("Animations disabled")
+      end
+    end,
+    desc = "Toggle animations"
+  },
+  {
+    "<leader>sti",
+    function()
+      if Snacks.indent.enabled then
+        Snacks.indent.disable()
+        print("Indent disabled")
+      else
+        Snacks.indent.enable()
+        print("Indent enabled")
+      end
+    end,
+    desc = "Toggle indent"
+  }
+
 })

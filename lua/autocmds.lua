@@ -53,7 +53,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 -- Prevent health from opening a tab
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("CheckhealthVsplit", { clear = true }),
+  group = vim.api.nvim_create_augroup("CheckhealthFloat", { clear = true }),
   pattern = "checkhealth",
   callback = function(event)
     local health_buf = event.buf
@@ -76,20 +76,32 @@ vim.api.nvim_create_autocmd("FileType", {
         return
       end
 
-      -- Go back to the tab you were using before :checkhealth.
       vim.api.nvim_set_current_tabpage(previous_tab)
 
-      -- Open the health buffer in a vertical split.
-      vim.cmd("vsplit")
-      vim.api.nvim_win_set_buf(0, health_buf)
+      local width = math.floor(vim.o.columns * 0.85)
+      local height = math.floor(vim.o.lines * 0.8)
+      local col = math.floor((vim.o.columns - width) / 2)
+      local row = math.floor((vim.o.lines - height) / 1.75) - 2
 
-      -- Close the original health tab.
+      local win = vim.api.nvim_open_win(health_buf, true, {
+        relative = "editor",
+        width = width,
+        height = height,
+        col = col,
+        row = row,
+        style = "minimal",
+        border = "rounded",
+      })
+
+      vim.wo[win].wrap = false
+      vim.wo[win].number = false
+      vim.wo[win].relativenumber = false
+
       if vim.api.nvim_tabpage_is_valid(health_tab) then
         vim.api.nvim_set_current_tabpage(health_tab)
         pcall(vim.cmd, "tabclose")
       end
 
-      -- Return to the tab with the vertical split.
       if vim.api.nvim_tabpage_is_valid(previous_tab) then
         vim.api.nvim_set_current_tabpage(previous_tab)
       end

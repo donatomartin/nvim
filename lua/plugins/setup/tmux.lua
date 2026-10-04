@@ -1,8 +1,3 @@
-vim.pack.add({
-  "https://github.com/christoomey/vim-tmux-navigator",
-  "https://github.com/RyanMillerC/better-vim-tmux-resizer",
-})
-
 local utils = require("utils")
 
 utils.enableMappings({

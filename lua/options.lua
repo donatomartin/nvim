@@ -8,6 +8,61 @@ vim.wo.relativenumber = true
 vim.o.undofile = true
 vim.o.termguicolors = true
 vim.o.cursorline = true
+vim.opt.guicursor = {
+  "n-v-c:block",
+  "i-ci-ve:ver25",
+  "r-cr:hor20",
+  "o:hor50",
+  "t:ver25",
+}
+local function get_tab_name(tabnr)
+  local win = vim.fn.tabpagewinnr(tabnr)
+  local buflist = vim.fn.tabpagebuflist(tabnr)
+  local bufnr = buflist[win]
+
+  local name = vim.fn.bufname(bufnr)
+
+  if name == "" then
+    return "[No Name]"
+  end
+
+  return vim.fn.fnamemodify(name, ":t")
+end
+
+function _G.custom_tabline()
+  local result = ""
+
+  local current = vim.fn.tabpagenr()
+  local total = vim.fn.tabpagenr("$")
+
+  for i = 1, total do
+    local active = i == current
+    local name = get_tab_name(i)
+
+    local fill = "%#TabLineFill#"
+    local hl = active and "%#TabLineSel#" or "%#TabLine#"
+    local shape = active and "%#ShapeSel#" or "%#Shape#"
+    local sep_hl = active and "%#TabLineSel#" or "%#TabLine#"
+
+    result = result
+      .. fill
+      .. shape
+      .. ""
+      .. hl
+      .. "%" .. i .. "T"
+      .. " 󰈙 "
+      .. name
+      .. " 󰅖 "
+      .. shape
+      .. ""
+      .. sep_hl
+  end
+
+  return result .. "%#TabLineFill#%T"
+end
+
+vim.o.showtabline = 2
+vim.o.tabline = "%!v:lua.custom_tabline()"
 
 -- LSP
 vim.diagnostic.config({

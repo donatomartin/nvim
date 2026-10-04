@@ -1,9 +1,132 @@
-vim.pack.add({
-  "https://github.com/folke/snacks.nvim"
-})
-
 local utils = require "utils"
 local snacks = require "snacks"
+
+vim.g.snacks_animate = false
+
+local function parse_location(input)
+  input = vim.trim(input)
+
+  if input == "" then
+    return nil
+  end
+
+  -- Clase.metodo:54
+  -- Clase:54
+  local body, line = input:match("^(.-):(%d+)$")
+  if body then
+    input = body
+    line = tonumber(line)
+  end
+
+  -- Clase.metodo
+  local class, method = input:match("^([%w_$]+)%.([%w_$]*)$")
+
+  if not class then
+    class = input
+    method = nil
+  elseif method == "" then
+    method = nil
+  end
+
+  return {
+    class = class,
+    method = method,
+    line = line,
+  }
+end
+
+local function location_finder(opts, ctx)
+  local query = parse_location(ctx.filter.search)
+
+  if not query or query.class == "" then
+    return {}
+  end
+
+  local Proc = require("snacks.picker.source.proc")
+
+  --
+  -- Clase
+  -- Clase:54
+  --
+  if not query.method then
+    return Proc.proc(
+      ctx:opts({
+        cmd = "rg",
+        args = {
+          "--files",
+          "--iglob",
+          "*" .. query.class .. "*",
+          ".",
+        },
+
+        notify = false,
+
+        transform = function(item)
+          item.file = item.text
+          item.pos = {
+            query.line or 1,
+            0,
+          }
+        end,
+      }),
+      ctx
+    )
+  end
+
+  --
+  -- Clase.metodo
+  -- Clase.metodo:54
+  --
+  return Proc.proc(
+    ctx:opts({
+      cmd = "rg",
+      args = {
+        "--line-number",
+        "--column",
+        "--no-heading",
+        "--color=never",
+        "--fixed-strings",
+
+        "--iglob",
+        "*" .. query.class .. "*",
+
+        "--",
+        query.method,
+        ".",
+      },
+
+      notify = false,
+
+      transform = function(item)
+        local file, line, col, text =
+          item.text:match("^(.+):(%d+):(%d+):(.*)$")
+
+        if not file then
+          return false
+        end
+
+        line = tonumber(line)
+        col = tonumber(col)
+
+        item.file = file
+        item.line = text
+
+        if query.line then
+          item.pos = {
+            query.line,
+            0,
+          }
+        else
+          item.pos = {
+            line,
+            math.max(col - 1, 0),
+          }
+        end
+      end,
+    }),
+    ctx
+  )
+end
 
 ---@type snacks.Config
 snacks.setup({
@@ -29,7 +152,6 @@ snacks.setup({
       hl = "SnacksPickerIconField",
     },
     animate = {
-      enabled = true,
       style = "out",
       duration = 40,
     },
@@ -50,9 +172,35 @@ snacks.setup({
       },
     },
     sources = {
-      help = {
-        confirm = { "vsplit" },
+      location = {
+        title = "Go to location",
+
+        format = "file",
+
+        live = true,
+        supports_live = true,
+        show_empty = true,
+
+        finder = location_finder,
       },
+      help = {
+        confirm = { "edit" },
+      },
+      files = {
+        win = {
+          input = {
+            keys = {
+              ["<C-O>"] = { "open_parent", mode = { "n", "i" } },
+            },
+          },
+          list = {
+            keys = {
+              ["<C-O>"] = "open_parent",
+            },
+          },
+        },
+      },
+
     },
     actions = {
       ---@param picker snacks.Picker
@@ -64,6 +212,22 @@ snacks.setup({
         end, picker:selected({ fallback = true }))
 
         require("opencode").prompt(table.concat(items, ", ") .. " ")
+      end,
+
+      ---@param picker snacks.Picker
+      ---@param item snacks.picker.Item
+      open_parent = function(picker, item)
+        if not item then
+          return
+        end
+
+        local path = Snacks.picker.util.path(item)
+        if not path then
+          return
+        end
+
+        picker:close()
+        require("oil").open(vim.fs.dirname(path))
       end,
     },
     win = {
@@ -82,7 +246,7 @@ utils.enableMappings({
   -- Top Pickers & Explorer
   { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Smart Find Files" },
   { "<leader>fw",      function() Snacks.picker.grep() end,                                    desc = "Grep" },
-  { "<leader>e",       function() Snacks.explorer() end,                                       desc = "File Explorer" },
+  { "<leader>fe",      function() Snacks.explorer() end,                                       desc = "File Explorer" },
   -- picker find
   { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
   { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
@@ -92,8 +256,9 @@ utils.enableMappings({
   { "<leader>fp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
   { "<leader>fo",      function() Snacks.picker.recent() end,                                  desc = "Recent" },
   { "<leader>fh",      function() Snacks.picker.help() end,                                    desc = "Help Pages" },
+  { "<leader>fl",      function() Snacks.picker.location() end,                                desc = "Help Pages" },
   -- picker git
-  { "<leader>gb",      function() Snacks.picker.git_branches() end,                            desc = "Git Branches" },
+  { "<leader>gbb",     function() Snacks.picker.git_branches() end,                            desc = "Git Branches" },
   { "<leader>gl",      function() Snacks.picker.git_log() end,                                 desc = "Git Log" },
   { "<leader>gL",      function() Snacks.picker.git_log_line() end,                            desc = "Git Log Line" },
   { "<leader>gs",      function() Snacks.picker.git_status() end,                              desc = "Git Status" },
@@ -136,7 +301,7 @@ utils.enableMappings({
   { "gco",             function() Snacks.picker.lsp_outgoing_calls() end,                      desc = "C[a]lls Outgoing" },
   { "<leader>ss",      function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
   { "<leader>sS",      function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
-  { "<M-i>",           function() Snacks.terminal.toggle() end,                                desc = "Toggle Floating Terminal",   mode = { "n", "t", "i" } },
+  -- { "<M-i>",       function() Snacks.terminal.toggle() end,                                desc = "Toggle Floating Terminal",   mode = { "n", "t", "i" } },
   -- git utilities
   { "<leader>gof",     function() Snacks.gitbrowse() end,                                      desc = "Git Open File on Remote" },
   -- scratches

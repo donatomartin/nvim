@@ -1,14 +1,3 @@
-vim.pack.add({
-  "https://github.com/hrsh7th/nvim-cmp",
-  "https://github.com/hrsh7th/cmp-nvim-lsp",
-  "https://github.com/hrsh7th/cmp-buffer",
-  "https://github.com/hrsh7th/cmp-path",
-  "https://github.com/hrsh7th/cmp-cmdline",
-  "https://github.com/saadparwaiz1/cmp_luasnip",
-  "https://github.com/L3MON4D3/LuaSnip",
-  "https://github.com/rafamadriz/friendly-snippets",
-})
-
 local kind_icons = {
   Text = '󰉿',
   Method = '󰊕',
@@ -75,6 +64,7 @@ cmp.setup({
       max_height = 10,
       scrollbar = false,
       col_offset = 1,
+      border = "rounded",
     },
     documentation = {
       scrollbar = false,
@@ -103,7 +93,7 @@ cmp.setup({
 
   mapping = cmp.mapping.preset.insert({
 
-    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-l>"] = cmp.mapping.complete(),
 
     ["<Tab>"] = cmp.mapping(function(fallback)
       if luasnip.expand_or_locally_jumpable() then
@@ -128,6 +118,22 @@ cmp.setup({
     ["<C-y>"] = cmp.mapping.confirm({
       select = true,
     }),
+
+    ["<C-j>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+
+    ["<C-k>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
 
     ["<C-n>"] = cmp.mapping(function(fallback)
       if cmp.visible() then

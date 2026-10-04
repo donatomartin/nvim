@@ -1,7 +1,3 @@
-vim.pack.add({
-  "https://github.com/neogitorg/neogit",
-})
-
 local utils = require("utils")
 local neogit = require("neogit")
 

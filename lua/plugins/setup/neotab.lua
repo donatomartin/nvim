@@ -1,7 +1,3 @@
-vim.pack.add({
-  "https://github.com/kawre/neotab.nvim"
-})
-
 local neotab = require("neotab")
 
 neotab.setup({

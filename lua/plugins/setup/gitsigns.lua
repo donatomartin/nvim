@@ -1,7 +1,3 @@
-vim.pack.add({
-  "https://github.com/lewis6991/gitsigns.nvim"
-})
-
 local utils = require "utils"
 local gitsigns = require("gitsigns")
 

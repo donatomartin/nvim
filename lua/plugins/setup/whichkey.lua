@@ -1,7 +1,3 @@
-vim.pack.add({
-  "https://github.com/folke/which-key.nvim"
-})
-
 local utils = require("utils")
 local whichKey = require("which-key")
 

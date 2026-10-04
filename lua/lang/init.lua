@@ -1,79 +1,12 @@
 local M = {}
 
-function M.config(on_attach)
-  vim.lsp.config("*", {
-    root_markers = { ".git" },
-    on_attach = on_attach,
-  })
-
-  require("lang.lspconfigs.lua")
-  require("lang.lspconfigs.latex")
-  require("lang.lspconfigs.bash")
-  require("lang.lspconfigs.nix")
-
-  vim.lsp.enable(M.getLsps())
-end
-
-function M.getLspMap()
-  return {
-    ["lua_ls"] = {
-      package = "lua-language-server",
-      config = "my_lua_ls",
-    },
-    ["pyright"] = {
-      package = "pyright",
-      config = "pyright",
-      dependencies = { "node", "python" },
-    },
-    ["vtsls"] = {
-      package = "vtsls",
-      config = "vtsls",
-      dependencies = { "node" },
-    },
-    ["html"] = {
-      package = "html-lsp",
-      config = "html",
-      dependencies = { "node" },
-    },
-    ["emmet-language-server"] = {
-      package = "emmet-language-server",
-      config = "emmet_language_server",
-    },
-    ["cssls"] = {
-      package = "css-lsp",
-      config = "cssls",
-      dependencies = { "node" },
-    },
-    ["gopls"] = {
-      package = "gopls",
-      config = "gopls",
-      dependencies = { "node" },
-    },
-    ["jdtls"] = {
-      package = { "jdtls", "lombok-nightly" },
-      dependencies = { "java" },
-    },
-    ["sonarlint"] = {
-      package = "sonarlint-language-server",
-    },
-    ["bash"] = {
-      package = { "bash-language-server" },
-      config = { "bashls" },
-    },
-    ["ltex_plus"] = {
-      package = "ltex-ls-plus",
-      config = "ltex_plus",
-    },
-    ["nixd"] = {
-      -- no package as it should be installed from the nixpkgs
-      config = "my_nixd",
-    },
-  }
+local function getLspMap()
+  return require("lang.lspmap")
 end
 
 local function processMapByType(property)
   local t = {}
-  for _, value in pairs(M.getLspMap()) do
+  for _, value in pairs(getLspMap()) do
     local element = value[property]
 
     -- in case the element is an array
@@ -88,40 +21,31 @@ local function processMapByType(property)
   return t
 end
 
-function M.getLsps()
+function M.getCustomLspConfigs()
   return processMapByType("config")
 end
 
-function M.getMasonPackages()
+function M.getDeclaredMasonPackages()
   return processMapByType("package")
 end
 
-local map = function(mode, lhs, rhs, bufnr)
-  if bufnr then
-    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
-  else
-    vim.keymap.set(mode, lhs, rhs, { silent = true })
-  end
-end
-
 function M.on_attach(_, bufnr)
-  map("n", "K", vim.lsp.buf.hover, bufnr)
-  map("n", "<leader>rn", vim.lsp.buf.rename, bufnr)
-  map("n", "<leader>ca", vim.lsp.buf.code_action, bufnr)
-  map("n", "<leader>cd", vim.diagnostic.open_float, bufnr)
-  map("n", "<leader>cw", vim.lsp.buf.workspace_diagnostics, bufnr)
-  map("n", "<leader>cl", vim.diagnostic.setloclist, bufnr)
-  map("n", "<leader>lf", vim.lsp.buf.format, bufnr)
-  map("n", "<leader>cn", function()
-    vim.diagnostic.jump({ count = 1 })
-  end, bufnr)
-  map("n", "<leader>cp", function()
-    vim.diagnostic.jump({ count = -1 })
-  end, bufnr)
+  require("utils").enableMappings({
+    { "K",          vim.lsp.buf.hover,                                  buffer = bufnr, mode = "n" },
+    { "<leader>rn", vim.lsp.buf.rename,                                 buffer = bufnr, mode = "n" },
+    { "<leader>ca", vim.lsp.buf.code_action,                            buffer = bufnr, mode = { "n", "x" } },
+    { "<leader>cd", vim.diagnostic.open_float,                          buffer = bufnr, mode = "n" },
+    { "<leader>cw", vim.lsp.buf.workspace_diagnostics,                  buffer = bufnr, mode = "n" },
+    { "<leader>cl", vim.diagnostic.setloclist,                          buffer = bufnr, mode = "n" },
+    { "<leader>lf", vim.lsp.buf.format,                                 buffer = bufnr, mode = "n" },
+    { "<leader>cn", function() vim.diagnostic.jump({ count = 1 }) end,  buffer = bufnr, mode = "n" },
+    { "<leader>cp", function() vim.diagnostic.jump({ count = -1 }) end, buffer = bufnr, mode = "n" },
+  })
 end
 
 function M.start()
-  M.config(M.on_attach)
+  require("lang.lspconfigs").config(M.on_attach)
+  vim.lsp.enable(M.getCustomLspConfigs())
 end
 
 return M

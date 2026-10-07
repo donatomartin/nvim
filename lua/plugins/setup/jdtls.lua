@@ -176,12 +176,3 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "java",
   callback = start_jdtls
 })
-
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    local cwd = vim.fn.getcwd()
-    if vim.uv.fs_stat(cwd .. "/pom.xml") then
-      start_jdtls()
-    end
-  end,
-})

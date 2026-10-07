@@ -162,10 +162,11 @@ local function start_jdtls()
 
   utils.enableMappings({
     { "<leader>t",   goto_test_or_source,                         desc = "Go to test/source", buffer = true },
-    { "<leader>co",  function() jdtls.organize_imports() end,     desc = "Organize imports",  buffer = true },
-    { "<leader>crv", function() jdtls.extract_variable() end,     desc = "Extract variable",  buffer = true },
+    { "<leader>co",  jdtls.organize_imports,     desc = "Organize imports",  buffer = true },
+    { "<leader>crv", jdtls.extract_variable,     desc = "Extract variable",  buffer = true },
+    { "<leader>crc", jdtls.extract_constant,     desc = "Extract constant",  buffer = true },
+    { "<leader>crm", jdtls.extract_method,       desc = "Extract method",    buffer = true },
     { "<leader>crv", function() jdtls.extract_variable(true) end, desc = "Extract variable",  buffer = true, mode = "v", },
-    { "<leader>crc", function() jdtls.extract_constant() end,     desc = "Extract constant",  buffer = true },
     { "<leader>crc", function() jdtls.extract_constant(true) end, desc = "Extract constant",  buffer = true, mode = "v", },
     { "<leader>crm", function() jdtls.extract_method(true) end,   desc = "Extract method",    buffer = true, mode = "v", },
   })

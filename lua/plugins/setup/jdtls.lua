@@ -59,13 +59,13 @@ local lombok_path =
 local launcher_jar =
     vim.fn.glob(
       jdtls_path
-        .. "/plugins/org.eclipse.equinox.launcher_*.jar"
+      .. "/plugins/org.eclipse.equinox.launcher_*.jar"
     )
 
 if launcher_jar == "" then
   error(
     "Could not find JDTLS launcher jar under: "
-      .. jdtls_path
+    .. jdtls_path
   )
 end
 
@@ -95,9 +95,9 @@ local bundles = {}
 local java_debug_bundle =
     vim.fn.glob(
       mason_path
-        .. "/java-debug-adapter/"
-        .. "extension/server/"
-        .. "com.microsoft.java.debug.plugin-*.jar"
+      .. "/java-debug-adapter/"
+      .. "extension/server/"
+      .. "com.microsoft.java.debug.plugin-*.jar"
     )
 
 if java_debug_bundle ~= "" then
@@ -142,10 +142,10 @@ local function goto_test_or_source()
       vim.api.nvim_buf_get_name(0)
 
   local source_root =
-      "/src/main/java/"
+  "/src/main/java/"
 
   local test_root =
-      "/src/test/java/"
+  "/src/test/java/"
 
   local target
 
@@ -153,12 +153,10 @@ local function goto_test_or_source()
     target = file
         :gsub(test_root, source_root)
         :gsub("Test%.java$", ".java")
-
   elseif file:find(source_root, 1, true) then
     target = file
         :gsub(source_root, test_root)
         :gsub("%.java$", "Test.java")
-
   else
     vim.notify(
       "Not a Java source/test file",
@@ -199,10 +197,10 @@ local function patch_java_dap_configs()
   for _, config in ipairs(dap.configurations.java) do
     if config.request == "launch" then
       config.console =
-          "integratedTerminal"
+      "integratedTerminal"
 
       config.shortenCommandLine =
-          "argfile"
+      "argfile"
 
       -- JDTLS itself runs under JDTLS_JAVA_HOME.
       -- The debugged application runs under JAVA_HOME.
@@ -432,7 +430,7 @@ local function start_jdtls()
 
           configuration = {
             updateBuildConfiguration =
-                "automatic",
+            "automatic",
           },
 
           ---------------------------------------------------------------------
@@ -455,12 +453,9 @@ local function start_jdtls()
               "org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*",
               "org.springframework.test.web.servlet.result.MockMvcResultMatchers.*",
               "org.springframework.test.web.servlet.result.MockMvcResultHandlers.*",
-
               "org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*",
-
               "org.springframework.test.web.client.match.MockRestRequestMatchers.*",
               "org.springframework.test.web.client.response.MockRestResponseCreators.*",
-
               "org.springframework.restdocs.request.RequestDocumentation.*",
               "org.springframework.restdocs.payload.PayloadDocumentation.*",
               "org.springframework.restdocs.operation.preprocess.Preprocessors.*",

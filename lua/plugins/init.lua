@@ -44,6 +44,7 @@ vim.pack.add({
   -- Git
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/neogitorg/neogit",
+  "https://github.com/tpope/vim-fugitive",
 
   -- Tab
   "https://github.com/kawre/neotab.nvim",

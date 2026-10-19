@@ -99,7 +99,7 @@ local function location_finder(opts, ctx)
 
       transform = function(item)
         local file, line, col, text =
-          item.text:match("^(.+):(%d+):(%d+):(.*)$")
+            item.text:match("^(.+):(%d+):(%d+):(.*)$")
 
         if not file then
           return false

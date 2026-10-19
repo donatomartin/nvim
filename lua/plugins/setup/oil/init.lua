@@ -3,14 +3,11 @@ vim.pack.add({
 })
 
 local oil = require("oil")
-local select = require("plugins.setup.oil.utils").select
-local close_oil = require("plugins.setup.oil.utils").close_oil
-local toggle_oil_sidebar = require("plugins.setup.oil.utils").toggle_oil_sidebar
 
 oil.setup({
   lsp_file_methods = {
     timeout_ms = 2000,
-    autosave_changes = false, 
+    autosave_changes = false,
   },
   default_file_explorer = true,
   delete_to_trash = true,
@@ -21,19 +18,15 @@ oil.setup({
     natural_order = true,
 
     is_always_hidden = function(name, _)
-      return name == ".." or name == ".git"
+      -- return name == ".git"
+      return false;
     end,
   },
 
   keymaps = {
-    ["<CR>"] = select,
-    ["+"] = select,
+    ["+"] = "actions.select",
 
-    ["q"] = {
-      callback = close_oil,
-      mode = "n",
-      desc = "Close Oil",
-    },
+    ["q"] = "actions.close",
     ["<leader>e"] = "actions.close",
     ["<leader>o"] = "actions.close",
 
@@ -43,7 +36,7 @@ oil.setup({
     ["<C-p>"] = false,
 
     ["<C-r>"] = "actions.refresh",
-    ["<M-i>"] = "actions.toggle_hidden",
+    ["<M-h>"] = "actions.toggle_hidden",
     ["<M-t>"] = "actions.toggle_trash",
   },
 
@@ -62,9 +55,29 @@ require("utils").enableMappings({
     end,
     desc = "Oil Open",
   },
-  {
-    "<M-e>",
-    toggle_oil_sidebar,
-    desc = "Oil Toggle Sidebar",
-  },
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "OilActionsPost",
+  callback = function(args)
+    if args.data.err then
+      return
+    end
+
+    for _, action in ipairs(args.data.actions) do
+      if action.type == "move" then
+        local old_path = action.src_url:match("^oil://(.*)$")
+
+        if old_path then
+          vim.defer_fn(function()
+            local bufnr = vim.fn.bufnr(old_path)
+
+            if bufnr ~= -1 and vim.api.nvim_buf_is_valid(bufnr) then
+              vim.api.nvim_buf_delete(bufnr, { force = true })
+            end
+          end, 2000)
+        end
+      end
+    end
+  end,
 })

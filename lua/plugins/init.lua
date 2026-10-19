@@ -87,12 +87,6 @@ vim.pack.add({
   -- Java
   "https://github.com/mfussenegger/nvim-jdtls",
 
-  -- Harpoon
-  {
-    src = "https://github.com/ThePrimeagen/harpoon",
-    version = "harpoon2"
-  },
-
 })
 
 require "plugins.setup.init"

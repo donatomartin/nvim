@@ -40,6 +40,45 @@ function M.on_attach(_, bufnr)
     { "<leader>lf", vim.lsp.buf.format,                                 buffer = bufnr, mode = "n" },
     { "<leader>cn", function() vim.diagnostic.jump({ count = 1 }) end,  buffer = bufnr, mode = "n" },
     { "<leader>cp", function() vim.diagnostic.jump({ count = -1 }) end, buffer = bufnr, mode = "n" },
+    {
+      "<leader>yd",
+      function()
+        local diag = vim.diagnostic.get(0, {
+          lnum = vim.fn.line(".") - 1,
+        })[1]
+
+        if diag then
+          vim.fn.setreg("+", diag.message)
+        end
+      end,
+      desc = "Yank cursor diagnostics",
+      buffer = bufnr,
+      mode = "n",
+    },
+    {
+      "<leader>yD",
+      function()
+        local diags = vim.diagnostic.get(0, {
+          lnum = vim.fn.line(".") - 1,
+        })
+
+        if #diags == 0 then
+          return
+        end
+
+        local text = table.concat(
+          vim.tbl_map(function(d)
+            return d.message
+          end, diags),
+          "\n"
+        )
+
+        vim.fn.setreg("+", text)
+      end,
+      desc = "Yank line diagnostics",
+      buffer = bufnr,
+      mode = "n",
+    },
   })
 end
 

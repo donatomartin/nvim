@@ -8,14 +8,6 @@
       "rev": "a791fe5b4433ac43a4dad921e94b7b5f88751048",
       "src": "https://github.com/RyanMillerC/better-vim-tmux-resizer"
     },
-    "blink.cmp": {
-      "rev": "b72ed05dd452690181837d484984144a64709f17",
-      "src": "https://github.com/saghen/blink.cmp"
-    },
-    "blink.lib": {
-      "rev": "fd9a48ebbe6ec30d5dfcc5b42c243941ccdca1aa",
-      "src": "https://github.com/saghen/blink.lib"
-    },
     "cmp-buffer": {
       "rev": "b74fab3656eea9de20a9b8116afa3cfc4ec09657",
       "src": "https://github.com/hrsh7th/cmp-buffer"
@@ -37,7 +29,7 @@
       "src": "https://github.com/saadparwaiz1/cmp_luasnip"
     },
     "floaterm": {
-      "rev": "634dd28e19ee60491c97328283bcb85c9b468c96",
+      "rev": "9fbc8ce059ef3956713f211690d7479a4f41daf1",
       "src": "https://github.com/donatomartin/floaterm"
     },
     "friendly-snippets": {
@@ -47,10 +39,6 @@
     "gitsigns.nvim": {
       "rev": "fd780920613e541cbdfac41bf711583ed49f9249",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
-    },
-    "indent-blankline.nvim": {
-      "rev": "f1e186e44d3b7f9ae918008e2c28ce37c6023d2d",
-      "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
     },
     "lualine.nvim": {
       "rev": "221ce6b2d999187044529f49da6554a92f740a96",
@@ -63,10 +51,6 @@
     "mason.nvim": {
       "rev": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d",
       "src": "https://github.com/williamboman/mason.nvim"
-    },
-    "mini.files": {
-      "rev": "3fe8e33d37a8c455762800c39bab9af317dd53b4",
-      "src": "https://github.com/nvim-mini/mini.files"
     },
     "neogit": {
       "rev": "a6549816e62cec7037f1549d8f1659d45635370c",
@@ -108,10 +92,6 @@
       "rev": "f6230a5c06ba59e6059c14637f1dbe29a7978b9b",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
-    "nvim-lsp-file-operations": {
-      "rev": "8b150305362e971db0c40cee89ea4576a64e86cd",
-      "src": "https://github.com/antosha417/nvim-lsp-file-operations"
-    },
     "nvim-lspconfig": {
       "rev": "45a3a444b710511c39abca3b60bb6e23a21e3de5",
       "src": "https://github.com/neovim/nvim-lspconfig"
@@ -129,7 +109,7 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "opencode.nvim": {
-      "rev": "4d3580a0ebb060cfdd41fa93784a046706a728cf",
+      "rev": "e7643e9efc878876bb9c68da6cf30c45d6c34e5a",
       "src": "https://github.com/nickjvandyke/opencode.nvim"
     },
     "plenary.nvim": {

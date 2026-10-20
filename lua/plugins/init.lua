@@ -84,8 +84,11 @@ vim.pack.add({
   -- Zen
   "https://github.com/folke/zen-mode.nvim",
 
-  -- Java
+  -- Jdtls
   "https://github.com/mfussenegger/nvim-jdtls",
+
+  -- Comment Box
+  "https://github.com/ludopinelli/comment-box.nvim"
 
 })
 

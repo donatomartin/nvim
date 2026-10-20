@@ -28,6 +28,10 @@
       "rev": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90",
       "src": "https://github.com/saadparwaiz1/cmp_luasnip"
     },
+    "comment-box.nvim": {
+      "rev": "06bb771690bc9df0763d14769b779062d8f12bc5",
+      "src": "https://github.com/ludopinelli/comment-box.nvim"
+    },
     "floaterm": {
       "rev": "9fbc8ce059ef3956713f211690d7479a4f41daf1",
       "src": "https://github.com/donatomartin/floaterm"

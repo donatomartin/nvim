@@ -157,7 +157,9 @@ snacks.setup({
     },
   },
   picker = {
-
+    main = {
+      current = true,
+    },
     prompt = "  ",
     layout = {
       preset = "default",

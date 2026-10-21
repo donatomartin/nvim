@@ -8,4 +8,4 @@ vim.g.neominimap = {
     auto_enable = false,
 }
 
-vim.api.nvim_create_user_command("MT", function() vim.cmd("Neominimap Toggle") end, {})
+vim.api.nvim_create_user_command("Map", function() vim.cmd("Neominimap Toggle") end, {})

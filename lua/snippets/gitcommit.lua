@@ -10,7 +10,7 @@ local fmt = require("luasnip.extras.fmt").fmt
 
 local function jira_ticket()
   local branch = vim.fn.system("git branch --show-current"):gsub("%s+", "")
-  return branch:match("([A-Z]+%-%d+)") or -1
+  return branch:match("([A-Z]+%-%d+)") or "NO-JIRA"
 end
 
 local function jira_prefix_snippet(trigger)
@@ -20,32 +20,15 @@ end
 local function commit_snippet(trigger, kind, scope)
   scope = scope or false
 
-  if (jira_ticket() == -1) then
-    if scope then
-      return s(trigger, fmt("{}({}): {}", {
-        t(kind),
-        i(1, "scope"),
-        i(2, "message"),
-      }))
-    end
-
-    return s(trigger, fmt("{}: {}", {
-      t(kind),
-      i(1, "message"),
-    }))
-  end
-
   if scope then
-    return s(trigger, fmt("[{}] {}({}): {}", {
-      f(jira_ticket),
+    return s(trigger, fmt("{}({}): {}", {
       t(kind),
       i(1, "scope"),
       i(2, "message"),
     }))
   end
 
-  return s(trigger, fmt("[{}] {}: {}", {
-    f(jira_ticket),
+  return s(trigger, fmt("{}: {}", {
     t(kind),
     i(1, "message"),
   }))

@@ -31,6 +31,7 @@ end
 
 function M.on_attach(_, bufnr)
   require("utils").enableMappings({
+    { "<C-s>",      vim.lsp.buf.signature_help,                         buffer = bufnr, mode = "n" },
     { "K",          vim.lsp.buf.hover,                                  buffer = bufnr, mode = "n" },
     { "<leader>rn", vim.lsp.buf.rename,                                 buffer = bufnr, mode = "n" },
     { "<leader>ca", vim.lsp.buf.code_action,                            buffer = bufnr, mode = { "n", "x" } },

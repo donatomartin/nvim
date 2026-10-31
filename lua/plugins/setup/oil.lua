@@ -1,7 +1,3 @@
-vim.pack.add({
-  "https://github.com/stevearc/oil.nvim",
-})
-
 local oil = require("oil")
 
 oil.setup({
@@ -18,8 +14,7 @@ oil.setup({
     natural_order = true,
 
     is_always_hidden = function(name, _)
-      -- return name == ".git"
-      return false;
+      return name == ".git" or name == ".."
     end,
   },
 

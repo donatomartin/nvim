@@ -174,6 +174,9 @@ snacks.setup({
       },
     },
     sources = {
+      grep = {
+        args = { "--pcre2" },
+      },
       location = {
         title = "Go to location",
 

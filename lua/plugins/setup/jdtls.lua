@@ -295,6 +295,10 @@ end
 --------------------------------------------------------------------------------
 
 local function start_jdtls()
+  vim.bo.tabstop = 4
+  vim.bo.shiftwidth = 4
+  vim.bo.softtabstop = 4
+  vim.bo.expandtab = false
   ---------------------------------------------------------------------------
   -- PROJECT ROOT
   ---------------------------------------------------------------------------
@@ -501,6 +505,10 @@ local function start_jdtls()
 
           format = {
             enabled = true,
+            settings = {
+              url = vim.fn.stdpath("config") .. "/assets/java-formatter.xml",
+              profile = "MyStyle",
+            },
           },
         },
       },

@@ -9,11 +9,6 @@ local function clearHighlight()
   vim.cmd("echo ''")
 end
 
-local function toggleLines()
-  vim.opt_local.number = not vim.opt_local.relativenumber:get()
-  vim.opt_local.relativenumber = not vim.opt_local.relativenumber:get()
-end
-
 local function register_to_quickfix(reg)
   reg = reg or '+' -- Use system clipboard by default; change to '"' for default register
   local reg_content = vim.fn.getreg(reg)
@@ -55,6 +50,5 @@ require("utils").enableMappings({
   { "<leader>yF", function() copy_current_path(":t:r") end, desc = "Copy filename without extension" },
   { "<leader>yp", function() copy_current_path(":p") end,   desc = "Copy full path" },
   { "<leader>yr", function() copy_current_path(":.") end,   desc = "Copy relative path" },
-  { "<leader>tr", toggleLines,                              desc = "Toggle Relative Lines" },
   { "<leader>cq", register_to_quickfix,                     desc = "Register to qflist" }
 })

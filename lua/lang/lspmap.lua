@@ -1,50 +1,50 @@
 return {
     ["lua_ls"] = {
-      package = "lua-language-server",
+      -- package = "lua-language-server",
       config = "my_lua_ls",
     },
     ["pyright"] = {
-      package = "pyright",
+      -- package = "pyright",
       config = "pyright",
-      dependencies = { "node", "python" },
+      -- dependencies = { "node", "python" },
     },
     ["vtsls"] = {
-      package = "vtsls",
+      -- package = "vtsls",
       config = "vtsls",
-      dependencies = { "node" },
+      -- dependencies = { "node" },
     },
     ["html"] = {
-      package = "html-lsp",
+      -- package = "html-lsp",
       config = "html",
-      dependencies = { "node" },
+      -- dependencies = { "node" },
     },
     ["emmet-language-server"] = {
-      package = "emmet-language-server",
+      -- package = "emmet-language-server",
       config = "emmet_language_server",
     },
     ["cssls"] = {
-      package = "css-lsp",
+      -- package = "css-lsp",
       config = "cssls",
-      dependencies = { "node" },
+      -- dependencies = { "node" },
     },
     ["gopls"] = {
-      package = "gopls",
+      -- package = "gopls",
       config = "gopls",
-      dependencies = { "node" },
+      -- dependencies = { "node" },
     },
     ["jdtls"] = {
-      package = { "jdtls", "lombok-nightly", "java-debug-adapter" },
-      dependencies = { "java" },
+      -- package = { "jdtls", "lombok-nightly", "java-debug-adapter" },
+      -- dependencies = { "java" },
     },
     ["sonarlint"] = {
-      package = "sonarlint-language-server",
+      -- package = "sonarlint-language-server",
     },
     ["bash"] = {
-      package = { "bash-language-server" },
+      -- package = { "bash-language-server" },
       config = { "bashls" },
     },
     ["ltex_plus"] = {
-      package = "ltex-ls-plus",
+      -- package = "ltex-ls-plus",
       config = "ltex_plus",
     },
     ["nixd"] = {
@@ -52,6 +52,6 @@ return {
       config = "my_nixd",
     },
     ["sql"] = {
-      package = "sqlfluff",
+      -- package = "sqlfluff",
     },
   }

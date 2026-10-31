@@ -88,8 +88,36 @@ vim.pack.add({
   "https://github.com/mfussenegger/nvim-jdtls",
 
   -- Comment Box
-  "https://github.com/ludopinelli/comment-box.nvim"
+  "https://github.com/ludopinelli/comment-box.nvim",
+
+  -- Oil
+  "https://github.com/stevearc/oil.nvim",
+
+  -- Qfedit
+  "https://github.com/donatomartin/qfedit.nvim"
 
 })
 
-require "plugins.setup.init"
+require "plugins.setup.oil"
+require "plugins.setup.tmux"
+require "plugins.setup.mason"
+require "plugins.setup.catppuccin"
+require "plugins.setup.autopairs"
+require "plugins.setup.gitsigns"
+require "plugins.setup.sonarlint"
+require "plugins.setup.jdtls"
+require "plugins.setup.whichkey"
+require "plugins.setup.lualine"
+require "plugins.setup.neotab"
+require "plugins.setup.opencode"
+require "plugins.setup.texpresso"
+require "plugins.setup.snacks"
+require "plugins.setup.cmp"
+require "plugins.setup.minimap"
+require "plugins.setup.neogit"
+require "plugins.setup.dap"
+require "plugins.setup.zen"
+require "plugins.setup.floaterm"
+require "plugins.setup.lint"
+require "plugins.setup.comment"
+require "plugins.setup.qfedit"

@@ -1,7 +1,3 @@
-vim.pack.add({
-  "https://github.com/LudoPinelli/comment-box.nvim",
-})
-
 local cb = require("comment-box")
 
 -- ╭────────────────────────────────────────────────────────╮

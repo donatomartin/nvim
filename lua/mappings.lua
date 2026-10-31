@@ -37,6 +37,16 @@ local function register_to_quickfix(reg)
   vim.cmd.copen()
 end
 
+-- Start selection and expand to parent node with Enter
+vim.keymap.set({ "n", "x" }, "<CR>", function()
+  require("vim.treesitter._select").select_parent()
+end, { desc = "Increment AST node selection" })
+
+-- Shrink selection to child node with Backspace
+vim.keymap.set("x", "<BS>", function()
+  require("vim.treesitter._select").select_child()
+end, { desc = "Decrement AST node selection" })
+
 require("utils").enableMappings({
   { "j",          "gj",                                     desc = "Move down by visual line" },
   { "k",          "gk",                                     desc = "Move up by visual line" },

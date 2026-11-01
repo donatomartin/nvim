@@ -17,7 +17,7 @@ local function require_env(name)
   local value = vim.env[name]
 
   if not value or value == "" then
-    vim.notify(("Environment variable %s is not set, defaulting to mason"):format(name), vim.log.levels.WARN)
+    vim.notify(("Environment variable %s is not set, defaulting to mason"):format(name), vim.log.levels.DEBUG)
   end
 
   return value and value or ""
@@ -65,7 +65,7 @@ local function resolve_dependency(name, envPath, masonPath, glob)
   -- Compute base directory
   local baseDir = envPath ~= "" and envPath or masonPath;
   if (baseDir == "") then
-    vim.notify("Could not retrieve base path for dependency from path nor mason")
+    vim.notify("Could not retrieve base path for dependency from path nor mason", vim.log.levels.WARN)
   end
 
   -- Find glob from base directory
@@ -294,7 +294,6 @@ end
 -- ╰────────────────────────────────────────────────────────╯
 
 local function start_jdtls()
-
   -- Java Specific Vim configuration
   vim.bo.tabstop = 4
   vim.bo.shiftwidth = 4

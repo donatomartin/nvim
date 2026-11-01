@@ -6,19 +6,21 @@ local utils = require("utils")
 local jdtls = require("jdtls")
 
 local data = vim.fn.stdpath("data")
+local cache = vim.fn.stdpath("cache")
+local config = vim.fn.stdpath("config")
 
---------------------------------------------------------------------------------
--- ENVIRONMENT / JDKS
---------------------------------------------------------------------------------
+-- ╭────────────────────────────────────────────────────────╮
+-- │ ENVIONMENT / JDKs
+-- ╰────────────────────────────────────────────────────────╯
 
 local function require_env(name)
   local value = vim.env[name]
 
   if not value or value == "" then
-    error(("Environment variable %s is not set"):format(name))
+    vim.notify(("Environment variable %s is not set, defaulting to mason"):format(name), vim.log.levels.WARN)
   end
 
-  return value
+  return value and value or ""
 end
 
 local function java_bin(java_home)
@@ -28,93 +30,100 @@ local function java_bin(java_home)
   local path = java_home .. "/bin/" .. executable
 
   if vim.fn.executable(path) ~= 1 then
-    error("Java executable not found: " .. path)
+    vim.notify("Java executable not found: " .. path, vim.log.levels.WARN)
   end
 
   return path
 end
 
--- JDK used only to run JDTLS.
--- JDTLS currently requires Java 21+.
-local jdtls_java_home = require_env("JDTLS_JAVA_HOME")
+-- Load environment variables
+local env_jdtls_java_home = require_env("JDTLS_JAVA_HOME")
+local env_project_java_home = require_env("JAVA_HOME")
+local env_jdtls_path = require_env("JDTLS_PATH")
+local env_lombok_path = require_env("LOMBOK_PATH")
+local env_debug_path = require_env("JAVA_DEBUG_PATH")
 
--- JDK used by the actual project/debuggee.
-local project_java_home = require_env("JAVA_HOME")
+-- JDK used by the actual project/debugger.
+local project_java = java_bin(env_project_java_home)
+-- JDK used only to run JDTLS. (21+)
+local jdtls_java = java_bin(env_jdtls_java_home)
 
-local jdtls_java = java_bin(jdtls_java_home)
-local project_java = java_bin(project_java_home)
-
---------------------------------------------------------------------------------
--- MASON PATHS
---------------------------------------------------------------------------------
+-- ╭────────────────────────────────────────────────────────╮
+-- │ MASON PATHS
+-- ╰────────────────────────────────────────────────────────╯
 
 local mason_path = data .. "/mason/packages"
+local mason_jdtls_path = mason_path .. "jdtls"
+local mason_lombok_path = mason_path .. "/lombok-nightly"
+local mason_debug_path = mason_path .. "/java-debug-adapter"
 
-local jdtls_path =
-    mason_path .. "/jdtls"
+-- ╭────────────────────────────────────────────────────────╮
+-- │ RESOLVE DEPENDENCIES
+-- ╰────────────────────────────────────────────────────────╯
 
-local lombok_path =
-    mason_path .. "/lombok-nightly/lombok.jar"
+local function resolve_dependency(name, envPath, masonPath, glob)
+  -- Compute base directory
+  local baseDir = envPath ~= "" and envPath or masonPath;
+  if (baseDir == "") then
+    vim.notify("Could not retrieve base path for dependency from path nor mason")
+  end
 
-local launcher_jar =
-    vim.fn.glob(
-      jdtls_path
-      .. "/plugins/org.eclipse.equinox.launcher_*.jar"
-    )
+  -- Find glob from base directory
+  local jar = vim.fn.glob(baseDir .. glob)
+  if not jar or jar == "" then
+    vim.notify("Could not find " .. name .. " jar under: " .. baseDir, vim.log.levels.WARN)
+  end
 
-if launcher_jar == "" then
-  error(
-    "Could not find JDTLS launcher jar under: "
-    .. jdtls_path
-  )
+  return jar, baseDir
 end
 
---------------------------------------------------------------------------------
--- PLATFORM-SPECIFIC JDTLS CONFIG
---------------------------------------------------------------------------------
+local launcher_jar, jdtls_path = resolve_dependency("JDTLS launcher",
+  env_jdtls_path, mason_jdtls_path, "/**/org.eclipse.equinox.launcher_*.jar"
+)
+local lombok_jar, _ = resolve_dependency("LOMBOK",
+  env_lombok_path, mason_lombok_path, "/**/lombok.jar"
+)
+local debug_jar, _ = resolve_dependency("DEBUG ADAPTER",
+  env_debug_path, mason_debug_path,
+  "/**/com.microsoft.java.debug.plugin-*.jar"
+)
 
-local config_dir
+-- ╭────────────────────────────────────────────────────────╮
+-- │ PLATFORM CONFIG
+-- ╰────────────────────────────────────────────────────────╯
 
-if vim.fn.has("mac") == 1 then
-  config_dir = "config_mac"
-elseif vim.fn.has("win32") == 1 then
-  config_dir = "config_win"
-else
-  config_dir = "config_linux"
+local config_dir = ({
+  Linux = "config_linux",
+  Darwin = "config_mac",
+  Windows_NT = "config_win",
+})[vim.uv.os_uname().sysname] or "config_linux"
+
+local source_config = vim.fn.glob(jdtls_path .. "/**/" .. config_dir)
+local config_path = vim.fs.joinpath(
+  cache,
+  "jdtls",
+  vim.fn.sha256(jdtls_path):sub(1, 12),
+  config_dir
+)
+
+-- Copy config directory from jdtls to cache
+if vim.fn.isdirectory(config_path) == 0 then
+  vim.fn.mkdir(vim.fn.fnamemodify(config_path, ":h"), "p")
+
+  local result = vim.system({
+    "cp", "-R", source_config, config_path,
+  }):wait()
+
+  assert(result.code == 0, result.stderr)
+
+  vim.system({ "chmod", "-R", "u+w", config_path }):wait()
 end
 
-local config_path =
-    jdtls_path .. "/" .. config_dir
+-- ╭────────────────────────────────────────────────────────╮
+-- │ LSP CAPABILITIES AND DEBUG BUNDLES
+-- ╰────────────────────────────────────────────────────────╯
 
---------------------------------------------------------------------------------
--- JAVA DEBUG BUNDLE
---------------------------------------------------------------------------------
-
-local bundles = {}
-
-local java_debug_bundle =
-    vim.fn.glob(
-      mason_path
-      .. "/java-debug-adapter/"
-      .. "extension/server/"
-      .. "com.microsoft.java.debug.plugin-*.jar"
-    )
-
-if java_debug_bundle ~= "" then
-  table.insert(
-    bundles,
-    java_debug_bundle
-  )
-else
-  vim.notify(
-    "java-debug-adapter bundle not found",
-    vim.log.levels.WARN
-  )
-end
-
---------------------------------------------------------------------------------
--- LSP CAPABILITIES
---------------------------------------------------------------------------------
+local bundles = { debug_jar }
 
 local capabilities =
     vim.lsp.protocol.make_client_capabilities()
@@ -133,9 +142,41 @@ capabilities.workspace.fileOperations = {
   willDelete = true,
 }
 
---------------------------------------------------------------------------------
--- SOURCE / TEST TOGGLE
---------------------------------------------------------------------------------
+-- PATCH JAVA DAP CONFIGS
+-- JDTLS / java-debug may create Java launch configs dynamically.
+-- Whenever configs exist, force the debuggee itself to use JAVA_HOME.
+
+local function patch_java_dap_configs()
+  local ok, dap = pcall(require, "dap")
+
+  if not ok then
+    return
+  end
+
+  if not dap.configurations.java then
+    return
+  end
+
+  for _, dapconfig in ipairs(dap.configurations.java) do
+    if dapconfig.request == "launch" then
+      dapconfig.console =
+      "integratedTerminal"
+
+      dapconfig.shortenCommandLine =
+      "argfile"
+
+      -- JDTLS itself runs under JDTLS_JAVA_HOME.
+      -- The debugged application runs under JAVA_HOME.
+      dapconfig.javaExec =
+          project_java
+    end
+  end
+end
+
+
+-- ╭────────────────────────────────────────────────────────╮
+-- │ CUSTOM LANGUAGE FUNCTIONS
+-- ╰────────────────────────────────────────────────────────╯
 
 local function goto_test_or_source()
   local file =
@@ -176,54 +217,16 @@ local function goto_test_or_source()
   )
 end
 
---------------------------------------------------------------------------------
--- PATCH JAVA DAP CONFIGS
---
--- JDTLS / java-debug may create Java launch configs dynamically.
--- Whenever configs exist, force the debuggee itself to use JAVA_HOME.
---------------------------------------------------------------------------------
+-- ╭────────────────────────────────────────────────────────╮
+-- │ ATTACH CALLBACK
+-- ╰────────────────────────────────────────────────────────╯
 
-local function patch_java_dap_configs()
-  local ok, dap = pcall(require, "dap")
-
-  if not ok then
-    return
-  end
-
-  if not dap.configurations.java then
-    return
-  end
-
-  for _, config in ipairs(dap.configurations.java) do
-    if config.request == "launch" then
-      config.console =
-      "integratedTerminal"
-
-      config.shortenCommandLine =
-      "argfile"
-
-      -- JDTLS itself runs under JDTLS_JAVA_HOME.
-      -- The debugged application runs under JAVA_HOME.
-      config.javaExec =
-          project_java
-    end
-  end
-end
-
---------------------------------------------------------------------------------
--- JDTLS ATTACH CALLBACK
---------------------------------------------------------------------------------
-
-local function on_jdtls_attach(client, bufnr)
-  ---------------------------------------------------------------------------
-  -- GENERIC LSP ATTACH
-  ---------------------------------------------------------------------------
-
+local function on_jdtls_attach(client, _)
   require("lang").on_attach()
 
-  ---------------------------------------------------------------------------
-  -- JAVA KEYMAPS
-  ---------------------------------------------------------------------------
+  -- ╭────────────────────────────────────────────────────────╮
+  -- │ MAPPINGS
+  -- ╰────────────────────────────────────────────────────────╯
 
   utils.enableMappings({
     {
@@ -262,14 +265,10 @@ local function on_jdtls_attach(client, bufnr)
     },
   })
 
-  ---------------------------------------------------------------------------
   -- JAVA DAP
-  --
   -- Do NOT call setup_dap_main_class_configs() here.
-  --
   -- nvim-jdtls checks whether the Java debug extension is available and
   -- registers DAP support after the JDTLS client is attached.
-  ---------------------------------------------------------------------------
 
   local commands =
       client.server_capabilities.executeCommandProvider
@@ -290,18 +289,17 @@ local function on_jdtls_attach(client, bufnr)
   end
 end
 
---------------------------------------------------------------------------------
--- START JDTLS
---------------------------------------------------------------------------------
+-- ╭────────────────────────────────────────────────────────╮
+-- │ JAVA FILE CALLBACK
+-- ╰────────────────────────────────────────────────────────╯
 
 local function start_jdtls()
+
+  -- Java Specific Vim configuration
   vim.bo.tabstop = 4
   vim.bo.shiftwidth = 4
   vim.bo.softtabstop = 4
   vim.bo.expandtab = false
-  ---------------------------------------------------------------------------
-  -- PROJECT ROOT
-  ---------------------------------------------------------------------------
 
   local root_dir =
       vim.fs.root(0, {
@@ -326,9 +324,9 @@ local function start_jdtls()
     return
   end
 
-  ---------------------------------------------------------------------------
-  -- WORKSPACE
-  ---------------------------------------------------------------------------
+  -- ╭────────────────────────────────────────────────────────╮
+  -- │ WORKSPACE
+  -- ╰────────────────────────────────────────────────────────╯
 
   local project_name =
       vim.fn.fnamemodify(
@@ -347,13 +345,10 @@ local function start_jdtls()
       .. "-"
       .. root_hash
 
-  ---------------------------------------------------------------------------
-  -- JDTLS COMMAND
-  --
-  -- Explicitly use JDTLS_JAVA_HOME here.
-  --
-  -- JAVA_HOME remains untouched and continues to control Maven/Gradle/etc.
-  ---------------------------------------------------------------------------
+
+  -- ╭────────────────────────────────────────────────────────╮
+  -- │ COMMAND
+  -- ╰────────────────────────────────────────────────────────╯
 
   local cmd = {
     jdtls_java,
@@ -367,36 +362,14 @@ local function start_jdtls()
 
     "-Xms1g",
 
-    "--add-modules=ALL-SYSTEM",
-
     "--add-opens",
     "java.base/java.util=ALL-UNNAMED",
 
     "--add-opens",
     "java.base/java.lang=ALL-UNNAMED",
-  }
 
-  ---------------------------------------------------------------------------
-  -- LOMBOK FOR JDTLS
-  ---------------------------------------------------------------------------
+    "-javaagent:" .. lombok_jar,
 
-  if vim.fn.filereadable(lombok_path) == 1 then
-    table.insert(
-      cmd,
-      "-javaagent:" .. lombok_path
-    )
-  else
-    vim.notify(
-      "Lombok jar not found: " .. lombok_path,
-      vim.log.levels.WARN
-    )
-  end
-
-  ---------------------------------------------------------------------------
-  -- JDTLS LAUNCHER
-  ---------------------------------------------------------------------------
-
-  vim.list_extend(cmd, {
     "-jar",
     launcher_jar,
 
@@ -405,11 +378,11 @@ local function start_jdtls()
 
     "-data",
     workspace_dir,
-  })
+  }
 
-  ---------------------------------------------------------------------------
-  -- START / ATTACH
-  ---------------------------------------------------------------------------
+  -- ╭────────────────────────────────────────────────────────╮
+  -- │ ATTACH
+  -- ╰────────────────────────────────────────────────────────╯
 
   jdtls.start_or_attach(
     {
@@ -423,23 +396,13 @@ local function start_jdtls()
 
       settings = {
         java = {
-          ---------------------------------------------------------------------
-          -- PROJECT JDK
-          --
-          -- Deliberately no JavaSE-17 hard-coding here.
-          --
-          -- Project version is determined through JAVA_HOME and the project's
-          -- own Maven/Gradle/toolchain configuration.
-          ---------------------------------------------------------------------
-
           configuration = {
-            updateBuildConfiguration =
-            "automatic",
+            updateBuildConfiguration = "automatic",
           },
 
-          ---------------------------------------------------------------------
-          -- COMPLETION
-          ---------------------------------------------------------------------
+          -- ╭────────────────────────────────────────────────────────╮
+          -- │ COMPLETION
+          -- ╰────────────────────────────────────────────────────────╯
 
           completion = {
             favoriteStaticMembers = {
@@ -467,9 +430,9 @@ local function start_jdtls()
             },
           },
 
-          ---------------------------------------------------------------------
-          -- SOURCES
-          ---------------------------------------------------------------------
+          -- ╭────────────────────────────────────────────────────────╮
+          -- │ SOURCES
+          -- ╰────────────────────────────────────────────────────────╯
 
           eclipse = {
             downloadSources = true,
@@ -479,34 +442,30 @@ local function start_jdtls()
             downloadSources = true,
           },
 
-          ---------------------------------------------------------------------
-          -- CODE LENS
-          ---------------------------------------------------------------------
+          -- ╭────────────────────────────────────────────────────────╮
+          -- │ CODELENS AND REFERENCES
+          -- ╰────────────────────────────────────────────────────────╯
 
           implementationsCodeLens = {
-            enabled = true,
+            enabled = "none",
           },
 
           referencesCodeLens = {
             enabled = true,
           },
 
-          ---------------------------------------------------------------------
-          -- REFERENCES
-          ---------------------------------------------------------------------
-
           references = {
             includeDecompiledSources = true,
           },
 
-          ---------------------------------------------------------------------
-          -- FORMATTING
-          ---------------------------------------------------------------------
+          -- ╭────────────────────────────────────────────────────────╮
+          -- │ FORMATTING
+          -- ╰────────────────────────────────────────────────────────╯
 
           format = {
             enabled = true,
             settings = {
-              url = vim.fn.stdpath("config") .. "/assets/java-formatter.xml",
+              url = config .. "/assets/java-formatter.xml",
               profile = "MyStyle",
             },
           },
@@ -517,33 +476,23 @@ local function start_jdtls()
         allow_incremental_sync = true,
       },
 
-      -------------------------------------------------------------------------
-      -- JAVA DEBUG EXTENSION
-      -------------------------------------------------------------------------
+      -- ╭────────────────────────────────────────────────────────╮
+      -- │ INCLUDE DEBUG BUNDLES
+      -- ╰────────────────────────────────────────────────────────╯
 
       init_options = {
         bundles = bundles,
       },
     },
-
-    ---------------------------------------------------------------------------
-    -- Important:
-    --
-    -- Passing dap=true tells nvim-jdtls to add its DAP commands during
-    -- attachment, but only once the JDTLS server advertises java-debug.
-    --
-    -- This avoids the race you were seeing with resolveMainClass.
-    ---------------------------------------------------------------------------
-
     {
       dap = true,
     }
   )
 end
 
---------------------------------------------------------------------------------
--- AUTOCMD
---------------------------------------------------------------------------------
+-- ╭────────────────────────────────────────────────────────╮
+-- │ AUTOCMD
+-- ╰────────────────────────────────────────────────────────╯
 
 vim.api.nvim_create_autocmd(
   "FileType",
@@ -552,18 +501,3 @@ vim.api.nvim_create_autocmd(
     callback = start_jdtls,
   }
 )
-
---------------------------------------------------------------------------------
--- OPTIONAL: PATCH DAP CONFIGS AGAIN WHEN DAP IS OPENED
---
--- Main-class configurations can be generated lazily, so patching here makes
--- sure newly created launch configs also use $JAVA_HOME.
---------------------------------------------------------------------------------
-
-local ok_dap, dap = pcall(require, "dap")
-
-if ok_dap then
-  dap.listeners.before.launch["java_runtime"] = function()
-    patch_java_dap_configs()
-  end
-end

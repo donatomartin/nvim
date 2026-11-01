@@ -62,49 +62,6 @@ vim.fn.sign_define("DapBreakpointRejected", {
 })
 
 --------------------------------------------------------------------------------
--- DAP TERMINAL FIX
---
--- Avoid:
---
---   jobstart(..., { term = true }) requires unmodified buffer
---------------------------------------------------------------------------------
-
-local dap_terminal_group =
-    vim.api.nvim_create_augroup("DapTerminalCleanup", {
-      clear = true,
-    })
-
-vim.api.nvim_create_autocmd("TermClose", {
-  group = dap_terminal_group,
-
-  callback = function(args)
-    local buf = args.buf
-
-    if not vim.api.nvim_buf_is_valid(buf) then
-      return
-    end
-
-    local ok, dap_type =
-        pcall(vim.api.nvim_buf_get_var, buf, "dap-type")
-
-    if not ok or dap_type == nil then
-      return
-    end
-
-    -- Let nvim-dap finish its own terminal callbacks first.
-    vim.schedule(function()
-      if vim.api.nvim_buf_is_valid(buf) then
-        pcall(
-          vim.api.nvim_buf_delete,
-          buf,
-          { force = true }
-        )
-      end
-    end)
-  end,
-})
-
---------------------------------------------------------------------------------
 -- PYTHON
 --------------------------------------------------------------------------------
 
@@ -382,6 +339,30 @@ utils.enableMappings({
       dap.continue()
     end,
     desc = "DAP: Start / Continue",
+  },
+
+  {
+    "<F10>",
+    function()
+      dap.step_over()
+    end,
+    desc = "DAP: Step Over",
+  },
+
+  {
+    "<F11>",
+    function()
+      dap.step_into()
+    end,
+    desc = "DAP: Step Into",
+  },
+
+  {
+    "<F12>",
+    function()
+      dap.step_out()
+    end,
+    desc = "DAP: Step Out",
   },
 
   {

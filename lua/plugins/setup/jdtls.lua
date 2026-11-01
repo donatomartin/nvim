@@ -53,7 +53,7 @@ local jdtls_java = java_bin(env_jdtls_java_home)
 -- ╰────────────────────────────────────────────────────────╯
 
 local mason_path = data .. "/mason/packages"
-local mason_jdtls_path = mason_path .. "jdtls"
+local mason_jdtls_path = mason_path .. "/jdtls"
 local mason_lombok_path = mason_path .. "/lombok-nightly"
 local mason_debug_path = mason_path .. "/java-debug-adapter"
 
@@ -99,6 +99,7 @@ local config_dir = ({
 })[vim.uv.os_uname().sysname] or "config_linux"
 
 local source_config = vim.fn.glob(jdtls_path .. "/**/" .. config_dir)
+vim.notify("SRC" .. jdtls_path)
 local config_path = vim.fs.joinpath(
   cache,
   "jdtls",

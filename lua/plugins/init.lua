@@ -96,6 +96,9 @@ vim.pack.add({
   -- Qfedit
   "https://github.com/donatomartin/qfedit.nvim",
 
+  -- Sops
+  "https://github.com/dawidd6/nvim-sops",
+
 })
 
 require "plugins.setup.snacks"
@@ -121,3 +124,4 @@ require "plugins.setup.floaterm"
 require "plugins.setup.lint"
 require "plugins.setup.comment"
 require "plugins.setup.qfedit"
+require "plugins.setup.sops"

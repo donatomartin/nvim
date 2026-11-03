@@ -94,10 +94,11 @@ vim.pack.add({
   "https://github.com/stevearc/oil.nvim",
 
   -- Qfedit
-  "https://github.com/donatomartin/qfedit.nvim"
+  "https://github.com/donatomartin/qfedit.nvim",
 
 })
 
+require "plugins.setup.snacks"
 require "plugins.setup.oil"
 require "plugins.setup.tmux"
 require "plugins.setup.mason"
@@ -111,7 +112,6 @@ require "plugins.setup.lualine"
 require "plugins.setup.neotab"
 require "plugins.setup.opencode"
 require "plugins.setup.texpresso"
-require "plugins.setup.snacks"
 require "plugins.setup.cmp"
 require "plugins.setup.minimap"
 require "plugins.setup.neogit"

@@ -178,6 +178,111 @@ end
 -- │ CUSTOM LANGUAGE FUNCTIONS
 -- ╰────────────────────────────────────────────────────────╯
 
+
+local function goto_file_line()
+  local buf = vim.api.nvim_get_current_buf()
+  local row = vim.api.nvim_win_get_cursor(0)[1]
+  local count = vim.api.nvim_buf_line_count(buf)
+
+  local function get_line(n)
+    if n < 1 or n > count then
+      return ""
+    end
+    return vim.api.nvim_buf_get_lines(buf, n - 1, n, false)[1]
+  end
+
+  local current = get_line(row)
+  local previous = get_line(row - 1)
+  local next_line = get_line(row + 1)
+
+  local function parse(text)
+    -- Java stack trace: (Class.java:41)
+    local file, lnum = text:match(
+      "%(([%w_$%.%-]+%.java):(%d+)%)"
+    )
+    if file then
+      return file, tonumber(lnum)
+    end
+
+    -- Maven Surefire: ClassTest.methodName:223
+    local class
+    class, lnum = text:match(
+      "([%w_$]+Test)%.[%w_$<>]+:(%d+)"
+    )
+    if class then
+      return class .. ".java", tonumber(lnum)
+    end
+
+    -- Generic path: src/main/java/Class.java:41
+    file, lnum = text:match(
+      "([%w_$/%.%-]+%.java):(%d+)"
+    )
+    if file then
+      return file, tonumber(lnum)
+    end
+  end
+
+  -- Prefer the reference on the current line.
+  local file, lnum = parse(current)
+
+  -- Handle wrapped stack traces in either direction.
+  if not file then
+    file, lnum = parse(current .. next_line)
+  end
+
+  if not file then
+    file, lnum = parse(previous .. current)
+  end
+
+  if not file then
+    vim.notify("No file:line reference found", vim.log.levels.WARN)
+    return
+  end
+
+  local basename = vim.fn.fnamemodify(file, ":t")
+  local matches = vim.fn.globpath(
+    vim.fn.getcwd(),
+    "**/" .. basename,
+    false,
+    true
+  )
+
+  if #matches == 0 then
+    vim.notify("File not found: " .. basename, vim.log.levels.WARN)
+    return
+  end
+
+  local target = matches[1]
+
+  if vim.bo.buftype == "terminal" then
+    require("floaterm").toggle()
+  end
+
+  vim.cmd.edit(vim.fn.fnameescape(target))
+  vim.api.nvim_win_set_cursor(0, { lnum, 0 })
+  vim.cmd("normal! zz")
+end
+
+vim.api.nvim_create_user_command(
+  "GotoFileLine",
+  goto_file_line,
+  {}
+)
+
+vim.keymap.set("n", "<leader>fl", goto_file_line, {
+  desc = "Go to source file and line from terminal output",
+})
+
+vim.api.nvim_create_user_command("GotoFileLine", goto_file_line, {})
+
+vim.keymap.set({ "n", "t" }, "<leader>gf", function()
+  if vim.api.nvim_get_mode().mode == "t" then
+    vim.cmd.stopinsert()
+  end
+  goto_file_line()
+end, { desc = "Go to file:line from output" })
+
+
 local function goto_test_or_source()
   local file =
       vim.api.nvim_buf_get_name(0)

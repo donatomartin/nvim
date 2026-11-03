@@ -3,131 +3,6 @@ local snacks = require "snacks"
 
 vim.g.snacks_animate = false
 
-local function parse_location(input)
-  input = vim.trim(input)
-
-  if input == "" then
-    return nil
-  end
-
-  -- Clase.metodo:54
-  -- Clase:54
-  local body, line = input:match("^(.-):(%d+)$")
-  if body then
-    input = body
-    line = tonumber(line)
-  end
-
-  -- Clase.metodo
-  local class, method = input:match("^([%w_$]+)%.([%w_$]*)$")
-
-  if not class then
-    class = input
-    method = nil
-  elseif method == "" then
-    method = nil
-  end
-
-  return {
-    class = class,
-    method = method,
-    line = line,
-  }
-end
-
-local function location_finder(opts, ctx)
-  local query = parse_location(ctx.filter.search)
-
-  if not query or query.class == "" then
-    return {}
-  end
-
-  local Proc = require("snacks.picker.source.proc")
-
-  --
-  -- Clase
-  -- Clase:54
-  --
-  if not query.method then
-    return Proc.proc(
-      ctx:opts({
-        cmd = "rg",
-        args = {
-          "--files",
-          "--iglob",
-          "*" .. query.class .. "*",
-          ".",
-        },
-
-        notify = false,
-
-        transform = function(item)
-          item.file = item.text
-          item.pos = {
-            query.line or 1,
-            0,
-          }
-        end,
-      }),
-      ctx
-    )
-  end
-
-  --
-  -- Clase.metodo
-  -- Clase.metodo:54
-  --
-  return Proc.proc(
-    ctx:opts({
-      cmd = "rg",
-      args = {
-        "--line-number",
-        "--column",
-        "--no-heading",
-        "--color=never",
-        "--fixed-strings",
-
-        "--iglob",
-        "*" .. query.class .. "*",
-
-        "--",
-        query.method,
-        ".",
-      },
-
-      notify = false,
-
-      transform = function(item)
-        local file, line, col, text =
-            item.text:match("^(.+):(%d+):(%d+):(.*)$")
-
-        if not file then
-          return false
-        end
-
-        line = tonumber(line)
-        col = tonumber(col)
-
-        item.file = file
-        item.line = text
-
-        if query.line then
-          item.pos = {
-            query.line,
-            0,
-          }
-        else
-          item.pos = {
-            line,
-            math.max(col - 1, 0),
-          }
-        end
-      end,
-    }),
-    ctx
-  )
-end
-
 ---@type snacks.Config
 snacks.setup({
   input = {
@@ -156,6 +31,10 @@ snacks.setup({
       duration = 40,
     },
   },
+  notifier = {
+    enabled = true,
+    timeout = 3000,
+  },
   picker = {
     main = {
       current = true,
@@ -176,17 +55,6 @@ snacks.setup({
     sources = {
       grep = {
         args = { "--pcre2" },
-      },
-      location = {
-        title = "Go to location",
-
-        format = "file",
-
-        live = true,
-        supports_live = true,
-        show_empty = true,
-
-        finder = location_finder,
       },
       help = {
         confirm = { "edit" },
@@ -261,7 +129,6 @@ utils.enableMappings({
   { "<leader>fp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
   { "<leader>fo",      function() Snacks.picker.recent() end,                                  desc = "Recent" },
   { "<leader>fh",      function() Snacks.picker.help() end,                                    desc = "Help Pages" },
-  { "<leader>fl",      function() Snacks.picker.location() end,                                desc = "Help Pages" },
   -- picker git
   { "<leader>gbb",     function() Snacks.picker.git_branches() end,                            desc = "Git Branches" },
   { "<leader>gl",      function() Snacks.picker.git_log() end,                                 desc = "Git Log" },
@@ -276,6 +143,7 @@ utils.enableMappings({
   { "<leader>gP",      function() Snacks.picker.gh_pr({ state = "all" }) end,                  desc = "GitHub Pull Requests (all)" },
   -- picker search
   { '<leader>s"',      function() Snacks.picker.registers() end,                               desc = "Registers" },
+  { "<leader>sn",      function() Snacks.notifier.show_history() end,                          desc = "Notification History" },
   { '<leader>s/',      function() Snacks.picker.search_history() end,                          desc = "Search History" },
   { "<leader>sa",      function() Snacks.picker.autocmds() end,                                desc = "Autocmds" },
   { "<leader>sb",      function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },

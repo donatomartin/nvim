@@ -3,6 +3,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
 -- UI
+vim.o.statuscolumn = " %s%l%C "
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.o.undofile = true

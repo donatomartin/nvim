@@ -99,6 +99,10 @@ vim.pack.add({
   -- Sops
   "https://github.com/dawidd6/nvim-sops",
 
+  -- Folds
+  "https://github.com/kevinhwang91/promise-async",
+  "https://github.com/kevinhwang91/nvim-ufo",
+
 })
 
 require "plugins.setup.snacks"
@@ -125,3 +129,4 @@ require "plugins.setup.lint"
 require "plugins.setup.comment"
 require "plugins.setup.qfedit"
 require "plugins.setup.sops"
+require "plugins.setup.ufo"

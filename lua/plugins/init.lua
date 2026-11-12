@@ -46,6 +46,9 @@ vim.pack.add({
   "https://github.com/neogitorg/neogit",
   "https://github.com/tpope/vim-fugitive",
 
+  -- Http Client
+  "https://github.com/SugarHashira/bruno.nvim",
+
   -- Tab
   "https://github.com/kawre/neotab.nvim",
 
@@ -129,4 +132,5 @@ require "plugins.setup.lint"
 require "plugins.setup.comment"
 require "plugins.setup.qfedit"
 require "plugins.setup.sops"
+require "plugins.setup.bruno"
 require "plugins.setup.ufo"

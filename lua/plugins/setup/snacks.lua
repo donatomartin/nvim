@@ -54,7 +54,7 @@ snacks.setup({
     },
     sources = {
       grep = {
-        args = { "--pcre2" },
+        args = { "--pcre2", "--multiline" },
       },
       help = {
         confirm = { "edit" },

@@ -8,6 +8,10 @@
       "rev": "a791fe5b4433ac43a4dad921e94b7b5f88751048",
       "src": "https://github.com/RyanMillerC/better-vim-tmux-resizer"
     },
+    "bruno.nvim": {
+      "rev": "5e6675d0a1efa5d9e71e890e5a03af54aecddcd5",
+      "src": "https://github.com/SugarHashira/bruno.nvim"
+    },
     "cmp-buffer": {
       "rev": "b74fab3656eea9de20a9b8116afa3cfc4ec09657",
       "src": "https://github.com/hrsh7th/cmp-buffer"
@@ -108,6 +112,10 @@
       "rev": "d9366b41426c966458bc8ba08a314a9573ee2d29",
       "src": "https://github.com/dawidd6/nvim-sops"
     },
+    "nvim-ufo": {
+      "rev": "ab3eb124062422d276fae49e0dd63b3ad1062cfc",
+      "src": "https://github.com/kevinhwang91/nvim-ufo"
+    },
     "nvim-web-devicons": {
       "rev": "ec309a0eaff6ea967e58c275996155ab5c16938d",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
@@ -123,6 +131,10 @@
     "plenary.nvim": {
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "promise-async": {
+      "rev": "119e8961014c9bfaf1487bf3c2a393d254f337e2",
+      "src": "https://github.com/kevinhwang91/promise-async"
     },
     "qfedit.nvim": {
       "rev": "3b7077cdc9c53f8d8f2fa25d1bb51178d0aabc4a",

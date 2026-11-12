@@ -1,7 +1,3 @@
-vim.pack.add({
-  "https://github.com/mfussenegger/nvim-jdtls",
-})
-
 local utils = require("utils")
 local jdtls = require("jdtls")
 
@@ -204,13 +200,15 @@ local function goto_file_line()
       return file, tonumber(lnum)
     end
 
-    -- Maven Surefire: ClassTest.methodName:223
-    local class
-    class, lnum = text:match(
-      "([%w_$]+Test)%.[%w_$<>]+:(%d+)"
+    -- Maven Surefire: ClassTest.methodName[:223]
+    local class, method = text:match(
+      "([%w_$]+Test)%.([%w_$]+)"
     )
     if class then
-      return class .. ".java", tonumber(lnum)
+      local line = text:match(
+        class .. "%." .. method .. ":(%d+)"
+      )
+      return class .. ".java", tonumber(line), method
     end
 
     -- Generic path: src/main/java/Class.java:41
@@ -222,20 +220,18 @@ local function goto_file_line()
     end
   end
 
-  -- Prefer the reference on the current line.
-  local file, lnum = parse(current)
+  local file, lnum, method = parse(current)
 
-  -- Handle wrapped stack traces in either direction.
   if not file then
-    file, lnum = parse(current .. next_line)
+    file, lnum, method = parse(current .. next_line)
   end
 
   if not file then
-    file, lnum = parse(previous .. current)
+    file, lnum, method = parse(previous .. current)
   end
 
   if not file then
-    vim.notify("No file:line reference found", vim.log.levels.WARN)
+    vim.notify("No Java reference found", vim.log.levels.WARN)
     return
   end
 
@@ -259,6 +255,22 @@ local function goto_file_line()
   end
 
   vim.cmd.edit(vim.fn.fnameescape(target))
+
+  -- If no line number was provided, find the test method.
+  if not lnum and method then
+    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+    for i, line in ipairs(lines) do
+      if line:find(method .. "%s*%(") then
+        lnum = i
+        break
+      end
+    end
+  end
+
+  lnum = lnum or 1
+  lnum = math.min(lnum, vim.api.nvim_buf_line_count(0))
+
   vim.api.nvim_win_set_cursor(0, { lnum, 0 })
   vim.cmd("normal! zz")
 end
@@ -274,14 +286,6 @@ vim.keymap.set("n", "<leader>fl", goto_file_line, {
 })
 
 vim.api.nvim_create_user_command("GotoFileLine", goto_file_line, {})
-
-vim.keymap.set({ "n", "t" }, "<leader>gf", function()
-  if vim.api.nvim_get_mode().mode == "t" then
-    vim.cmd.stopinsert()
-  end
-  goto_file_line()
-end, { desc = "Go to file:line from output" })
-
 
 local function goto_test_or_source()
   local file =
@@ -351,6 +355,7 @@ local function on_jdtls_attach(client, _)
     {
       "<leader>crv",
       jdtls.extract_variable,
+      mode = { "n", "v" },
       desc = "Extract variable",
       buffer = true,
     },
@@ -358,6 +363,7 @@ local function on_jdtls_attach(client, _)
     {
       "<leader>crc",
       jdtls.extract_constant,
+      mode = { "n", "v" },
       desc = "Extract constant",
       buffer = true,
     },
@@ -365,6 +371,7 @@ local function on_jdtls_attach(client, _)
     {
       "<leader>crm",
       jdtls.extract_method,
+      mode = { "n", "v" },
       desc = "Extract method",
       buffer = true,
     },

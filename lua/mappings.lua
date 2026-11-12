@@ -39,13 +39,34 @@ end
 
 -- Start selection and expand to parent node with Enter
 vim.keymap.set({ "n", "x" }, "<CR>", function()
-  require("vim.treesitter._select").select_parent()
-end, { desc = "Increment AST node selection" })
+  -- Fallback to default Enter if in a macro, command window, command line, or non-file buffer
+  if vim.fn.reg_executing() ~= ""
+      or vim.fn.getcmdwintype() ~= ""
+      or vim.bo.filetype == "cedit"
+      or vim.bo.buftype ~= "" then
+    return "<CR>"
+  end
+
+  -- Wrap execution to catch errors if Treesitter selection fails
+  pcall(function()
+    require("vim.treesitter._select").select_parent()
+  end)
+end, { expr = true, desc = "Increment AST node selection" })
 
 -- Shrink selection to child node with Backspace
 vim.keymap.set("x", "<BS>", function()
-  require("vim.treesitter._select").select_child()
-end, { desc = "Decrement AST node selection" })
+  -- Fallback to default Backspace under the same background conditions
+  if vim.fn.reg_executing() ~= ""
+      or vim.fn.getcmdwintype() ~= ""
+      or vim.bo.filetype == "cedit"
+      or vim.bo.buftype ~= "" then
+    return "<BS>"
+  end
+
+  pcall(function()
+    require("vim.treesitter._select").select_child()
+  end)
+end, { expr = true, desc = "Decrement AST node selection" })
 
 require("utils").enableMappings({
   { "j",          "gj",                                     desc = "Move down by visual line" },
